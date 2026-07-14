@@ -273,6 +273,10 @@
     margin-top: 11px;
   }
 
+  .system-status {
+    padding-top: 20px;
+  }
+
   .enquiry-panel {
     width: min(100%, 520px);
     min-height: 0;

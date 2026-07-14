@@ -220,6 +220,14 @@ describe("Raxos command interface", () => {
     expect(logoRule).toMatch(/height:\s*auto/);
   });
 
+  it("moves system status above the form border on short desktops", () => {
+    const fidelity = source("src/app/fidelity.css");
+    const start = fidelity.indexOf("@media (max-height: 850px) and (min-width: 1101px)");
+    const end = fidelity.indexOf("\n@media", start + 1);
+    const compactDesktop = fidelity.slice(start, end);
+    expect(compactDesktop).toMatch(/\.system-status\s*\{[^}]*padding-top:\s*20px;/s);
+  });
+
   it("includes the reference header identity and three-part footer", () => {
     const chrome = source("src/components/interface-chrome.tsx");
 
