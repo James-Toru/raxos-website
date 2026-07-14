@@ -183,7 +183,7 @@ it("uses the reference positioning and operational copy", () => {
 
 Run: `npm test -- src/components/raxos-logo.test.ts src/components/landing-structure.test.ts`
 
-Expected: FAIL because `RaxosMark` and `brand-stage.tsx` do not exist.
+Expected: FAIL because `RaxosMark` and the expanded brand-stage content do not exist.
 
 - [ ] **Step 3: Implement the emblem and brand stage**
 
