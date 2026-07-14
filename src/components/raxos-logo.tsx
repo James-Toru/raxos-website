@@ -15,36 +15,54 @@ const transition = {
 function Wordmark({ className = "" }: { className?: string }) {
   return (
     <g className={className}>
-      <motion.g variants={intro} transition={{ ...transition, delay: 0.02 }}>
-        <path d="M42 36H181L199 53V75L183 91H123L199 136H145L91 101H76V136H42V68H150L159 60L150 52H42Z" />
-        <path className="logo-void" d="M76 67H146L155 76L146 84H76Z" />
-        <path className="logo-glint" d="M49 40H178L190 52H42Z" />
+      <motion.g data-letter="R" variants={intro} transition={{ ...transition, delay: 0.02 }}>
+        <path d="M38 39H176L199 60V83L178 102H121L199 137H145L88 110H75V137H38V78H151L161 69L151 60H38Z" />
       </motion.g>
 
-      <motion.g variants={intro} transition={{ ...transition, delay: 0.09 }}>
-        <path d="M226 136L296 36H343L414 136H363L321 71L278 136Z" />
-        <path className="logo-void" d="M302 98L321 67L341 98Z" />
-        <path className="logo-glint" d="M298 36H342L357 58H284Z" />
+      <motion.g data-letter="A" variants={intro} transition={{ ...transition, delay: 0.09 }}>
+        <path
+          d="M230 137L296 39H343L413 137H368L350 109H287L269 137ZM304 83H334L319 60Z"
+          fillRule="evenodd"
+        />
       </motion.g>
 
-      <motion.g variants={intro} transition={{ ...transition, delay: 0.16 }}>
-        <path d="M452 36H506L551 75L596 36H650L582 86L654 136H598L551 98L506 136H450L522 86Z" />
-        <path className="logo-void soft" d="M535 80L551 66L568 80L552 94Z" />
-        <path className="logo-glint" d="M459 37H505L551 77L543 83Z" />
+      <motion.g data-letter="X" variants={intro} transition={{ ...transition, delay: 0.16 }}>
+        <path d="M450 39H502L550 75L598 39H650L580 87L654 137H601L550 101L500 137H447L520 87Z" />
       </motion.g>
 
-      <motion.g variants={intro} transition={{ ...transition, delay: 0.23 }}>
-        <path d="M704 36H830L860 64V109L830 136H704L674 109V64Z" />
-        <path className="logo-void" d="M727 62H807L817 72V101L807 111H727L717 101V72Z" />
-        <path className="logo-glint" d="M711 40H825L846 60H688Z" />
+      <motion.g data-letter="O" variants={intro} transition={{ ...transition, delay: 0.23 }}>
+        <path
+          d="M692 39H831L860 66V110L831 137H692L664 110V66ZM724 65L708 79V98L724 111H800L816 98V79L800 65Z"
+          fillRule="evenodd"
+        />
       </motion.g>
 
-      <motion.g variants={intro} transition={{ ...transition, delay: 0.3 }}>
-        <path d="M918 36H1062V62H958L947 73H1034L1062 98V113L1036 136H884V110H995L1008 99H913L886 75V56Z" />
-        <path className="logo-void soft" d="M949 62H1062V74H937Z" />
-        <path className="logo-void soft" d="M884 99H1008L995 110H884Z" />
-        <path className="logo-glint" d="M924 40H1055L1062 47H918Z" />
+      <motion.g data-letter="S" variants={intro} transition={{ ...transition, delay: 0.3 }}>
+        <path d="M905 39H1064V65H950L938 76H1029L1064 100V115L1039 137H879V111H995L1007 101H914L879 77V59Z" />
       </motion.g>
+    </g>
+  );
+}
+
+function WordmarkFacets() {
+  return (
+    <g className="logo-facet" aria-hidden="true">
+      <g data-letter="R">
+        <path d="M38 39H176L190 52H52Z" />
+      </g>
+      <g data-letter="A">
+        <path d="M296 39H343L352 52H287Z" />
+      </g>
+      <g data-letter="X">
+        <path d="M450 39H502L513 47H462Z" />
+        <path d="M598 39H650L638 47H586Z" />
+      </g>
+      <g data-letter="O">
+        <path d="M692 39H831L845 52H678Z" />
+      </g>
+      <g data-letter="S">
+        <path d="M905 39H1064V52H892Z" />
+      </g>
     </g>
   );
 }
@@ -69,6 +87,10 @@ export function RaxosMark() {
           <stop offset="54%" stopColor="#0f0001" />
           <stop offset="100%" stopColor="#070000" />
         </linearGradient>
+        <linearGradient id="raxos-mark-highlight" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stopColor="rgba(255,218,196,0.48)" />
+          <stop offset="100%" stopColor="rgba(255,58,48,0.08)" />
+        </linearGradient>
         <filter id="raxos-mark-burn" x="-12%" y="-70%" width="124%" height="240%">
           <feGaussianBlur stdDeviation="5.8" result="blur" />
           <feColorMatrix
@@ -84,15 +106,21 @@ export function RaxosMark() {
       </defs>
 
       <motion.g variants={intro} transition={transition} filter="url(#raxos-mark-burn)">
-        <g fill="url(#raxos-mark-side)" transform="translate(9 10)">
-          <path d="M28 30H158L204 72V112L171 142H111L204 220V181L154 132H82L54 104H157L176 88L157 72H68Z" />
-          <path d="M28 120H72L160 208H112Z" />
+        <g className="mark-depth" fill="url(#raxos-mark-side)" transform="translate(7 8)">
+          <path d="M30 32H157L202 72V111L169 141H107L78 112H156L176 94V82L155 63H67Z" />
+          <path d="M30 120H73L159 206H111Z" />
+          <path d="M116 141H169L202 171V207Z" />
         </g>
-        <g fill="url(#raxos-mark-face)">
-          <path d="M28 30H158L204 72V112L171 142H111L204 220V181L154 132H82L54 104H157L176 88L157 72H68Z" />
-          <path d="M28 120H72L160 208H112Z" />
+        <g className="mark-face" fill="url(#raxos-mark-face)">
+          <path d="M30 32H157L202 72V111L169 141H107L78 112H156L176 94V82L155 63H67Z" />
+          <path d="M30 120H73L159 206H111Z" />
+          <path d="M116 141H169L202 171V207Z" />
         </g>
-        <path fill="#050000" d="M82 72H154L176 88L157 104H54Z" />
+        <g className="mark-facet" fill="url(#raxos-mark-highlight)" aria-hidden="true">
+          <path d="M30 32H157L176 49H49Z" />
+          <path d="M176 49L202 72V111L176 94Z" />
+          <path d="M30 120H73L91 138H48Z" />
+        </g>
       </motion.g>
     </motion.svg>
   );
@@ -152,8 +180,7 @@ export function RaxosLogo() {
       >
         <Wordmark className="logo-depth" />
         <Wordmark className="logo-face" />
-        <Wordmark className="logo-ember" />
-        <Wordmark className="logo-highlight" />
+        <WordmarkFacets />
         <Wordmark className="logo-texture" />
       </motion.g>
     </motion.svg>

@@ -29,9 +29,24 @@ describe("RaxosLogo", () => {
     expect(source.match(/id="raxos-burn"/g)).toHaveLength(1);
   });
 
-  it("uses the open ribbon emblem geometry from the reference", () => {
-    expect(source).toContain("M28 30H158L204 72V112L171 142H111L204 220V181");
-    expect(source).toContain("M28 120H72L160 208H112Z");
-    expect(source).not.toContain("M38 28H156L202 72V105L173 132H87V192H38Z");
+  it("builds the reference emblem from two open angular ribbons", () => {
+    expect(source).toContain('viewBox="0 0 240 220"');
+    expect(source).toContain('className="mark-depth"');
+    expect(source).toContain('className="mark-face"');
+    expect(source).toContain('className="mark-facet"');
+    expect(source).toContain('id="raxos-mark-highlight"');
+    expect(source).toContain("M30 32H157L202 72V111L169 141H107");
+    expect(source).toContain("M30 120H73L159 206H111Z");
+    expect(source).not.toContain("204 220V181");
+  });
+
+  it("uses five independently drawn stencil letters", () => {
+    expect(source).toContain('viewBox="0 0 1104 172"');
+    expect(source).toContain('data-letter="R"');
+    expect(source).toContain('data-letter="A"');
+    expect(source).toContain('data-letter="X"');
+    expect(source).toContain('data-letter="O"');
+    expect(source).toContain('data-letter="S"');
+    expect(source).toContain('className="logo-facet"');
   });
 });
