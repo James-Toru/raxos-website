@@ -2,7 +2,14 @@
 
 import { FormEvent, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Building2, Mail, MessageSquare, UserRound } from "lucide-react";
+import {
+  ArrowRight,
+  Building2,
+  LockKeyhole,
+  Mail,
+  MessageSquare,
+  UserRound,
+} from "lucide-react";
 
 type FormState = {
   name: string;
@@ -79,7 +86,15 @@ export function EnquiryForm() {
       whileHover={{ y: -4 }}
     >
       <div className="panel-glow" aria-hidden="true" />
-      <h1>Request a private introduction</h1>
+      <p className="form-eyebrow">{"// INITIATE CONTACT"}</p>
+      <h2>
+        INTERESTED IN
+        <br />
+        <span>RAXOS?</span>
+      </h2>
+      <p className="form-intro">
+        Leave your details and our team will reach out to you.
+      </p>
       <div className="title-mark" aria-hidden="true" />
       <label className="honeypot" aria-hidden="true">
         <span>Website</span>
@@ -92,11 +107,12 @@ export function EnquiryForm() {
       </label>
 
       <label>
-        <span>Name</span>
+        <span>NAME</span>
         <div className="input-wrap">
           <input
             required
             autoComplete="name"
+            placeholder="Your Name"
             value={form.name}
             onChange={(event) => updateField("name", event.target.value)}
           />
@@ -105,12 +121,13 @@ export function EnquiryForm() {
       </label>
 
       <label>
-        <span>Email address</span>
+        <span>EMAIL</span>
         <div className="input-wrap">
           <input
             required
             type="email"
             autoComplete="email"
+            placeholder="you@company.com"
             value={form.email}
             onChange={(event) => updateField("email", event.target.value)}
           />
@@ -119,10 +136,11 @@ export function EnquiryForm() {
       </label>
 
       <label>
-        <span>Company / project</span>
+        <span>COMPANY</span>
         <div className="input-wrap">
           <input
             autoComplete="organization"
+            placeholder="Your Company"
             value={form.company}
             onChange={(event) => updateField("company", event.target.value)}
           />
@@ -131,11 +149,12 @@ export function EnquiryForm() {
       </label>
 
       <label>
-        <span>Use case</span>
+        <span>MESSAGE</span>
         <div className="input-wrap textarea-wrap">
           <textarea
             required
             rows={4}
+            placeholder="Tell us about your needs..."
             value={form.message}
             onChange={(event) => updateField("message", event.target.value)}
           />
@@ -149,9 +168,13 @@ export function EnquiryForm() {
         whileHover={{ scale: 1.015 }}
         whileTap={{ scale: 0.985 }}
       >
-        <span>{status === "sending" ? "Sending request" : "Submit request"}</span>
-        <ArrowRight aria-hidden="true" size={21} />
+        <span>{status === "sending" ? "SENDING MESSAGE" : "SEND MESSAGE"}</span>
+        <ArrowRight aria-hidden="true" size={18} />
       </motion.button>
+
+      <p className="security-note">
+        <LockKeyhole aria-hidden="true" size={14} /> ALL COMMUNICATIONS ARE ENCRYPTED
+      </p>
 
       {status !== "idle" ? (
         <p className={`form-note form-note-${status}`} role="status">

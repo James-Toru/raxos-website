@@ -35,4 +35,18 @@ describe("Raxos command interface", () => {
     expect(brand).toContain("AI workflows, agents, tasks, and operators");
     expect(brand).toContain("BUILT FOR OPERATORS");
   });
+
+  it("matches the reference contact-panel language and field set", () => {
+    const form = source("src/components/enquiry-form.tsx");
+    expect(form).toContain("// INITIATE CONTACT");
+    expect(form).toContain("INTERESTED IN");
+    expect(form).toContain("RAXOS?");
+    expect(form).toContain("Leave your details and our team will reach out to you.");
+    expect(form).toContain("SEND MESSAGE");
+    expect(form).toContain("ALL COMMUNICATIONS ARE ENCRYPTED");
+    expect(form).toContain('placeholder="Your Name"');
+    expect(form).toContain('placeholder="you@company.com"');
+    expect(form).toContain('placeholder="Your Company"');
+    expect(form).toContain('placeholder="Tell us about your needs..."');
+  });
 });
