@@ -3,7 +3,53 @@ import {
   buildEnquiryEmail,
   parseEnquiryPayload,
   sanitizeHeaderValue,
+  validateEnquiryFields,
 } from "./enquiry";
+
+describe("validateEnquiryFields", () => {
+  const validFields = {
+    name: "Ada Lovelace",
+    email: "ada@example.com",
+    company: "Analytical Engines Ltd",
+    message: "We want to coordinate AI workflows across operations.",
+  };
+
+  it("rejects a trimmed name shorter than two characters", () => {
+    expect(validateEnquiryFields({ ...validFields, name: " A " })).toEqual({
+      ok: false,
+      field: "name",
+      message: "Please enter your name.",
+    });
+  });
+
+  it("rejects an invalid email address", () => {
+    expect(validateEnquiryFields({ ...validFields, email: "not-an-email" })).toEqual({
+      ok: false,
+      field: "email",
+      message: "Please enter a valid email address.",
+    });
+  });
+
+  it("rejects a trimmed message shorter than twelve characters", () => {
+    expect(validateEnquiryFields({ ...validFields, message: " too short " })).toEqual({
+      ok: false,
+      field: "message",
+      message: "Please add a little more detail about your use case.",
+    });
+  });
+
+  it("accepts valid fields and returns normalized data", () => {
+    expect(
+      validateEnquiryFields({
+        ...validFields,
+        name: "  Ada Lovelace  ",
+        email: "  ADA@EXAMPLE.COM  ",
+        company: "  Analytical Engines Ltd  ",
+        message: "  We want to coordinate AI workflows across operations.  ",
+      }),
+    ).toEqual({ ok: true, data: validFields });
+  });
+});
 
 describe("parseEnquiryPayload", () => {
   it("accepts a complete enquiry payload", () => {

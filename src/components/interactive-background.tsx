@@ -48,7 +48,7 @@ export function InteractiveBackground() {
     let backdrop: CanvasGradient | null = null;
     let beam: CanvasGradient | null = null;
     const pointer = { x: 0, y: 0, tx: 0, ty: 0, active: false };
-    const frameInterval = reduceMotion ? 1000 / 12 : 1000 / 30;
+    const frameInterval = 1000 / 30;
 
     function reset() {
       dpr = Math.min(window.devicePixelRatio || 1, 1.25);
@@ -168,13 +168,13 @@ export function InteractiveBackground() {
       context.restore();
     }
 
-    function render(time: number) {
-      if (document.hidden) {
+    function render(time: number, scheduleNext = true) {
+      if (document.hidden && scheduleNext) {
         animationId = window.requestAnimationFrame(render);
         return;
       }
 
-      if (time - lastFrame < frameInterval) {
+      if (scheduleNext && time - lastFrame < frameInterval) {
         animationId = window.requestAnimationFrame(render);
         return;
       }
@@ -254,7 +254,9 @@ export function InteractiveBackground() {
       context.stroke();
       context.restore();
 
-      animationId = window.requestAnimationFrame(render);
+      if (scheduleNext) {
+        animationId = window.requestAnimationFrame(render);
+      }
     }
 
     function handlePointerMove(event: PointerEvent) {
@@ -279,16 +281,27 @@ export function InteractiveBackground() {
       pointer.active = false;
     }
 
+    function handleResize() {
+      reset();
+      if (reduceMotion) {
+        render(0, false);
+      }
+    }
+
     reset();
-    animationId = window.requestAnimationFrame(render);
-    window.addEventListener("resize", reset);
+    if (reduceMotion) {
+      render(0, false);
+    } else {
+      animationId = window.requestAnimationFrame(render);
+    }
+    window.addEventListener("resize", handleResize);
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
     window.addEventListener("pointerdown", handlePointerDown, { passive: true });
     window.addEventListener("pointerleave", handlePointerLeave);
 
     return () => {
       window.cancelAnimationFrame(animationId);
-      window.removeEventListener("resize", reset);
+      window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerdown", handlePointerDown);
       window.removeEventListener("pointerleave", handlePointerLeave);

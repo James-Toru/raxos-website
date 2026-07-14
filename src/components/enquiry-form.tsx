@@ -10,6 +10,7 @@ import {
   MessageSquare,
   UserRound,
 } from "lucide-react";
+import { validateEnquiryFields } from "@/lib/enquiry";
 
 type FormState = {
   name: string;
@@ -40,6 +41,18 @@ export function EnquiryForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const validation = validateEnquiryFields(form);
+
+    if (!validation.ok) {
+      setStatus("error");
+      setStatusMessage(validation.message);
+      const invalidField = event.currentTarget.elements.namedItem(validation.field);
+      if (invalidField instanceof HTMLElement) {
+        invalidField.focus();
+      }
+      return;
+    }
+
     setStatus("sending");
     setStatusMessage("Sending enquiry...");
 
@@ -80,6 +93,8 @@ export function EnquiryForm() {
     <motion.form
       className="enquiry-panel"
       onSubmit={handleSubmit}
+      noValidate
+      aria-labelledby="enquiry-form-title"
       initial={{ opacity: 0, y: 28, rotateX: -6 }}
       animate={{ opacity: 1, y: 0, rotateX: 0 }}
       transition={{ delay: 0.2, duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
@@ -87,7 +102,7 @@ export function EnquiryForm() {
     >
       <div className="panel-glow" aria-hidden="true" />
       <p className="form-eyebrow">{"// INITIATE CONTACT"}</p>
-      <h2>
+      <h2 id="enquiry-form-title">
         INTERESTED IN
         <br />
         <span>RAXOS?</span>
@@ -110,6 +125,7 @@ export function EnquiryForm() {
         <span>NAME</span>
         <div className="input-wrap">
           <input
+            name="name"
             required
             autoComplete="name"
             placeholder="Your Name"
@@ -124,6 +140,7 @@ export function EnquiryForm() {
         <span>EMAIL</span>
         <div className="input-wrap">
           <input
+            name="email"
             required
             type="email"
             autoComplete="email"
@@ -139,6 +156,7 @@ export function EnquiryForm() {
         <span>COMPANY</span>
         <div className="input-wrap">
           <input
+            name="company"
             autoComplete="organization"
             placeholder="Your Company"
             value={form.company}
@@ -152,6 +170,7 @@ export function EnquiryForm() {
         <span>MESSAGE</span>
         <div className="input-wrap textarea-wrap">
           <textarea
+            name="message"
             required
             rows={4}
             placeholder="Tell us about your needs..."

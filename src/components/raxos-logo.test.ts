@@ -16,4 +16,16 @@ describe("RaxosLogo", () => {
     expect(source).toContain('aria-label="Raxos emblem"');
     expect(source).toContain('viewBox="0 0 240 220"');
   });
+
+  it("gives the emblem document-unique paint-server IDs", () => {
+    expect(source).toContain('id="raxos-mark-face"');
+    expect(source).toContain('id="raxos-mark-side"');
+    expect(source).toContain('id="raxos-mark-burn"');
+    expect(source).toContain('filter="url(#raxos-mark-burn)"');
+    expect(source).toContain('fill="url(#raxos-mark-side)"');
+    expect(source).toContain('fill="url(#raxos-mark-face)"');
+    expect(source.match(/id="raxos-face"/g)).toHaveLength(1);
+    expect(source.match(/id="raxos-side"/g)).toHaveLength(1);
+    expect(source.match(/id="raxos-burn"/g)).toHaveLength(1);
+  });
 });

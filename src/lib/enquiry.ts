@@ -9,6 +9,12 @@ export type EnquiryParseResult =
   | { ok: true; data: EnquiryData }
   | { ok: false; message: string; status: number };
 
+export type EnquiryField = "name" | "email" | "message";
+
+export type EnquiryValidationResult =
+  | { ok: true; data: EnquiryData }
+  | { ok: false; field: EnquiryField; message: string };
+
 export type EnquiryMailConfig = {
   from: string;
   to: string;
@@ -22,6 +28,45 @@ function readString(value: unknown) {
 
 export function sanitizeHeaderValue(value: string) {
   return value.replace(/[\r\n]+/g, " ").trim();
+}
+
+export function validateEnquiryFields(
+  source: Record<string, unknown>,
+): EnquiryValidationResult {
+  const name = readString(source.name);
+  const email = readString(source.email).toLowerCase();
+  const company = readString(source.company);
+  const message = readString(source.message);
+
+  if (name.length < 2) {
+    return { ok: false, field: "name", message: "Please enter your name." };
+  }
+
+  if (!emailPattern.test(email)) {
+    return {
+      ok: false,
+      field: "email",
+      message: "Please enter a valid email address.",
+    };
+  }
+
+  if (message.length < 12) {
+    return {
+      ok: false,
+      field: "message",
+      message: "Please add a little more detail about your use case.",
+    };
+  }
+
+  return {
+    ok: true,
+    data: {
+      name: name.slice(0, 120),
+      email: email.slice(0, 180),
+      company: company.slice(0, 160),
+      message: message.slice(0, 2200),
+    },
+  };
 }
 
 function escapeHtml(value: string) {
@@ -45,36 +90,11 @@ export function parseEnquiryPayload(payload: unknown): EnquiryParseResult {
     return { ok: false, message: "", status: 204 };
   }
 
-  const name = readString(source.name);
-  const email = readString(source.email).toLowerCase();
-  const company = readString(source.company);
-  const message = readString(source.message);
+  const validation = validateEnquiryFields(source);
 
-  if (name.length < 2) {
-    return { ok: false, message: "Please enter your name.", status: 400 };
-  }
-
-  if (!emailPattern.test(email)) {
-    return { ok: false, message: "Please enter a valid email address.", status: 400 };
-  }
-
-  if (message.length < 12) {
-    return {
-      ok: false,
-      message: "Please add a little more detail about your use case.",
-      status: 400,
-    };
-  }
-
-  return {
-    ok: true,
-    data: {
-      name: name.slice(0, 120),
-      email: email.slice(0, 180),
-      company: company.slice(0, 160),
-      message: message.slice(0, 2200),
-    },
-  };
+  return validation.ok
+    ? validation
+    : { ok: false, message: validation.message, status: 400 };
 }
 
 export function buildEnquiryEmail(data: EnquiryData, config: EnquiryMailConfig) {

@@ -555,7 +555,7 @@ textarea {
   position: relative;
   max-width: 330px;
   margin: 12px 0 0;
-  color: rgba(202, 203, 207, 0.55);
+  color: #cfd0d3;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   font-size: 12px;
   line-height: 1.55;
@@ -739,7 +739,7 @@ textarea {
   justify-content: center;
   gap: 7px;
   margin: 14px 0 0;
-  color: rgba(185, 187, 191, 0.42);
+  color: #bfc0c4;
   font-size: 8px;
   letter-spacing: 0.17em;
   text-align: center;
