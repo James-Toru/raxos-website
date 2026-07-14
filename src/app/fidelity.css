@@ -250,6 +250,7 @@
 
   .raxos-logo {
     width: min(100%, 490px);
+    height: auto;
   }
 
   .positioning-line {

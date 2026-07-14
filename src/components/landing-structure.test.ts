@@ -179,7 +179,45 @@ describe("Raxos command interface", () => {
     const logoRule = global.match(/\.raxos-logo\s*\{([\s\S]*?)\}/)?.[1];
 
     expect(logoRule).toBeDefined();
-    expect(logoRule).not.toContain("drop-shadow(0 0 3px rgba(255, 15, 24, 0.55))");
+    const shadows = [...(logoRule ?? "").matchAll(/drop-shadow\((.*)\)/g)].map(
+      (match) => match[1],
+    );
+
+    expect(shadows.length).toBeGreaterThan(0);
+    expect(
+      shadows.some((shadow) => {
+        const offsets = shadow.match(/^\s*(-?[\d.]+)[a-z%]*\s+(-?[\d.]+)[a-z%]*/i);
+        return offsets !== null && Number(offsets[2]) > 0;
+      }),
+    ).toBe(true);
+
+    for (const shadow of shadows) {
+      const offsets = shadow.match(/^\s*(-?[\d.]+)[a-z%]*\s+(-?[\d.]+)[a-z%]*/i);
+      const rgb = shadow.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/i);
+      const hex = shadow.match(/#([\da-f]{3}|[\da-f]{6})(?:[\da-f]{2})?\b/i)?.[1];
+      const channels = rgb
+        ? rgb.slice(1, 4).map(Number)
+        : hex
+          ? (hex.length === 3 ? [...hex].map((channel) => channel.repeat(2)) : hex.match(/../g) ?? [])
+              .map((channel) => Number.parseInt(channel, 16))
+          : [];
+      const isZeroOffset = offsets !== null && Number(offsets[1]) === 0 && Number(offsets[2]) === 0;
+      const isBright = channels.length === 3 && Math.max(...channels) >= 200;
+
+      expect(isZeroOffset && isBright).toBe(false);
+    }
+  });
+
+  it("keeps the short-desktop wordmark proportional when its width responds", () => {
+    const fidelity = source("src/app/fidelity.css");
+    const shortDesktop = fidelity.match(
+      /@media \(max-height: 850px\) and \(min-width: 1101px\) \{([\s\S]*?)(?=\n@media|$)/,
+    )?.[1];
+    const logoRule = shortDesktop?.match(/\.raxos-logo\s*\{([\s\S]*?)\}/)?.[1];
+
+    expect(logoRule).toBeDefined();
+    expect(logoRule).toMatch(/width:\s*min\(100%, 490px\)/);
+    expect(logoRule).toMatch(/height:\s*auto/);
   });
 
   it("includes the reference header identity and three-part footer", () => {
