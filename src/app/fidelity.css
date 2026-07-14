@@ -151,7 +151,19 @@
     min-height: 760px;
     margin-top: 40px;
     padding: 36px 50px 32px;
-    background: linear-gradient(145deg, rgba(15, 15, 17, 0.95), rgba(3, 3, 5, 0.98) 62%, rgba(10, 2, 4, 0.95));
+    background: rgba(223, 20, 27, 0.72);
+    --polygon-fill: linear-gradient(145deg, rgba(15, 15, 17, 0.98), rgba(3, 3, 5, 0.99) 62%, rgba(10, 2, 4, 0.98));
+  }
+
+  .panel-glow::before {
+    position: absolute;
+    top: 30px;
+    right: -7px;
+    width: 58px;
+    height: 1px;
+    background: rgba(223, 20, 27, 0.38);
+    content: "";
+    transform: rotate(45deg);
   }
 
   .form-eyebrow {
