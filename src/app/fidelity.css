@@ -121,6 +121,9 @@
 
   .raxos-logo {
     width: 470px;
+    height: 62px;
+    margin-bottom: 11px;
+    transform: translateX(9px) rotateX(1deg) translateZ(0);
   }
 
   .positioning-line {

@@ -131,7 +131,10 @@ export function RaxosLogo() {
   return (
     <motion.svg
       className="raxos-logo"
-      viewBox="0 0 1104 172"
+      viewBox="38 39 1026 98"
+      preserveAspectRatio="none"
+      width="470"
+      height="62"
       role="img"
       aria-label="Raxos"
     >

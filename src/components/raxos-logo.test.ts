@@ -42,7 +42,10 @@ describe("RaxosLogo", () => {
   });
 
   it("uses five independently drawn stencil letters", () => {
-    expect(source).toContain('viewBox="0 0 1104 172"');
+    expect(source).toContain('viewBox="38 39 1026 98"');
+    expect(source).toContain('preserveAspectRatio="none"');
+    expect(source).toContain('width="470"');
+    expect(source).toContain('height="62"');
     expect(source).toContain('data-letter="R"');
     expect(source).toContain('data-letter="A"');
     expect(source).toContain('data-letter="X"');
@@ -52,6 +55,11 @@ describe("RaxosLogo", () => {
   });
 
   it("keeps the wordmark face crisp instead of merging in a blurred duplicate", () => {
-    expect(source).not.toContain('filter="url(#raxos-burn)"');
+    const wordmarkGroup = source.match(
+      /<motion\.g\s+className="raxos-logo__word"([\s\S]*?)>/,
+    )?.[1];
+
+    expect(wordmarkGroup).toBeDefined();
+    expect(wordmarkGroup).not.toContain('filter="url(#raxos-burn)"');
   });
 });

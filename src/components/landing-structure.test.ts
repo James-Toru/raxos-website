@@ -169,12 +169,17 @@ describe("Raxos command interface", () => {
     expect(fidelity).toContain("width: 165px");
     expect(fidelity).toContain("height: 160px");
     expect(fidelity).toContain("width: 470px");
+    expect(fidelity).toContain("height: 62px");
+    expect(fidelity).toContain("margin-bottom: 11px");
+    expect(fidelity).toContain("translateX(9px)");
   });
 
   it("keeps the sharp wordmark free of a bright outer glow fringe", () => {
     const global = source("src/app/globals.css");
+    const logoRule = global.match(/\.raxos-logo\s*\{([\s\S]*?)\}/)?.[1];
 
-    expect(global).not.toContain("drop-shadow(0 0 3px rgba(255, 15, 24, 0.55))");
+    expect(logoRule).toBeDefined();
+    expect(logoRule).not.toContain("drop-shadow(0 0 3px rgba(255, 15, 24, 0.55))");
   });
 
   it("includes the reference header identity and three-part footer", () => {
