@@ -148,6 +148,16 @@ describe("Raxos command interface", () => {
     expect(fidelity).toContain("gap: 9px");
   });
 
+  it("keeps the reference radar free of broad offset glow disks", () => {
+    const global = source("src/app/globals.css");
+    const radarTargetLayers = [...global.matchAll(/\.radar-stage::after\s*\{([\s\S]*?)\}/g)].map(
+      (match) => match[1],
+    );
+
+    expect(radarTargetLayers.length).toBeGreaterThan(0);
+    expect(radarTargetLayers.every((layer) => !layer.includes("box-shadow"))).toBe(true);
+  });
+
   it("calibrates the reconstructed brand artwork to the desktop reference", () => {
     const global = source("src/app/globals.css");
     const fidelity = source("src/app/fidelity.css");

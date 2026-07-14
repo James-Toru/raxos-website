@@ -260,10 +260,6 @@ textarea {
 .radar-stage::after {
   inset: 14%;
   border: 1px dashed rgba(236, 18, 27, 0.21);
-  box-shadow:
-    72px -56px 0 -71px var(--blood-hot),
-    -91px 34px 0 -90px var(--blood-hot),
-    64px 82px 0 -63px rgba(255, 32, 41, 0.84);
 }
 
 .radar-rings {
