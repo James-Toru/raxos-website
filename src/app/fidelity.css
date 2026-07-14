@@ -204,7 +204,7 @@
     justify-self: end;
   }
 
-  .command-interface > canvas {
+  .interface-chrome > canvas {
     opacity: 1;
   }
 

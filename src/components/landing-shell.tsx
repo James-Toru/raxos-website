@@ -12,9 +12,9 @@ export function LandingShell() {
     <MotionConfig reducedMotion="user">
       <main className="command-interface">
         <CustomCursor />
-        <InteractiveBackground />
-        <div className="scanlines" aria-hidden="true" />
         <InterfaceChrome>
+          <InteractiveBackground />
+          <div className="scanlines" aria-hidden="true" />
           <section className="command-grid" aria-label="Raxos company introduction">
             <BrandStage />
             <EnquiryForm />

@@ -283,12 +283,22 @@ describe("Raxos command interface", () => {
     );
   });
 
-  it("reveals the canvas mesh through the outer interface frame", () => {
+  it("stacks the canvas inside the opaque frame and below foreground chrome", () => {
+    const shell = source("src/components/landing-shell.tsx");
     const css = source("src/app/globals.css");
+    const fidelity = source("src/app/fidelity.css");
+    const chromeStart = shell.indexOf("<InterfaceChrome>");
+    const background = shell.indexOf("<InteractiveBackground />", chromeStart);
+    const scanlines = shell.indexOf('<div className="scanlines"', background);
+    const foreground = shell.indexOf('<section className="command-grid"', scanlines);
 
-    expect(css).toMatch(
-      /\.frame-fill\s*\{[^}]*background:\s*linear-gradient\([^;]*rgba\(0,\s*0,\s*0,\s*0\.38\)/s,
-    );
+    expect(chromeStart).toBeGreaterThan(-1);
+    expect(background).toBeGreaterThan(chromeStart);
+    expect(scanlines).toBeGreaterThan(background);
+    expect(foreground).toBeGreaterThan(scanlines);
+    expect(css).not.toMatch(/\.frame-fill\s*\{/);
+    expect(css).toMatch(/\.interface-chrome > canvas\s*\{/);
+    expect(fidelity).toMatch(/\.interface-chrome > canvas\s*\{/);
   });
 
   it("builds crisp layered polygons for every clipped surface", () => {

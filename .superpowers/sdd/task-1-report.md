@@ -133,3 +133,58 @@ Re-capture the target desktop and mobile viewports to confirm the newly visible 
 ### Fix concerns
 
 No automated concerns. Final visual balance remains a controller browser check.
+
+## Second integration fix: correct canvas stacking
+
+### Controller evidence and root cause
+
+The controller screenshot `.superpowers/sdd/mesh-1536-revealed.jpg` showed that the frame-transparency override exposed the interface chrome's red parent border background across the full page, producing a crimson wash while the low-alpha mesh remained faint. The renderer was still outside `InterfaceChrome`, so it painted before the opaque frame fill. Changing fill opacity addressed the covering layer but exposed the wrong layer beneath it.
+
+### Integration correction
+
+- Removed the `.frame-fill` transparency override, restoring the original 96–98% opaque inner frame.
+- Moved `<InteractiveBackground />` inside `<InterfaceChrome>`, before the foreground `.command-grid`, so the canvas paints after the frame fill but remains under the foreground z-index layers.
+- Moved `.scanlines` alongside the nested canvas and after it in DOM order, preserving the scanline overlay.
+- Updated the canvas selectors in both `globals.css` and `fidelity.css` from `.command-interface > canvas` to `.interface-chrome > canvas` without changing any canvas geometry or opacity values.
+- Replaced the invalid transparency regression with an integration contract covering DOM order, opaque frame restoration, and both nested canvas selectors.
+- Preserved the lower-band renderer clip and all renderer behavior; `interactive-background.tsx` has no diff in this correction.
+
+### Integration TDD evidence
+
+RED command: `npm test -- src/components/landing-structure.test.ts`
+
+Output: exit 1; 1 failed and 24 passed across 25 tests. `stacks the canvas inside the opaque frame and below foreground chrome` failed because `<InteractiveBackground />` could not be found after `<InterfaceChrome>`.
+
+GREEN command: `npm test -- src/components/landing-structure.test.ts`
+
+Output: exit 0; 1 file passed and 25/25 tests passed.
+
+### Integration final verification
+
+- Command: `npm test`
+  - Output: exit 0; 3 files passed and 42/42 tests passed.
+- Command: `npm run lint`
+  - Output: exit 0; ESLint reported no errors.
+- Command: `npm run build`
+  - Output: exit 0; Next.js compiled successfully, completed TypeScript checking, generated 4/4 static pages, and finalized optimization. The known multiple-lockfile workspace-root warning was emitted.
+- Command: `git diff --check`
+  - Output: exit 0; no whitespace errors.
+- Build-generated `next-env.d.ts` drift was restored before commit.
+
+### Integration self-review
+
+- DOM and z-index order is now opaque frame fill (z0, earlier sibling), ambient/canvas (z0, later sibling), scanlines (z1), `.command-grid` (z4), and header/footer chrome (z9).
+- Only component nesting and selector ownership changed; foreground dimensions, spacing, clipping polygons, and canvas rendering geometry remain unchanged.
+- The lower-band clip, mobile opacity profile, pointer easing, reduced-motion behavior, pulse lifetime/cap, and event cleanup remain unchanged.
+
+### Integration commit
+
+- Subject: `fix: stack data mesh inside frame`
+
+### Remaining controller check
+
+Re-capture desktop and mobile viewports to confirm the restored dark frame, visible lower mesh, preserved scanline overlay, and zero error-level console entries.
+
+### Integration concerns
+
+No automated concerns. Final visual balance remains a controller browser check.
