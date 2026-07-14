@@ -10,4 +10,10 @@ describe("RaxosLogo", () => {
     expect(source).not.toContain("next/image");
     expect(source).not.toContain("raxos-wordmark");
   });
+
+  it("exports a separate angular emblem for the radar stage", () => {
+    expect(source).toContain("export function RaxosMark");
+    expect(source).toContain('aria-label="Raxos emblem"');
+    expect(source).toContain('viewBox="0 0 240 220"');
+  });
 });

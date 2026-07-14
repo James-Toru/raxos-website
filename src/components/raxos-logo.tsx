@@ -49,6 +49,57 @@ function Wordmark({ className = "" }: { className?: string }) {
   );
 }
 
+export function RaxosMark() {
+  return (
+    <motion.svg
+      className="raxos-mark"
+      viewBox="0 0 240 220"
+      role="img"
+      aria-label="Raxos emblem"
+      initial="hidden"
+      animate="show"
+    >
+      <defs>
+        <linearGradient id="raxos-face" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor="#ff2118" />
+          <stop offset="16%" stopColor="#d90009" />
+          <stop offset="56%" stopColor="#7d0007" />
+          <stop offset="100%" stopColor="#210002" />
+        </linearGradient>
+        <linearGradient id="raxos-side" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stopColor="#3a0003" />
+          <stop offset="54%" stopColor="#0f0001" />
+          <stop offset="100%" stopColor="#070000" />
+        </linearGradient>
+        <filter id="raxos-burn" x="-12%" y="-70%" width="124%" height="240%">
+          <feGaussianBlur stdDeviation="5.8" result="blur" />
+          <feColorMatrix
+            in="blur"
+            result="red"
+            values="1 0 0 0 0.85 0 0 0 0 0.01 0 0 0 0 0.01 0 0 0 0.86 0"
+          />
+          <feMerge>
+            <feMergeNode in="red" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <motion.g variants={intro} transition={transition} filter="url(#raxos-burn)">
+        <g fill="url(#raxos-side)" transform="translate(9 10)">
+          <path d="M38 28H156L202 72V105L173 132H87V192H38Z" />
+          <path d="M87 119H154L207 192H148L87 142Z" />
+        </g>
+        <g fill="url(#raxos-face)">
+          <path d="M38 28H156L202 72V105L173 132H87V192H38Z" />
+          <path d="M87 119H154L207 192H148L87 142Z" />
+        </g>
+        <path fill="#050000" d="M87 63H145L164 81V94L146 111H87Z" />
+      </motion.g>
+    </motion.svg>
+  );
+}
+
 export function RaxosLogo() {
   return (
     <motion.svg

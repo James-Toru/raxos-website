@@ -27,4 +27,12 @@ describe("Raxos command interface", () => {
     expect(chrome).toContain("CONTEXT");
     expect(chrome).toContain("EXECUTION");
   });
+
+  it("uses the reference positioning and operational copy", () => {
+    const brand = source("src/components/brand-stage.tsx");
+    expect(brand).toContain("STRUCTURE. CONTEXT. EXECUTION.");
+    expect(brand).toContain("WE TURN COMPANY SIGNALS");
+    expect(brand).toContain("AI workflows, agents, tasks, and operators");
+    expect(brand).toContain("BUILT FOR OPERATORS");
+  });
 });
