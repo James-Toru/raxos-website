@@ -171,6 +171,12 @@ describe("Raxos command interface", () => {
     expect(fidelity).toContain("width: 470px");
   });
 
+  it("keeps the sharp wordmark free of a bright outer glow fringe", () => {
+    const global = source("src/app/globals.css");
+
+    expect(global).not.toContain("drop-shadow(0 0 3px rgba(255, 15, 24, 0.55))");
+  });
+
   it("includes the reference header identity and three-part footer", () => {
     const chrome = source("src/components/interface-chrome.tsx");
 

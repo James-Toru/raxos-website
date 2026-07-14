@@ -310,9 +310,7 @@ textarea {
   width: min(100%, 470px);
   height: auto;
   overflow: visible;
-  filter:
-    drop-shadow(0 0 3px rgba(255, 15, 24, 0.55))
-    drop-shadow(0 7px 12px rgba(75, 0, 5, 0.32));
+  filter: drop-shadow(0 7px 12px rgba(75, 0, 5, 0.32));
   transform: rotateX(1deg) translateZ(0);
 }
 
