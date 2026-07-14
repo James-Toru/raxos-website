@@ -312,6 +312,10 @@ export function InteractiveBackground() {
       drawGrid(motionTime);
 
       context.save();
+      const meshTop = height * (width < 700 ? 0.6 : 0.56);
+      context.beginPath();
+      context.rect(0, meshTop, width, height - meshTop);
+      context.clip();
       context.globalCompositeOperation = "lighter";
       for (let layer = 0; layer < meshProfile.layers; layer += 1) {
         const verticalOffset = (layer - (meshProfile.layers - 1) / 2) * 30;
@@ -363,7 +367,10 @@ export function InteractiveBackground() {
       });
 
       drawConnections();
+      context.restore();
 
+      context.save();
+      context.globalCompositeOperation = "lighter";
       pulses = pulses.filter((pulse) => time - pulse.born < 1050);
       pulses.forEach((pulse) => {
         const age = time - pulse.born;

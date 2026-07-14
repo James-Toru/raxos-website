@@ -273,6 +273,24 @@ describe("Raxos command interface", () => {
     expect(background).toContain("drawTelemetrySpikes(motionTime");
   });
 
+  it("clips the data mesh to the lower viewport band", () => {
+    const background = source("src/components/interactive-background.tsx");
+
+    expect(background).toContain("const meshTop = height * (width < 700 ? 0.6 : 0.56)");
+    expect(background).toContain("context.rect(0, meshTop, width, height - meshTop)");
+    expect(background).toMatch(
+      /context\.beginPath\(\);\s*context\.rect\(0, meshTop, width, height - meshTop\);\s*context\.clip\(\);/s,
+    );
+  });
+
+  it("reveals the canvas mesh through the outer interface frame", () => {
+    const css = source("src/app/globals.css");
+
+    expect(css).toMatch(
+      /\.frame-fill\s*\{[^}]*background:\s*linear-gradient\([^;]*rgba\(0,\s*0,\s*0,\s*0\.38\)/s,
+    );
+  });
+
   it("builds crisp layered polygons for every clipped surface", () => {
     const chrome = source("src/components/interface-chrome.tsx");
     const brand = source("src/components/brand-stage.tsx");

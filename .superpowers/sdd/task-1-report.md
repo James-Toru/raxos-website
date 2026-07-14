@@ -1,14 +1,31 @@
-# Task 1 Report: Compact-height system-status clearance
+# Task 1 Report: Responsive interactive data mesh
 
 ## Status
 
-Implementation and controller browser verification complete.
+Automated implementation and verification complete. Final browser screenshot comparison and visual tuning are handed off to the controller.
 
-## Changes
+## Starting point
 
-- Added a breakpoint contract to `src/components/landing-structure.test.ts` requiring `.system-status { padding-top: 20px; }` within the existing short-desktop media query.
-- Added the minimal `padding-top: 20px` override to `.system-status` inside `@media (max-height: 850px) and (min-width: 1101px)` in `src/app/fidelity.css`.
-- No mobile or standard-height desktop rules were changed.
+- Worktree: `/Users/james.mbugua/Documents/Raxos/.worktrees/interactive-data-mesh`
+- Required starting HEAD: `95199011c7ac6443c19fb9873de2133dc7f9d10f`
+- Initial worktree status: clean
+
+## Changed files
+
+- `src/components/landing-structure.test.ts`
+- `src/components/interactive-background.tsx`
+
+No foreground layout files were changed. The build-generated `next-env.d.ts` drift was restored before commit.
+
+## Implementation
+
+- Added explicit desktop and mobile mesh profiles controlling layers, sampling, particle caps, transverse/spike density, frame rate, and opacity.
+- Selected the responsive profile during canvas reset while retaining the existing 1.25 DPR cap.
+- Extracted `sampleRibbonPoint` so ribbons, cross-connections, and telemetry spikes use the same geometry and pointer deformation.
+- Added profile-driven transverse connections and deterministic telemetry spikes.
+- Replaced fixed nine-layer rendering with responsive 13-layer desktop and six-layer mobile meshes using 30px spacing.
+- Replaced binary pointer activity with eased position and strength targets; particle displacement, connection opacity, grid drift, and ribbon lift respond smoothly to strength.
+- Preserved the existing 1050ms click-pulse lifetime and four-pulse cap.
 
 ## TDD evidence
 
@@ -16,43 +33,103 @@ Implementation and controller browser verification complete.
 
 Command: `npm test -- src/components/landing-structure.test.ts`
 
-Result: exit 1. The new test, `moves system status above the form border on short desktops`, failed because the compact-height media block did not match the required `.system-status` rule. The other 20 tests passed.
+Result: exit 1. Three expected contract tests failed because the profiles, shared sampler, cross-connections, telemetry spikes, eased pointer strength, and profile-driven layer loop were absent. The other 20 tests passed.
 
 ### GREEN
 
 Command: `npm test -- src/components/landing-structure.test.ts`
 
-Result: exit 0. One test file passed; all 21 tests passed.
+Result: exit 0. One file passed; all 23 tests passed.
 
-## Verification
+## Final verification
 
-- `npm test`: exit 0; 3 files and 38 tests passed.
+- `npm test`: exit 0; 3 files and 40 tests passed.
 - `npm run lint`: exit 0; no lint errors reported.
-- `npm run build`: exit 0; Next.js compiled, type-checked, and generated all static pages successfully. It emitted the existing/machine-specific multiple-lockfile workspace-root warning.
+- `npm run build`: exit 0; Next.js compiled, type-checked, and generated all routes. It emitted the known multiple-lockfile workspace-root warning.
 - `git diff --check`: exit 0; no whitespace errors.
-- Scope review: implementation diff contains only `src/components/landing-structure.test.ts` and `src/app/fidelity.css`. The build-generated `next-env.d.ts` change was restored to its pre-build content.
+- Scope check: only the two required implementation files are modified; `next-env.d.ts` matches HEAD.
 
 ## Self-review
 
-- The override is nested only in the exact `max-height: 850px` / `min-width: 1101px` breakpoint, so it cannot affect 1536 x 1024 or mobile layouts.
-- The production change is limited to the approved property and value; no unrelated selectors or values were altered.
-- The regression test scopes its assertion to the compact-desktop media block and checks the exact 20px contract.
+- Desktop profile uses the exact 13/96/168/30 values; mobile uses 6/56/72/22.
+- Responsive frame throttling and particle counts are recalculated on resize.
+- All mesh surface features consume the same profile and ribbon sampler, preventing geometry drift between longitudinal lines, transverse lines, and spikes.
+- Pointer leave eases strength toward zero rather than snapping geometry; pointer move eases toward one.
+- Reduced-motion behavior remains static and does not start an animation loop.
+- Existing pulse lifetime/cap, canvas component interface, event cleanup, and DPR cap remain intact.
+- Foreground layout and unrelated files are untouched.
 
-## Controller verification requirements
+## Commit
 
-- At 1280 x 720, confirm computed `.system-status` `padding-top` is 20px and its bottom edge is above the enquiry panel top border: confirmed.
-- At 1536 x 1024, confirm computed `.system-status` `padding-top` remains 36px and the enquiry panel position is unchanged: confirmed.
-- Confirm zero error-level browser logs: confirmed.
+- Subject: `feat: intensify interactive data mesh`
+- SHA: `0f70f54d38c4a69c0b9d025256a36802268c76ae`
+
+## Browser handoff
+
+The controller should inspect 1536 x 1024, 1280 x 720, and 390 x 844 before and after pointer movement, confirm the desktop field is denser/brighter while foreground text and borders remain dominant, confirm mobile is lighter and smooth, compare the desktop landscape to the reference, and verify zero error-level browser logs. Any final tuning should be limited to mesh opacity, vertical base, and line spacing.
 
 ## Concerns
 
-None.
+No automated implementation concerns. Visual density, reference fidelity, and runtime console behavior require the controller's browser verification.
 
-## Controller browser verification evidence
+## Reviewer-finding fix
 
-Controller verification is complete.
+### Root cause verification
 
-- At 1280 x 720, `.system-status` computed `padding-top` is 20px. The status bottom is 79px and `.enquiry-panel` top is 82px, providing 3px clearance. There were no error-level console entries. Evidence screenshot: `.superpowers/sdd/status-clearance-1280x720.jpg`.
-- At 1536 x 1024, `.system-status` computed `padding-top` remains 36px. The status bottom is 87px and `.enquiry-panel` top is 130px, providing 43px clearance. The console contained only normal React DevTools and HMR informational logs. Evidence screenshot: `.superpowers/sdd/status-clearance-1536x1024.jpg`.
+- The 13-layer desktop mesh used 30px vertical offsets around a 64% viewport-height base without a clip. At 720px tall, the top layer plus wave amplitude could render into approximately the upper third of the canvas; at 1024px it could render above the intended lower field.
+- The live controller screenshot `.superpowers/sdd/mesh-1536-before-tuning.jpg` showed no readable data landscape. Source inspection confirmed the canvas is below `.frame-fill`, while the inherited outer-frame polygon fill was 96–98% opaque, compositing away almost all mesh contrast.
 
-This evidence resolves the remaining controller-verification items above. No implementation concerns remain.
+### Fixes
+
+- Added an explicit canvas clip from 56% viewport height to the bottom on desktop, constraining mesh geometry to the lower 44% at both target desktop sizes. Mobile clips from 60% to the bottom and retains its existing 0.64 opacity profile.
+- Scoped the clip to ribbons, cross-connections, telemetry spikes, particles, and pointer connections. Existing click pulses and the beam remain outside the mesh-only clip.
+- Added a `.frame-fill`-specific gradient that remains 82% opaque at the top but uses 38–48% opacity through the lower field. Company-brief and enquiry-panel fills remain unchanged at 92–99% opacity, preserving foreground dominance and all geometry.
+- Added source regression contracts for both the lower-band canvas clip and frame-specific transparent integration.
+
+### Fix TDD evidence
+
+Lower-band RED command: `npm test -- src/components/landing-structure.test.ts`
+
+Output: exit 1; 1 failed and 23 passed across 24 tests. `clips the data mesh to the lower viewport band` failed because `meshTop`, `context.rect(...)`, and `context.clip()` were absent.
+
+Lower-band GREEN command: `npm test -- src/components/landing-structure.test.ts`
+
+Output: exit 0; 1 file passed and 24/24 tests passed.
+
+Frame-integration RED command: `npm test -- src/components/landing-structure.test.ts`
+
+Output: exit 1; 1 failed and 24 passed across 25 tests. `reveals the canvas mesh through the outer interface frame` failed because no frame-specific transparent gradient existed.
+
+Frame-integration GREEN command: `npm test -- src/components/landing-structure.test.ts`
+
+Output: exit 0; 1 file passed and 25/25 tests passed.
+
+### Fix final verification
+
+- Command: `npm test`
+  - Output: exit 0; 3 files passed and 42/42 tests passed.
+- Command: `npm run lint`
+  - Output: exit 0; ESLint reported no errors.
+- Command: `npm run build`
+  - Output: exit 0; Next.js compiled successfully, completed TypeScript checking, generated 4/4 static pages, and finalized optimization. The known multiple-lockfile workspace-root warning was emitted.
+- Command: `git diff --check`
+  - Output: exit 0; no whitespace errors.
+- Build-generated `next-env.d.ts` drift was restored before commit.
+
+### Fix self-review
+
+- The desktop clip uses a height ratio rather than fixed pixels, so both 1536 x 1024 and 1280 x 720 retain the same lower-44% band.
+- The mobile profile remains lower-density, lower-frame-rate, and opacity-scaled, with a lower-40% clip.
+- The transparency override targets only `.frame-fill`; panel fills, text, foreground geometry, responsive layout, pointer easing, reduced motion, pulse behavior, and dependencies are unchanged.
+
+### Fix commit
+
+- Subject: `fix: reveal lower data mesh`
+
+### Remaining controller check
+
+Re-capture the target desktop and mobile viewports to confirm the newly visible lower field matches the desired reference balance and that no error-level console entries occur.
+
+### Fix concerns
+
+No automated concerns. Final visual balance remains a controller browser check.

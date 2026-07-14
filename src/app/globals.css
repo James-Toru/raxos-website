@@ -103,6 +103,15 @@ textarea {
   clip-path: var(--polygon-inner);
 }
 
+.frame-fill {
+  background: linear-gradient(
+    180deg,
+    rgba(4, 4, 5, 0.82),
+    rgba(0, 0, 0, 0.38) 55%,
+    rgba(0, 0, 0, 0.48)
+  );
+}
+
 .interface-chrome::before,
 .interface-chrome::after {
   content: "";
