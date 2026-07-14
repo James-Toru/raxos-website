@@ -64,13 +64,13 @@ Result: exit 0. One file passed; all 23 tests passed.
 - Subject: `feat: intensify interactive data mesh`
 - SHA: `0f70f54d38c4a69c0b9d025256a36802268c76ae`
 
-## Browser handoff
+## Browser acceptance requirements
 
-The controller should inspect 1536 x 1024, 1280 x 720, and 390 x 844 before and after pointer movement, confirm the desktop field is denser/brighter while foreground text and borders remain dominant, confirm mobile is lighter and smooth, compare the desktop landscape to the reference, and verify zero error-level browser logs. Any final tuning should be limited to mesh opacity, vertical base, and line spacing.
+The controller inspected 1536 x 1024, 1280 x 720, and 390 x 844 before and after pointer interaction, confirmed the desktop field is denser/brighter while foreground text and borders remain dominant, confirmed mobile is lighter, compared the desktop landscape to the reference, and verified zero error-level browser logs. The resulting evidence is recorded below.
 
 ## Concerns
 
-No automated implementation concerns. Visual density, reference fidelity, and runtime console behavior require the controller's browser verification.
+No outstanding implementation, visual, or runtime concerns.
 
 ## Controller browser verification
 
@@ -138,13 +138,13 @@ Output: exit 0; 1 file passed and 25/25 tests passed.
 
 - Subject: `fix: reveal lower data mesh`
 
-### Remaining controller check
+### Controller follow-up
 
-Re-capture the target desktop and mobile viewports to confirm the newly visible lower field matches the desired reference balance and that no error-level console entries occur.
+Completed by the later stacking correction, final tuning, and browser verification recorded above.
 
 ### Fix concerns
 
-No automated concerns. Final visual balance remains a controller browser check.
+No outstanding concerns.
 
 ## Second integration fix: correct canvas stacking
 
@@ -193,13 +193,13 @@ Output: exit 0; 1 file passed and 25/25 tests passed.
 
 - Subject: `fix: stack data mesh inside frame`
 
-### Remaining controller check
+### Controller follow-up
 
-Re-capture desktop and mobile viewports to confirm the restored dark frame, visible lower mesh, preserved scanline overlay, and zero error-level console entries.
+Completed by the final tuning and browser verification recorded above.
 
 ### Integration concerns
 
-No automated concerns. Final visual balance remains a controller browser check.
+No outstanding concerns.
 
 ## Final renderer visual-tuning fix
 
