@@ -314,62 +314,48 @@ textarea {
   height: auto;
   overflow: visible;
   filter:
-    drop-shadow(0 0 5px rgba(255, 0, 0, 0.55))
-    drop-shadow(0 12px 24px rgba(78, 0, 4, 0.42));
+    drop-shadow(0 0 3px rgba(255, 15, 24, 0.55))
+    drop-shadow(0 7px 12px rgba(75, 0, 5, 0.32));
   transform: rotateX(1deg) translateZ(0);
+}
+
+.raxos-mark .mark-depth {
+  fill: url("#raxos-mark-side");
+  opacity: 0.78;
+}
+
+.raxos-mark .mark-face {
+  fill: url("#raxos-mark-face");
+}
+
+.raxos-mark .mark-facet {
+  fill: url("#raxos-mark-highlight");
+  opacity: 0.46;
 }
 
 .raxos-logo .logo-depth {
   fill: url("#raxos-side");
-  opacity: 0.86;
-  transform: translate(8px, 9px);
+  opacity: 0.78;
 }
 
 .raxos-logo .logo-face {
   fill: url("#raxos-face");
 }
 
-.raxos-logo .logo-ember {
-  fill: rgba(255, 8, 10, 0.24);
-  opacity: 0.7;
-  transform: translate(0, 1px);
-}
-
-.raxos-logo .logo-highlight {
+.raxos-logo .logo-facet {
   fill: url("#raxos-highlight");
-  opacity: 0.28;
-  transform: translate(0, -1px);
+  opacity: 0.46;
 }
 
 .raxos-logo .logo-texture {
-  fill: rgba(0, 0, 0, 0.12);
+  fill: rgba(7, 0, 0, 0.22);
   filter: url("#raxos-grain");
   mix-blend-mode: multiply;
-  opacity: 0.34;
+  opacity: 0.28;
 }
 
-.raxos-logo .logo-void {
-  fill: #050000;
-  opacity: 0.95;
-}
-
-.raxos-logo .logo-void.soft {
-  opacity: 0.62;
-}
-
-.raxos-logo .logo-glint {
-  fill: rgba(255, 150, 124, 0.22);
-}
-
-.raxos-logo .logo-depth .logo-void,
-.raxos-logo .logo-depth .logo-glint,
-.raxos-logo .logo-ember .logo-void,
-.raxos-logo .logo-ember .logo-glint,
-.raxos-logo .logo-highlight .logo-void,
-.raxos-logo .logo-highlight .logo-glint,
-.raxos-logo .logo-texture .logo-void,
-.raxos-logo .logo-texture .logo-glint {
-  opacity: 0;
+.desktop-copy-break {
+  display: initial;
 }
 
 .positioning-line {

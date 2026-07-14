@@ -143,10 +143,21 @@ describe("Raxos command interface", () => {
 
     expect(fidelity).toContain("width: min(29vw, 430px)");
     expect(fidelity).toContain("margin-bottom: -90px");
-    expect(fidelity).toContain("width: 39%");
     expect(fidelity).toContain("padding: 36px 50px 32px");
     expect(fidelity).toContain("margin: 0 0 27px");
     expect(fidelity).toContain("gap: 9px");
+  });
+
+  it("calibrates the reconstructed brand artwork to the desktop reference", () => {
+    const global = source("src/app/globals.css");
+    const fidelity = source("src/app/fidelity.css");
+    expect(global).toContain(".raxos-mark .mark-face");
+    expect(global).toContain(".raxos-mark .mark-depth");
+    expect(global).toContain(".raxos-mark .mark-facet");
+    expect(global).toContain(".raxos-logo .logo-facet");
+    expect(global).toContain(".desktop-copy-break");
+    expect(fidelity).toContain("width: 165px");
+    expect(fidelity).toContain("width: 470px");
   });
 
   it("includes the reference header identity and three-part footer", () => {

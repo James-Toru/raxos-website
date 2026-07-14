@@ -115,11 +115,11 @@
   }
 
   .raxos-mark {
-    width: 39%;
+    width: 165px;
   }
 
   .raxos-logo {
-    width: min(100%, 470px);
+    width: 470px;
   }
 
   .positioning-line {
@@ -222,16 +222,6 @@
     opacity: 1;
   }
 
-  .raxos-logo .logo-depth {
-    opacity: 0.66;
-    transform: translate(5px, 6px);
-  }
-
-  .raxos-logo {
-    filter:
-      drop-shadow(0 0 4px rgba(255, 0, 0, 0.42))
-      drop-shadow(0 9px 18px rgba(78, 0, 4, 0.28));
-  }
 }
 
 @media (max-height: 850px) and (min-width: 1101px) {
@@ -319,6 +309,10 @@
 }
 
 @media (max-width: 1100px) {
+  .desktop-copy-break {
+    display: none;
+  }
+
   .command-grid {
     width: 100%;
   }
