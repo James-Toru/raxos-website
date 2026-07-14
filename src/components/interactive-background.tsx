@@ -62,17 +62,17 @@ export function InteractiveBackground() {
 
       backdrop = activeContext.createRadialGradient(
         width / 2,
-        height * 0.44,
+        height * 0.58,
         0,
         width / 2,
-        height * 0.44,
+        height * 0.58,
         Math.max(width, height) * 0.68,
       );
-      backdrop.addColorStop(0, "rgba(145, 0, 8, 0.22)");
-      backdrop.addColorStop(0.35, "rgba(26, 0, 3, 0.44)");
+      backdrop.addColorStop(0, "rgba(145, 0, 8, 0.18)");
+      backdrop.addColorStop(0.35, "rgba(26, 0, 3, 0.38)");
       backdrop.addColorStop(1, "rgba(0, 0, 0, 0)");
 
-      beam = activeContext.createLinearGradient(0, height * 0.34, width, height * 0.34);
+      beam = activeContext.createLinearGradient(0, height * 0.47, width, height * 0.47);
       beam.addColorStop(0, "rgba(255, 0, 0, 0)");
       beam.addColorStop(0.5, "rgba(255, 40, 40, 0.62)");
       beam.addColorStop(1, "rgba(255, 0, 0, 0)");
@@ -82,7 +82,7 @@ export function InteractiveBackground() {
         const side = index % 2 === 0 ? -1 : 1;
         const progress = index / count;
         const baseX = width / 2 + side * (width * (0.07 + Math.random() * 0.48));
-        const baseY = height * (0.5 + Math.sin(progress * Math.PI * 4.4) * 0.14);
+        const baseY = height * (0.61 + Math.sin(progress * Math.PI * 4.4) * 0.1);
         const depth = 0.35 + Math.random() * 0.9;
 
         return {
@@ -105,11 +105,11 @@ export function InteractiveBackground() {
       for (let i = 0; i <= 84; i += 1) {
         const progress = i / 84;
         const x = width / 2 + side * progress * width * 0.66;
-        const pull = pointer.active ? (pointer.y - height * 0.52) * 0.04 * (1 - progress) : 0;
+        const pull = pointer.active ? (pointer.y - height * 0.61) * 0.018 * (1 - progress) : 0;
         const wave =
-          Math.sin(progress * 9 + time * 0.0009 + offset) * 44 +
-          Math.sin(progress * 17 - time * 0.0007 + offset) * 15;
-        const y = height * 0.52 + wave * (0.28 + progress) + pull;
+          Math.sin(progress * 9 + time * 0.0009 + offset) * 34 +
+          Math.sin(progress * 17 - time * 0.0007 + offset) * 12;
+        const y = height * 0.61 + wave * (0.24 + progress * 0.72) + pull;
 
         if (i === 0) {
           context.moveTo(x, y);
@@ -180,24 +180,25 @@ export function InteractiveBackground() {
       }
 
       lastFrame = time;
+      const motionTime = reduceMotion ? 0 : time;
       const context = activeContext;
       frame += 1;
       context.clearRect(0, 0, width, height);
 
       context.fillStyle = backdrop ?? "rgba(22,0,0,0.35)";
       context.fillRect(0, 0, width, height);
-      drawGrid(time);
+      drawGrid(motionTime);
 
       context.save();
       context.globalCompositeOperation = "lighter";
       context.lineWidth = 1.15;
       context.strokeStyle = "rgba(255, 25, 34, 0.3)";
-      drawRibbon(time, -1, 0);
-      drawRibbon(time, 1, Math.PI);
+      drawRibbon(motionTime, -1, 0);
+      drawRibbon(motionTime, 1, Math.PI);
       context.lineWidth = 0.5;
       context.strokeStyle = "rgba(255, 70, 74, 0.18)";
-      drawRibbon(time + 1800, -1, 1.2);
-      drawRibbon(time + 1800, 1, 2.4);
+      drawRibbon(motionTime + 1800, -1, 1.2);
+      drawRibbon(motionTime + 1800, 1, 2.4);
 
       pointer.x += (pointer.tx - pointer.x) * 0.12;
       pointer.y += (pointer.ty - pointer.y) * 0.12;
@@ -207,25 +208,25 @@ export function InteractiveBackground() {
         const distanceY = pointer.active ? particle.baseY - pointer.y : 0;
         const distance = Math.hypot(distanceX, distanceY);
         const influence = pointer.active ? Math.max(0, 1 - distance / 310) : 0;
-        const drift = Math.sin(time * 0.001 * particle.depth + particle.phase);
+        const drift = Math.sin(motionTime * 0.001 * particle.depth + particle.phase);
 
         particle.x =
           particle.baseX +
           drift * 22 * particle.depth +
-          Math.sin(time * 0.00018 + particle.phase) * particle.vx * 90 +
-          (distanceX / Math.max(distance, 1)) * influence * 58;
+          Math.sin(motionTime * 0.00018 + particle.phase) * particle.vx * 90 +
+          (distanceX / Math.max(distance, 1)) * influence * 26;
         particle.y =
           particle.baseY +
-          Math.cos(time * 0.00075 * particle.depth + particle.phase) * 46 +
-          Math.cos(time * 0.00016 + particle.phase) * particle.vy * 90 +
-          (distanceY / Math.max(distance, 1)) * influence * 42;
+          Math.cos(motionTime * 0.00075 * particle.depth + particle.phase) * 34 +
+          Math.cos(motionTime * 0.00016 + particle.phase) * particle.vy * 90 +
+          (distanceY / Math.max(distance, 1)) * influence * 20;
 
         if (particle.x < -60 || particle.x > width + 60 || particle.y < -60 || particle.y > height + 60) {
           particle.x = particle.baseX;
           particle.y = particle.baseY;
         }
 
-        const alpha = 0.16 + Math.sin(frame * 0.045 + particle.phase) * 0.12;
+        const alpha = 0.16 + Math.sin((reduceMotion ? 0 : frame * 0.045) + particle.phase) * 0.1;
         context.fillStyle = `rgba(255, 31, 40, ${Math.max(0.055, alpha)})`;
         context.beginPath();
         context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
@@ -248,8 +249,8 @@ export function InteractiveBackground() {
       context.strokeStyle = beam ?? "rgba(255, 40, 40, 0.52)";
       context.lineWidth = 1.2;
       context.beginPath();
-      context.moveTo(width * 0.24, height * 0.34);
-      context.lineTo(width * 0.76, height * 0.34);
+      context.moveTo(width * 0.27, height * 0.47);
+      context.lineTo(width * 0.73, height * 0.47);
       context.stroke();
       context.restore();
 

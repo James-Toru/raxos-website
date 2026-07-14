@@ -49,4 +49,15 @@ describe("Raxos command interface", () => {
     expect(form).toContain('placeholder="Your Company"');
     expect(form).toContain('placeholder="Tell us about your needs..."');
   });
+
+  it("defines the clipped desktop frame and responsive fidelity rules", () => {
+    const css = source("src/app/globals.css");
+    expect(css).toContain(".command-frame");
+    expect(css).toContain(".command-grid");
+    expect(css).toContain(".radar-rings");
+    expect(css).toContain(".company-brief");
+    expect(css).toContain("clip-path: polygon");
+    expect(css).toContain("@media (max-width: 900px)");
+    expect(css).toContain("@media (prefers-reduced-motion: reduce)");
+  });
 });
