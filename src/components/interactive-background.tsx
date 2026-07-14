@@ -151,14 +151,14 @@ export function InteractiveBackground() {
       const x = width / 2 + side * progress * width * 0.68;
       const pointerFalloff = Math.max(0, 1 - Math.abs(x - pointer.x) / 360);
       const pointerLift =
-        (pointer.y - height * 0.64) * 0.045 * pointerFalloff * pointer.strength;
+        (pointer.y - height * 0.68) * 0.045 * pointerFalloff * pointer.strength;
       const wave =
         Math.sin(progress * 9 + time * 0.0009 + offset) * 34 +
         Math.sin(progress * 17 - time * 0.0007 + offset) * 12;
 
       return {
         x,
-        y: height * 0.64 + wave * (0.24 + progress * 0.72) + pointerLift + verticalOffset,
+        y: height * 0.68 + wave * (0.24 + progress * 0.72) + pointerLift + verticalOffset,
       };
     }
 
@@ -181,7 +181,7 @@ export function InteractiveBackground() {
     function drawCrossConnections(time: number, side: -1 | 1) {
       const context = activeContext;
       context.save();
-      context.strokeStyle = `rgba(255, 38, 44, ${0.09 * meshProfile.opacityScale})`;
+      context.strokeStyle = `rgba(255, 38, 44, ${0.14 * meshProfile.opacityScale})`;
       context.lineWidth = 0.42;
 
       for (
@@ -192,7 +192,7 @@ export function InteractiveBackground() {
         const progress = sample / meshProfile.samples;
         context.beginPath();
         for (let layer = 0; layer < meshProfile.layers; layer += 1) {
-          const verticalOffset = (layer - (meshProfile.layers - 1) / 2) * 30;
+          const verticalOffset = (layer - (meshProfile.layers - 1) / 2) * 24;
           const point = sampleRibbonPoint(
             time + layer * 180,
             side,
@@ -266,7 +266,7 @@ export function InteractiveBackground() {
         (pointer.y / height - 0.5) * 14 * pointer.strength;
 
       context.save();
-      context.strokeStyle = "rgba(255, 28, 34, 0.055)";
+      context.strokeStyle = "rgba(255, 28, 34, 0.025)";
       context.lineWidth = 1;
 
       for (let x = -spacing; x < width + spacing; x += spacing) {
@@ -318,14 +318,14 @@ export function InteractiveBackground() {
       context.clip();
       context.globalCompositeOperation = "lighter";
       for (let layer = 0; layer < meshProfile.layers; layer += 1) {
-        const verticalOffset = (layer - (meshProfile.layers - 1) / 2) * 30;
+        const verticalOffset = (layer - (meshProfile.layers - 1) / 2) * 24;
         context.lineWidth = layer % 3 === 0 ? 0.82 : 0.44;
         context.strokeStyle = `rgba(255, ${28 + layer * 2}, ${34 + layer * 2}, ${(0.07 + layer * 0.007) * meshProfile.opacityScale})`;
         drawRibbon(motionTime + layer * 180, -1, layer * 0.39, verticalOffset);
         drawRibbon(motionTime + layer * 180, 1, Math.PI + layer * 0.39, verticalOffset);
       }
       context.lineWidth = 1.15;
-      context.strokeStyle = `rgba(255, 25, 34, ${0.3 * meshProfile.opacityScale})`;
+      context.strokeStyle = `rgba(255, 25, 34, ${0.45 * meshProfile.opacityScale})`;
       drawRibbon(motionTime, -1, 0);
       drawRibbon(motionTime, 1, Math.PI);
       context.lineWidth = 0.5;

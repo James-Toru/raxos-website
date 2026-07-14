@@ -188,3 +188,58 @@ Re-capture desktop and mobile viewports to confirm the restored dark frame, visi
 ### Integration concerns
 
 No automated concerns. Final visual balance remains a controller browser check.
+
+## Final renderer visual-tuning fix
+
+### Controller evidence
+
+The controller screenshot `.superpowers/sdd/mesh-1536-stacked.jpg` confirmed that the dark composition and stacking are correct. It also showed the full-viewport rectangular grid reading more strongly than the lower flowing surface, while the clipped 13-layer mesh appeared sparse and faint.
+
+### Constant-only tuning
+
+- Moved the shared ribbon vertical base from 64% to 68% of viewport height, including the pointer-lift reference, so more surface geometry occupies the clipped lower band.
+- Reduced the shared layer spacing from 30px to 24px in both longitudinal ribbon and transverse connection sampling, keeping more of all 13 desktop layers inside the clip.
+- Increased cross-connection opacity from 0.09 to 0.14 and primary ribbon opacity from 0.30 to 0.45, both still multiplied by `meshProfile.opacityScale` so mobile remains lighter.
+- Reduced grid stroke opacity from 0.055 to 0.025.
+- Changed no DOM structure, CSS, layout, clipping, profile density, pointer behavior, reduced-motion behavior, dependencies, or foreground geometry.
+
+### Visual-tuning TDD evidence
+
+RED command: `npm test -- src/components/landing-structure.test.ts`
+
+Output: exit 1; 1 failed and 25 passed across 26 tests. `uses the tuned dense-flow mesh constants` failed because the sampler still used the 64% base and the remaining tuned constants were absent.
+
+GREEN command: `npm test -- src/components/landing-structure.test.ts`
+
+Output: exit 0; 1 file passed and 26/26 tests passed.
+
+### Visual-tuning final verification
+
+- Command: `npm test`
+  - Output: exit 0; 3 files passed and 43/43 tests passed.
+- Command: `npm run lint`
+  - Output: exit 0; ESLint reported no errors.
+- Command: `npm run build`
+  - Output: exit 0; Next.js compiled successfully, completed TypeScript checking, generated 4/4 static pages, and finalized optimization. The known multiple-lockfile workspace-root warning was emitted.
+- Command: `git diff --check`
+  - Output: exit 0; no whitespace errors.
+- Build-generated `next-env.d.ts` drift was restored before commit.
+
+### Visual-tuning self-review
+
+- Both layer-offset calculations use the same 24px constant, so ribbons and cross-connections remain aligned.
+- Both vertical-base calculations use 68%, so pointer lift remains anchored to the same surface baseline.
+- Desktop strength increases by approximately 50–56%; mobile receives the same relative tuning but remains scaled to 0.64 opacity with six layers and lower sample/particle caps.
+- The explicit lower-band clip remains unchanged at lower 44% desktop / lower 40% mobile.
+
+### Visual-tuning commit
+
+- Subject: `fix: tune flowing data mesh`
+
+### Remaining controller check
+
+Confirm the flowing mesh now reads above the subdued rectangular grid at desktop sizes, mobile remains lighter, foreground panels/text remain dominant, and no error-level console entries occur.
+
+### Visual-tuning concerns
+
+No automated concerns. Final screenshot comparison remains a controller browser check.

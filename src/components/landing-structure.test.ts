@@ -273,6 +273,19 @@ describe("Raxos command interface", () => {
     expect(background).toContain("drawTelemetrySpikes(motionTime");
   });
 
+  it("uses the tuned dense-flow mesh constants", () => {
+    const background = source("src/components/interactive-background.tsx");
+    const layerSpacing =
+      background.match(/\(layer - \(meshProfile\.layers - 1\) \/ 2\) \* 24/g) ?? [];
+
+    expect(background).toContain("pointer.y - height * 0.68");
+    expect(background).toContain("y: height * 0.68");
+    expect(layerSpacing).toHaveLength(2);
+    expect(background).toContain("0.14 * meshProfile.opacityScale");
+    expect(background).toContain("0.45 * meshProfile.opacityScale");
+    expect(background).toContain('context.strokeStyle = "rgba(255, 28, 34, 0.025)"');
+  });
+
   it("clips the data mesh to the lower viewport band", () => {
     const background = source("src/components/interactive-background.tsx");
 
