@@ -60,4 +60,9 @@ describe("Raxos command interface", () => {
     expect(css).toContain("@media (max-width: 900px)");
     expect(css).toContain("@media (prefers-reduced-motion: reduce)");
   });
+
+  it("keeps repository lint scoped away from generated worktree artifacts", () => {
+    const eslintConfig = source("eslint.config.mjs");
+    expect(eslintConfig).toContain('".worktrees/**"');
+  });
 });
