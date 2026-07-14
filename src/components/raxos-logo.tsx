@@ -56,15 +56,13 @@ export function RaxosMark() {
       viewBox="0 0 240 220"
       role="img"
       aria-label="Raxos emblem"
-      initial="hidden"
-      animate="show"
     >
       <defs>
         <linearGradient id="raxos-mark-face" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#ff2118" />
-          <stop offset="16%" stopColor="#d90009" />
-          <stop offset="56%" stopColor="#7d0007" />
-          <stop offset="100%" stopColor="#210002" />
+          <stop offset="0%" stopColor="#ff3b30" />
+          <stop offset="28%" stopColor="#ff171d" />
+          <stop offset="72%" stopColor="#cf000b" />
+          <stop offset="100%" stopColor="#8b0007" />
         </linearGradient>
         <linearGradient id="raxos-mark-side" x1="0" x2="1" y1="0" y2="1">
           <stop offset="0%" stopColor="#3a0003" />
@@ -87,14 +85,14 @@ export function RaxosMark() {
 
       <motion.g variants={intro} transition={transition} filter="url(#raxos-mark-burn)">
         <g fill="url(#raxos-mark-side)" transform="translate(9 10)">
-          <path d="M38 28H156L202 72V105L173 132H87V192H38Z" />
-          <path d="M87 119H154L207 192H148L87 142Z" />
+          <path d="M28 30H158L204 72V112L171 142H111L204 220V181L154 132H82L54 104H157L176 88L157 72H68Z" />
+          <path d="M28 120H72L160 208H112Z" />
         </g>
         <g fill="url(#raxos-mark-face)">
-          <path d="M38 28H156L202 72V105L173 132H87V192H38Z" />
-          <path d="M87 119H154L207 192H148L87 142Z" />
+          <path d="M28 30H158L204 72V112L171 142H111L204 220V181L154 132H82L54 104H157L176 88L157 72H68Z" />
+          <path d="M28 120H72L160 208H112Z" />
         </g>
-        <path fill="#050000" d="M87 63H145L164 81V94L146 111H87Z" />
+        <path fill="#050000" d="M82 72H154L176 88L157 104H54Z" />
       </motion.g>
     </motion.svg>
   );
@@ -107,15 +105,13 @@ export function RaxosLogo() {
       viewBox="0 0 1104 172"
       role="img"
       aria-label="Raxos"
-      initial="hidden"
-      animate="show"
     >
       <defs>
         <linearGradient id="raxos-face" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#ff2118" />
-          <stop offset="16%" stopColor="#d90009" />
-          <stop offset="56%" stopColor="#7d0007" />
-          <stop offset="100%" stopColor="#210002" />
+          <stop offset="0%" stopColor="#ff3b30" />
+          <stop offset="28%" stopColor="#ff171d" />
+          <stop offset="72%" stopColor="#cf000b" />
+          <stop offset="100%" stopColor="#8b0007" />
         </linearGradient>
         <linearGradient id="raxos-side" x1="0" x2="1" y1="0" y2="1">
           <stop offset="0%" stopColor="#3a0003" />

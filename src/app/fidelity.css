@@ -1,0 +1,346 @@
+/* Measured against the supplied 1536 × 1024 Raxos command-interface reference. */
+
+@media (min-width: 1101px) {
+  .command-interface {
+    background:
+      radial-gradient(ellipse at 47% 58%, rgba(62, 0, 5, 0.12), transparent 42%),
+      linear-gradient(112deg, #010102 0%, #050405 48%, #010102 100%);
+  }
+
+  .scanlines {
+    opacity: 0.22;
+  }
+
+  .ambient-field {
+    opacity: 0.38;
+  }
+
+  .interface-header {
+    top: 14px;
+    right: 64px;
+    left: 15px;
+    padding: 0;
+    border: 0;
+  }
+
+  .system-identity {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .header-emblem {
+    display: grid;
+    width: 60px;
+    height: 60px;
+    place-items: center;
+    border: 1px solid rgba(255, 21, 29, 0.78);
+    color: #ff111d;
+    font-size: 25px;
+    font-weight: 900;
+    line-height: 1;
+    text-shadow: 0 0 14px rgba(255, 0, 12, 0.55);
+  }
+
+  .header-emblem > span {
+    transform: skew(-10deg) scaleX(1.16);
+  }
+
+  .interface-header .header-emblem::before,
+  .interface-header .system-status span:first-child::before {
+    display: none;
+  }
+
+  .identity-copy {
+    display: grid;
+    gap: 6px;
+  }
+
+  .identity-copy > span:first-child {
+    color: #ff101b;
+    font-size: 16px;
+    letter-spacing: 0.08em;
+  }
+
+  .identity-copy > span:last-child {
+    color: rgba(205, 205, 211, 0.55);
+    font-size: 10px;
+    letter-spacing: 0.13em;
+  }
+
+  .system-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 36px;
+  }
+
+  .system-status > span:last-child {
+    color: #ff111d;
+  }
+
+  .system-status > span:last-child::after {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-left: 11px;
+    border-radius: 50%;
+    background: #ff1522;
+    box-shadow: 0 0 11px rgba(255, 21, 34, 0.9);
+    content: "";
+  }
+
+  .command-grid {
+    grid-template-columns: minmax(0, 658px) minmax(480px, 520px);
+    align-items: start;
+    gap: clamp(96px, 12.25vw, 188px);
+    width: min(calc(100% - 80px), 1366px);
+    padding: 72px 0 62px;
+  }
+
+  .brand-stage {
+    justify-content: flex-start;
+    padding-top: 20px;
+  }
+
+  .radar-stage {
+    width: min(29vw, 430px);
+    margin-bottom: -90px;
+    background: radial-gradient(circle, rgba(166, 0, 9, 0.08) 0 4%, transparent 5%);
+    filter: drop-shadow(0 0 20px rgba(167, 0, 6, 0.18));
+  }
+
+  .radar-rings::after {
+    border-top-color: rgba(255, 33, 40, 0.32);
+  }
+
+  .raxos-mark {
+    width: 39%;
+  }
+
+  .raxos-logo {
+    width: min(100%, 470px);
+  }
+
+  .positioning-line {
+    margin: 24px 0 55px;
+  }
+
+  .company-brief {
+    align-self: flex-start;
+    grid-template-columns: 100px minmax(0, 1fr);
+    min-height: 254px;
+    margin-left: 52px;
+  }
+
+  .company-brief > div:last-child {
+    padding: 29px 27px 24px;
+  }
+
+  .company-brief p {
+    margin-top: 17px;
+  }
+
+  .company-brief .operator-note {
+    margin-top: 35px;
+  }
+
+  .enquiry-panel {
+    align-self: start;
+    width: 520px;
+    min-height: 760px;
+    margin-top: 40px;
+    padding: 36px 50px 32px;
+    background: linear-gradient(145deg, rgba(15, 15, 17, 0.95), rgba(3, 3, 5, 0.98) 62%, rgba(10, 2, 4, 0.95));
+  }
+
+  .form-eyebrow {
+    margin: 0 0 27px;
+  }
+
+  .form-intro {
+    max-width: 290px;
+  }
+
+  .title-mark {
+    margin: 30px 0 32px;
+  }
+
+  .enquiry-panel label {
+    gap: 9px;
+    margin-top: 14px;
+  }
+
+  .enquiry-panel textarea {
+    min-height: 100px;
+  }
+
+  .enquiry-panel button {
+    min-height: 52px;
+  }
+
+  .security-note {
+    margin-top: 20px;
+  }
+
+  .interface-footer {
+    right: 78px;
+    bottom: 31px;
+    left: 32px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+    border: 0;
+  }
+
+  .interface-copyright {
+    justify-self: start;
+    line-height: 1.55;
+  }
+
+  .interface-secure {
+    justify-self: center;
+  }
+
+  .interface-footer > span:last-child {
+    justify-self: end;
+  }
+
+  .command-interface > canvas {
+    opacity: 1;
+  }
+
+  .raxos-logo .logo-depth {
+    opacity: 0.66;
+    transform: translate(5px, 6px);
+  }
+
+  .raxos-logo {
+    filter:
+      drop-shadow(0 0 4px rgba(255, 0, 0, 0.42))
+      drop-shadow(0 9px 18px rgba(78, 0, 4, 0.28));
+  }
+}
+
+@media (max-height: 850px) and (min-width: 1101px) {
+  .command-grid {
+    padding-top: 64px;
+    padding-bottom: 54px;
+  }
+
+  .brand-stage {
+    padding-top: 18px;
+  }
+
+  .radar-stage {
+    width: min(23vw, 270px);
+    margin-bottom: -24px;
+  }
+
+  .raxos-mark {
+    width: 43%;
+  }
+
+  .raxos-logo {
+    width: min(100%, 490px);
+  }
+
+  .positioning-line {
+    margin: 12px 0 22px;
+  }
+
+  .company-brief {
+    grid-template-columns: 64px minmax(0, 1fr);
+    min-height: 150px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .company-brief > div:last-child {
+    padding: 18px 24px 15px;
+  }
+
+  .company-brief p,
+  .company-brief .operator-note {
+    margin-top: 11px;
+  }
+
+  .enquiry-panel {
+    width: min(100%, 520px);
+    min-height: 0;
+    margin-top: 0;
+    padding: 22px 36px 18px;
+  }
+
+  .form-eyebrow {
+    margin-bottom: 13px;
+  }
+
+  .form-intro {
+    max-width: 330px;
+  }
+
+  .title-mark {
+    margin: 20px 0 14px;
+  }
+
+  .enquiry-panel label {
+    gap: 6px;
+    margin-top: 9px;
+  }
+
+  .enquiry-panel textarea {
+    min-height: 72px;
+  }
+
+  .enquiry-panel button {
+    min-height: 48px;
+  }
+
+  .security-note {
+    margin-top: 14px;
+  }
+
+  .interface-footer {
+    bottom: 16px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .command-grid {
+    width: 100%;
+  }
+
+  .brand-stage {
+    padding-top: 0;
+  }
+
+  .radar-stage {
+    margin-bottom: -34px;
+  }
+
+  .raxos-logo {
+    width: min(88vw, 500px);
+  }
+
+  .positioning-line {
+    margin-bottom: 22px;
+  }
+
+  .company-brief {
+    align-self: center;
+    min-height: 150px;
+    margin-left: 0;
+  }
+
+  .enquiry-panel {
+    align-self: auto;
+    width: min(100%, 520px);
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  .interface-footer {
+    bottom: 16px;
+  }
+}

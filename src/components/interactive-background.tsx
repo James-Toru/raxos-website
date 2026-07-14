@@ -68,13 +68,13 @@ export function InteractiveBackground() {
         height * 0.58,
         Math.max(width, height) * 0.68,
       );
-      backdrop.addColorStop(0, "rgba(145, 0, 8, 0.18)");
-      backdrop.addColorStop(0.35, "rgba(26, 0, 3, 0.38)");
+      backdrop.addColorStop(0, "rgba(118, 0, 8, 0.08)");
+      backdrop.addColorStop(0.35, "rgba(18, 0, 3, 0.14)");
       backdrop.addColorStop(1, "rgba(0, 0, 0, 0)");
 
       beam = activeContext.createLinearGradient(0, height * 0.47, width, height * 0.47);
       beam.addColorStop(0, "rgba(255, 0, 0, 0)");
-      beam.addColorStop(0.5, "rgba(255, 40, 40, 0.62)");
+      beam.addColorStop(0.5, "rgba(255, 40, 40, 0.18)");
       beam.addColorStop(1, "rgba(255, 0, 0, 0)");
 
       const count = reduceMotion ? 38 : Math.min(132, Math.max(58, Math.floor(width / 12)));
@@ -99,7 +99,7 @@ export function InteractiveBackground() {
       });
     }
 
-    function drawRibbon(time: number, side: -1 | 1, offset: number) {
+    function drawRibbon(time: number, side: -1 | 1, offset: number, verticalOffset = 0) {
       const context = activeContext;
       context.beginPath();
       for (let i = 0; i <= 84; i += 1) {
@@ -109,7 +109,7 @@ export function InteractiveBackground() {
         const wave =
           Math.sin(progress * 9 + time * 0.0009 + offset) * 34 +
           Math.sin(progress * 17 - time * 0.0007 + offset) * 12;
-        const y = height * 0.61 + wave * (0.24 + progress * 0.72) + pull;
+        const y = height * 0.61 + wave * (0.24 + progress * 0.72) + pull + verticalOffset;
 
         if (i === 0) {
           context.moveTo(x, y);
@@ -191,6 +191,13 @@ export function InteractiveBackground() {
 
       context.save();
       context.globalCompositeOperation = "lighter";
+      for (let layer = 0; layer < 9; layer += 1) {
+        const verticalOffset = (layer - 4) * 38;
+        context.lineWidth = layer % 3 === 0 ? 0.72 : 0.38;
+        context.strokeStyle = `rgba(255, ${28 + layer * 3}, ${34 + layer * 2}, ${0.055 + layer * 0.008})`;
+        drawRibbon(motionTime + layer * 240, -1, layer * 0.44, verticalOffset);
+        drawRibbon(motionTime + layer * 240, 1, Math.PI + layer * 0.44, verticalOffset);
+      }
       context.lineWidth = 1.15;
       context.strokeStyle = "rgba(255, 25, 34, 0.3)";
       drawRibbon(motionTime, -1, 0);
@@ -289,9 +296,8 @@ export function InteractiveBackground() {
     }
 
     reset();
-    if (reduceMotion) {
-      render(0, false);
-    } else {
+    render(0, false);
+    if (!reduceMotion) {
       animationId = window.requestAnimationFrame(render);
     }
     window.addEventListener("resize", handleResize);

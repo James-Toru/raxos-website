@@ -1,5 +1,4 @@
-import { readFileSync } from "node:fs";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -89,7 +88,7 @@ describe("Raxos command interface", () => {
 
     expect(background).toContain("function render(time: number, scheduleNext = true)");
     expect(background).toMatch(
-      /if \(reduceMotion\) \{\s*render\(0, false\);\s*\} else \{\s*animationId = window\.requestAnimationFrame\(render\);\s*\}/s,
+      /render\(0, false\);\s*if \(!reduceMotion\) \{\s*animationId = window\.requestAnimationFrame\(render\);\s*\}/s,
     );
     expect(background).toMatch(
       /function handleResize\(\) \{\s*reset\(\);\s*if \(reduceMotion\) \{\s*render\(0, false\);\s*\}\s*\}/s,
@@ -100,5 +99,63 @@ describe("Raxos command interface", () => {
   it("keeps repository lint scoped away from generated worktree artifacts", () => {
     const eslintConfig = source("eslint.config.mjs");
     expect(eslintConfig).toContain('".worktrees/**"');
+  });
+
+  it("renders primary brand and contact content without waiting for animation frames", () => {
+    const form = source("src/components/enquiry-form.tsx");
+    const logo = source("src/components/raxos-logo.tsx");
+
+    expect(form).not.toContain("initial={{ opacity: 0");
+    expect(logo).not.toContain('initial="hidden"');
+  });
+
+  it("locks the desktop composition to the reference geometry", () => {
+    const css = source("src/app/globals.css");
+
+    expect(css).toContain("width: min(calc(100% - 80px), 1366px)");
+    expect(css).toContain("grid-template-columns: minmax(0, 658px) minmax(480px, 520px)");
+    expect(css).toContain("padding-top: 44px");
+    expect(css).toContain("min-height: 254px");
+    expect(css).toContain("min-height: 760px");
+    expect(css).toContain("margin-top: 40px");
+  });
+
+  it("paints the interactive background before scheduling animation", () => {
+    const background = source("src/components/interactive-background.tsx");
+    expect(background).toContain("reset();\n    render(0, false);\n    if (!reduceMotion)");
+  });
+
+  it("loads the reference-fidelity override layer after global styles", () => {
+    const layout = source("src/app/layout.tsx");
+    const fidelityPath = join(process.cwd(), "src/app/fidelity.css");
+
+    expect(layout).toContain('import "./fidelity.css"');
+    expect(existsSync(fidelityPath)).toBe(true);
+  });
+
+  it("matches the reference radar scale and form inset rhythm", () => {
+    const fidelity = source("src/app/fidelity.css");
+
+    expect(fidelity).toContain("width: min(29vw, 430px)");
+    expect(fidelity).toContain("margin-bottom: -90px");
+    expect(fidelity).toContain("width: 39%");
+    expect(fidelity).toContain("padding: 36px 50px 32px");
+    expect(fidelity).toContain("margin: 0 0 27px");
+    expect(fidelity).toContain("gap: 9px");
+  });
+
+  it("includes the reference header identity and three-part footer", () => {
+    const chrome = source("src/components/interface-chrome.tsx");
+
+    expect(chrome).toContain("header-emblem");
+    expect(chrome).toContain("identity-copy");
+    expect(chrome).toContain("RAXOS CORP. ALL RIGHTS RESERVED.");
+    expect(chrome).toContain("interface-secure");
+  });
+
+  it("draws a layered lower data mesh", () => {
+    const background = source("src/components/interactive-background.tsx");
+    expect(background).toContain("verticalOffset = 0");
+    expect(background).toContain("for (let layer = 0; layer < 9; layer += 1)");
   });
 });

@@ -28,4 +28,10 @@ describe("RaxosLogo", () => {
     expect(source.match(/id="raxos-side"/g)).toHaveLength(1);
     expect(source.match(/id="raxos-burn"/g)).toHaveLength(1);
   });
+
+  it("uses the open ribbon emblem geometry from the reference", () => {
+    expect(source).toContain("M28 30H158L204 72V112L171 142H111L204 220V181");
+    expect(source).toContain("M28 120H72L160 208H112Z");
+    expect(source).not.toContain("M38 28H156L202 72V105L173 132H87V192H38Z");
+  });
 });

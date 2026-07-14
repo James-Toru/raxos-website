@@ -95,7 +95,6 @@ export function EnquiryForm() {
       onSubmit={handleSubmit}
       noValidate
       aria-labelledby="enquiry-form-title"
-      initial={{ opacity: 0, y: 28, rotateX: -6 }}
       animate={{ opacity: 1, y: 0, rotateX: 0 }}
       transition={{ delay: 0.2, duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -4 }}
