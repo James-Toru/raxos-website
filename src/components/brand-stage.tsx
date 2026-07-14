@@ -15,6 +15,7 @@ export function BrandStage() {
         STRUCTURE. CONTEXT. EXECUTION.
       </p>
       <article className="company-brief">
+        <span className="polygon-fill brief-fill" aria-hidden="true" />
         <div className="brief-circuit" aria-hidden="true" />
         <div>
           <h1>

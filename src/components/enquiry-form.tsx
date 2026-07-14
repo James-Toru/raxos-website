@@ -99,6 +99,7 @@ export function EnquiryForm() {
       transition={{ delay: 0.2, duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -4 }}
     >
+      <span className="polygon-fill panel-fill" aria-hidden="true" />
       <div className="panel-glow" aria-hidden="true" />
       <p className="form-eyebrow">{"// INITIATE CONTACT"}</p>
       <h2 id="enquiry-form-title">
@@ -186,6 +187,7 @@ export function EnquiryForm() {
         whileHover={{ scale: 1.015 }}
         whileTap={{ scale: 0.985 }}
       >
+        <span className="polygon-fill button-fill" aria-hidden="true" />
         <span>{status === "sending" ? "SENDING MESSAGE" : "SEND MESSAGE"}</span>
         <ArrowRight aria-hidden="true" size={18} />
       </motion.button>

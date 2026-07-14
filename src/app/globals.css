@@ -81,14 +81,26 @@ textarea {
 /* `.command-frame` is the public styling boundary; InterfaceChrome is its current host. */
 .command-frame,
 .interface-chrome {
+  --polygon-outer: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
+  --polygon-inner: polygon(9px 0, calc(100% - 9px) 0, 100% 9px, 100% calc(100% - 9px), calc(100% - 9px) 100%, 9px 100%, 0 calc(100% - 9px), 0 9px);
+  --polygon-fill: linear-gradient(180deg, rgba(4, 4, 5, 0.98), rgba(0, 0, 0, 0.96));
   position: relative;
   z-index: 2;
   min-height: calc(100svh - 36px);
   margin: 18px 14px;
   overflow: hidden;
-  border: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(4, 4, 5, 0.32), rgba(0, 0, 0, 0.14));
-  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 0 10px);
+  border: 0;
+  background: rgba(220, 12, 20, 0.72);
+  clip-path: var(--polygon-outer);
+}
+
+.polygon-fill {
+  pointer-events: none;
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  background: var(--polygon-fill, #050506);
+  clip-path: var(--polygon-inner);
 }
 
 .interface-chrome::before,
@@ -384,6 +396,11 @@ textarea {
 }
 
 .company-brief {
+  --polygon-outer: polygon(14px 0, 100% 0, 100% 100%, 0 100%, 0 14px);
+  --polygon-inner: polygon(13px 0, 100% 0, 100% 100%, 0 100%, 0 13px);
+  --polygon-fill:
+    linear-gradient(108deg, rgba(17, 17, 19, 0.96), rgba(5, 5, 6, 0.92)),
+    #030304;
   position: relative;
   display: grid;
   align-self: flex-start;
@@ -392,12 +409,15 @@ textarea {
   min-height: 254px;
   margin-left: 52px;
   overflow: hidden;
-  border: 1px solid rgba(218, 18, 25, 0.42);
-  background:
-    linear-gradient(108deg, rgba(17, 17, 19, 0.91), rgba(5, 5, 6, 0.8)),
-    rgba(0, 0, 0, 0.62);
-  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  border: 0;
+  background: rgba(218, 18, 25, 0.62);
+  clip-path: var(--polygon-outer);
   box-shadow: 0 14px 50px rgba(0, 0, 0, 0.45);
+}
+
+.company-brief > :not(.polygon-fill) {
+  position: relative;
+  z-index: 1;
 }
 
 .company-brief::before {
@@ -479,6 +499,9 @@ textarea {
 }
 
 .enquiry-panel {
+  --polygon-outer: polygon(18px 0, calc(100% - 72px) 0, 100% 72px, 100% calc(100% - 22px), calc(100% - 22px) 100%, 35px 100%, 0 calc(100% - 35px), 0 18px);
+  --polygon-inner: polygon(17px 0, calc(100% - 71px) 0, 100% 71px, 100% calc(100% - 21px), calc(100% - 21px) 100%, 34px 100%, 0 calc(100% - 34px), 0 17px);
+  --polygon-fill: linear-gradient(145deg, rgba(15, 15, 17, 0.98), rgba(3, 3, 5, 0.99) 62%, rgba(10, 2, 4, 0.98));
   position: relative;
   align-self: start;
   justify-self: end;
@@ -486,18 +509,21 @@ textarea {
   min-height: 760px;
   margin-top: 40px;
   overflow: hidden;
-  border: 1px solid rgba(223, 20, 27, 0.52);
+  border: 0;
   border-radius: 0;
-  background:
-    linear-gradient(145deg, rgba(31, 31, 34, 0.9), rgba(8, 8, 10, 0.94) 60%, rgba(18, 5, 7, 0.9)),
-    var(--panel);
-  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  background: rgba(223, 20, 27, 0.72);
+  clip-path: var(--polygon-outer);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.035) inset,
     0 30px 75px rgba(0, 0, 0, 0.62),
     0 0 70px rgba(132, 0, 7, 0.13);
   padding: 36px 40px 32px;
   backdrop-filter: blur(13px);
+}
+
+.enquiry-panel > :not(.polygon-fill):not(.panel-glow) {
+  position: relative;
+  z-index: 1;
 }
 
 .enquiry-panel::before,
@@ -524,10 +550,12 @@ textarea {
 .panel-glow {
   pointer-events: none;
   position: absolute;
-  inset: 0;
+  inset: 1px;
+  z-index: 0;
   background:
     radial-gradient(ellipse at 76% 0%, rgba(255, 20, 26, 0.08), transparent 35%),
     linear-gradient(90deg, transparent, rgba(255, 20, 20, 0.025), transparent);
+  clip-path: var(--polygon-inner);
 }
 
 .form-eyebrow {
@@ -669,6 +697,9 @@ textarea {
 }
 
 .enquiry-panel button {
+  --polygon-outer: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  --polygon-inner: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+  --polygon-fill: linear-gradient(100deg, #8c0008 0%, #d40811 48%, #9f0008 100%);
   position: relative;
   display: flex;
   align-items: center;
@@ -678,16 +709,16 @@ textarea {
   min-height: 52px;
   margin-top: 18px;
   overflow: hidden;
-  border: 1px solid rgba(255, 53, 59, 0.75);
+  border: 0;
   border-radius: 1px;
-  background: linear-gradient(100deg, #8c0008 0%, #d40811 48%, #9f0008 100%);
+  background: rgba(255, 53, 59, 0.92);
   color: #fff;
   cursor: pointer;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.19em;
   text-transform: uppercase;
-  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  clip-path: var(--polygon-outer);
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.13),
     0 0 24px rgba(182, 0, 7, 0.18);
@@ -695,6 +726,11 @@ textarea {
     transform 150ms ease,
     filter 150ms ease,
     box-shadow 150ms ease;
+}
+
+.enquiry-panel button > :not(.polygon-fill) {
+  position: relative;
+  z-index: 1;
 }
 
 .enquiry-panel button::before,
@@ -813,6 +849,17 @@ textarea {
 }
 
 @media (max-width: 1100px) and (min-width: 901px) {
+  .command-frame,
+  .interface-chrome {
+    --polygon-outer: polygon(7px 0, calc(100% - 7px) 0, 100% 7px, 100% calc(100% - 7px), calc(100% - 7px) 100%, 7px 100%, 0 calc(100% - 7px), 0 7px);
+    --polygon-inner: polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px), 0 6px);
+  }
+
+  .enquiry-panel {
+    --polygon-outer: polygon(14px 0, calc(100% - 36px) 0, 100% 36px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 18px 100%, 0 calc(100% - 18px), 0 14px);
+    --polygon-inner: polygon(13px 0, calc(100% - 35px) 0, 100% 35px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 17px 100%, 0 calc(100% - 17px), 0 13px);
+  }
+
   .command-grid {
     grid-template-columns: minmax(0, 1fr) minmax(410px, 0.92fr);
     gap: 32px;
@@ -838,10 +885,12 @@ textarea {
 
   .command-frame,
   .interface-chrome {
+    --polygon-outer: polygon(7px 0, calc(100% - 7px) 0, 100% 7px, 100% calc(100% - 7px), calc(100% - 7px) 100%, 7px 100%, 0 calc(100% - 7px), 0 7px);
+    --polygon-inner: polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px), 0 6px);
     min-height: calc(100svh - 20px);
     margin: 10px 8px;
     overflow: visible;
-    clip-path: polygon(7px 0, calc(100% - 7px) 0, 100% 7px, 100% calc(100% - 7px), calc(100% - 7px) 100%, 7px 100%, 0 calc(100% - 7px), 0 7px);
+    clip-path: var(--polygon-outer);
   }
 
   .interface-chrome::before {
@@ -908,6 +957,8 @@ textarea {
   }
 
   .enquiry-panel {
+    --polygon-outer: polygon(14px 0, calc(100% - 36px) 0, 100% 36px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 18px 100%, 0 calc(100% - 18px), 0 14px);
+    --polygon-inner: polygon(13px 0, calc(100% - 35px) 0, 100% 35px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 17px 100%, 0 calc(100% - 17px), 0 13px);
     justify-self: center;
     width: min(100%, 520px);
   }

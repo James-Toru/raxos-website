@@ -71,7 +71,7 @@ describe("Raxos command interface", () => {
     expect(css).toContain(".command-grid");
     expect(css).toContain(".radar-rings");
     expect(css).toContain(".company-brief");
-    expect(css).toContain("clip-path: polygon");
+    expect(css).toContain("clip-path: var(--polygon-outer)");
     expect(css).toContain("@media (max-width: 900px)");
     expect(css).toContain("@media (prefers-reduced-motion: reduce)");
   });
@@ -157,5 +157,20 @@ describe("Raxos command interface", () => {
     const background = source("src/components/interactive-background.tsx");
     expect(background).toContain("verticalOffset = 0");
     expect(background).toContain("for (let layer = 0; layer < 9; layer += 1)");
+  });
+
+  it("builds crisp layered polygons for every clipped surface", () => {
+    const chrome = source("src/components/interface-chrome.tsx");
+    const brand = source("src/components/brand-stage.tsx");
+    const form = source("src/components/enquiry-form.tsx");
+    const css = source("src/app/globals.css");
+
+    expect(chrome).toContain('className="polygon-fill frame-fill"');
+    expect(brand).toContain('className="polygon-fill brief-fill"');
+    expect(form).toContain('className="polygon-fill panel-fill"');
+    expect(form).toContain('className="polygon-fill button-fill"');
+    expect(css).toContain("--polygon-outer");
+    expect(css).toContain("--polygon-inner");
+    expect(css).toMatch(/\.polygon-fill\s*{[^}]*clip-path: var\(--polygon-inner\)/s);
   });
 });
