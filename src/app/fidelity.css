@@ -29,24 +29,6 @@
     gap: 24px;
   }
 
-  .header-emblem {
-    display: grid;
-    width: 60px;
-    height: 60px;
-    place-items: center;
-    border: 1px solid rgba(255, 21, 29, 0.78);
-    color: #ff111d;
-    font-size: 25px;
-    font-weight: 900;
-    line-height: 1;
-    text-shadow: 0 0 14px rgba(255, 0, 12, 0.55);
-  }
-
-  .header-emblem > span {
-    transform: skew(-10deg) scaleX(1.16);
-  }
-
-  .interface-header .header-emblem::before,
   .interface-header .system-status span:first-child::before {
     display: none;
   }

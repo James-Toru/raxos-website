@@ -228,11 +228,13 @@ describe("Raxos command interface", () => {
     expect(compactDesktop).toMatch(/\.system-status\s*\{[^}]*padding-top:\s*20px;/s);
   });
 
-  it("includes the reference header identity and three-part footer", () => {
+  it("includes the text-only header identity and three-part footer", () => {
     const chrome = source("src/components/interface-chrome.tsx");
 
-    expect(chrome).toContain("header-emblem");
+    expect(chrome).not.toContain("header-emblem");
     expect(chrome).toContain("identity-copy");
+    expect(chrome).toContain("RAXOS CORP.");
+    expect(chrome).toContain("SYSTEM INTERFACE v2.4.7");
     expect(chrome).toContain("RAXOS CORP. ALL RIGHTS RESERVED.");
     expect(chrome).toContain("interface-secure");
   });

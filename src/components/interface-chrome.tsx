@@ -6,7 +6,6 @@ export function InterfaceChrome({ children }: PropsWithChildren) {
       <span className="polygon-fill frame-fill" aria-hidden="true" />
       <header className="interface-header" aria-hidden="true">
         <div className="system-identity">
-          <span className="header-emblem"><span>R</span></span>
           <div className="identity-copy">
             <span>RAXOS CORP.</span>
             <span>SYSTEM INTERFACE v2.4.7</span>
