@@ -303,6 +303,7 @@ textarea {
   z-index: 2;
   width: 43%;
   height: auto;
+  overflow: visible;
   filter: drop-shadow(0 0 10px rgba(255, 0, 9, 0.7));
 }
 

@@ -116,6 +116,7 @@
 
   .raxos-mark {
     width: 165px;
+    height: 160px;
   }
 
   .raxos-logo {
@@ -241,6 +242,7 @@
 
   .raxos-mark {
     width: 43%;
+    height: auto;
   }
 
   .raxos-logo {

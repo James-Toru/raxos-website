@@ -157,6 +157,7 @@ describe("Raxos command interface", () => {
     expect(global).toContain(".raxos-logo .logo-facet");
     expect(global).toContain(".desktop-copy-break");
     expect(fidelity).toContain("width: 165px");
+    expect(fidelity).toContain("height: 160px");
     expect(fidelity).toContain("width: 470px");
   });
 

@@ -71,7 +71,8 @@ export function RaxosMark() {
   return (
     <motion.svg
       className="raxos-mark"
-      viewBox="0 0 240 220"
+      viewBox="30 32 172 175"
+      preserveAspectRatio="none"
       role="img"
       aria-label="Raxos emblem"
     >

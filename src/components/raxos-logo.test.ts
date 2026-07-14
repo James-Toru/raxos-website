@@ -14,7 +14,8 @@ describe("RaxosLogo", () => {
   it("exports a separate angular emblem for the radar stage", () => {
     expect(source).toContain("export function RaxosMark");
     expect(source).toContain('aria-label="Raxos emblem"');
-    expect(source).toContain('viewBox="0 0 240 220"');
+    expect(source).toContain('viewBox="30 32 172 175"');
+    expect(source).toContain('preserveAspectRatio="none"');
   });
 
   it("gives the emblem document-unique paint-server IDs", () => {
@@ -30,7 +31,7 @@ describe("RaxosLogo", () => {
   });
 
   it("builds the reference emblem from two open angular ribbons", () => {
-    expect(source).toContain('viewBox="0 0 240 220"');
+    expect(source).toContain('viewBox="30 32 172 175"');
     expect(source).toContain('className="mark-depth"');
     expect(source).toContain('className="mark-face"');
     expect(source).toContain('className="mark-facet"');
