@@ -116,6 +116,22 @@ describe("Raxos command interface", () => {
     expect(background).toContain("frameRate: 22");
   });
 
+  it("keeps exact mesh cadence and bounded pulse behavior", () => {
+    const background = source("src/components/interactive-background.tsx");
+
+    expect(background).toMatch(
+      /const DESKTOP_MESH_PROFILE:[^{]+\{[^}]*crossStep:\s*6,[^}]*spikeStep:\s*11,/s,
+    );
+    expect(background).toMatch(
+      /const MOBILE_MESH_PROFILE:[^{]+\{[^}]*crossStep:\s*10,[^}]*spikeStep:\s*18,/s,
+    );
+    expect(background).toContain("time - pulse.born < 1050");
+    expect(background).toContain("const progress = age / 1050");
+    expect(background).toMatch(
+      /if \(pulses\.length > 4\) \{\s*pulses = pulses\.slice\(-4\);\s*\}/s,
+    );
+  });
+
   it("draws a connected telemetry mesh with eased pointer influence", () => {
     const background = source("src/components/interactive-background.tsx");
 

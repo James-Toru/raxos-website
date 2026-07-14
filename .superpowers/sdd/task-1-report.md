@@ -255,3 +255,12 @@ Confirm the flowing mesh now reads above the subdued rectangular grid at desktop
 ### Visual-tuning concerns
 
 No automated concerns. Final screenshot comparison remains a controller browser check.
+
+## Final-review regression coverage
+
+- Added source assertions for desktop `crossStep: 6` / `spikeStep: 11`, mobile `crossStep: 10` / `spikeStep: 18`, the 1050ms pulse lifetime, and the `pulses.length > 4` / `slice(-4)` cap. Production code was unchanged.
+- `npm test -- src/components/landing-structure.test.ts`: exit 0; 1 file and 27/27 tests passed.
+- `npm test`: exit 0; 3 files and 44/44 tests passed.
+- `npm run lint`: exit 0; no lint errors.
+- `git diff --check`: exit 0; no whitespace errors.
+- Commit subject: `test: lock data mesh cadence and pulse bounds`.
