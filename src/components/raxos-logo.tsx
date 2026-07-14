@@ -176,7 +176,6 @@ export function RaxosLogo() {
 
       <motion.g
         className="raxos-logo__word"
-        filter="url(#raxos-burn)"
         transition={{ staggerChildren: 0.04 }}
       >
         <Wordmark className="logo-depth" />

@@ -50,4 +50,8 @@ describe("RaxosLogo", () => {
     expect(source).toContain('data-letter="S"');
     expect(source).toContain('className="logo-facet"');
   });
+
+  it("keeps the wordmark face crisp instead of merging in a blurred duplicate", () => {
+    expect(source).not.toContain('filter="url(#raxos-burn)"');
+  });
 });
