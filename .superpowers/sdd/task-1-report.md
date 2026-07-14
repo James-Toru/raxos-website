@@ -72,6 +72,18 @@ The controller should inspect 1536 x 1024, 1280 x 720, and 390 x 844 before and 
 
 No automated implementation concerns. Visual density, reference fidelity, and runtime console behavior require the controller's browser verification.
 
+## Controller browser verification
+
+Browser verification and visual tuning are complete after the stacking and density fix commits.
+
+- `1536 × 1024`: the tuned mesh is visible only in the clipped lower band, the black/charcoal composition is preserved, and the form, logo, copy, footer, and border remain visually dominant. Screenshot: `.superpowers/sdd/mesh-1536-tuned.jpg`.
+- Pointer/click interaction produced a distinct rendered frame and updated the pointer CSS coordinates; screenshot: `.superpowers/sdd/mesh-1536-interactive.jpg`.
+- `1280 × 720`: the mesh remains visible and concentrated below the main identity while preserving compact form/status clearance. Screenshot: `.superpowers/sdd/mesh-1280x720.jpg`.
+- `390 × 844`: the six-layer mobile profile is visibly lighter and leaves the stacked mobile content readable. Screenshot: `.superpowers/sdd/mesh-390x844.jpg`.
+- All three target sizes reported zero error-level console entries.
+
+The controller rejected and replaced the first transparency-based reveal because it exposed the frame's red border fill. The final implementation instead stacks the background inside the clipped interface, above its opaque fill and below all foreground content. No outstanding visual or runtime concerns remain.
+
 ## Reviewer-finding fix
 
 ### Root cause verification
