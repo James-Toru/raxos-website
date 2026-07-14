@@ -27,12 +27,17 @@ describe("Raxos command interface", () => {
     expect(chrome).toContain("EXECUTION");
   });
 
-  it("uses the reference positioning and operational copy", () => {
+  it("uses the exact reference positioning and operational copy", () => {
     const brand = source("src/components/brand-stage.tsx");
     expect(brand).toContain("STRUCTURE. CONTEXT. EXECUTION.");
     expect(brand).toContain("WE TURN COMPANY SIGNALS");
-    expect(brand).toContain("AI workflows, agents, tasks, and operators");
+    expect(brand).toContain("INTO REVIEWED, APPROVED,");
+    expect(brand).toContain("ACTIONABLE WORK.");
+    expect(brand).toContain("Raxos is a company OS. A project-centered");
+    expect(brand).toContain("operating layer for teams who demand");
+    expect(brand).toContain("clarity, speed, and control.");
     expect(brand).toContain("BUILT FOR OPERATORS");
+    expect(brand).not.toContain("AI workflows, agents, tasks, and operators");
   });
 
   it("matches the reference contact-panel language and field set", () => {

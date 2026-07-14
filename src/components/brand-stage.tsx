@@ -26,8 +26,9 @@ export function BrandStage() {
             ACTIONABLE WORK.
           </h1>
           <p>
-            Raxos is the command layer connecting AI workflows, agents, tasks, and operators with
-            the context required to execute.
+            Raxos is a company OS. A project-centered
+            <br className="desktop-copy-break" /> operating layer for teams who demand
+            <br className="desktop-copy-break" /> clarity, speed, and control.
           </p>
           <p className="operator-note">
             BUILT FOR OPERATORS <span aria-hidden="true">→</span>
