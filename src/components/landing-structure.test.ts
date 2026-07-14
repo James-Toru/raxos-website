@@ -101,6 +101,32 @@ describe("Raxos command interface", () => {
     expect(background).toContain('window.addEventListener("resize", handleResize)');
   });
 
+  it("uses distinct desktop and mobile data-mesh profiles", () => {
+    const background = source("src/components/interactive-background.tsx");
+
+    expect(background).toContain("const DESKTOP_MESH_PROFILE");
+    expect(background).toContain("layers: 13");
+    expect(background).toContain("samples: 96");
+    expect(background).toContain("particleCap: 168");
+    expect(background).toContain("frameRate: 30");
+    expect(background).toContain("const MOBILE_MESH_PROFILE");
+    expect(background).toContain("layers: 6");
+    expect(background).toContain("samples: 56");
+    expect(background).toContain("particleCap: 72");
+    expect(background).toContain("frameRate: 22");
+  });
+
+  it("draws a connected telemetry mesh with eased pointer influence", () => {
+    const background = source("src/components/interactive-background.tsx");
+
+    expect(background).toContain("function sampleRibbonPoint(");
+    expect(background).toContain("function drawCrossConnections(");
+    expect(background).toContain("function drawTelemetrySpikes(");
+    expect(background).toContain("targetStrength");
+    expect(background).toMatch(/pointer\.strength \+= \(pointer\.targetStrength - pointer\.strength\) \* 0\.08/);
+    expect(background).toContain("pointer.targetStrength = 0");
+  });
+
   it("keeps repository lint scoped away from generated worktree artifacts", () => {
     const eslintConfig = source("eslint.config.mjs");
     expect(eslintConfig).toContain('".worktrees/**"');
@@ -239,10 +265,12 @@ describe("Raxos command interface", () => {
     expect(chrome).toContain("interface-secure");
   });
 
-  it("draws a layered lower data mesh", () => {
+  it("draws a profile-driven layered lower data mesh", () => {
     const background = source("src/components/interactive-background.tsx");
     expect(background).toContain("verticalOffset = 0");
-    expect(background).toContain("for (let layer = 0; layer < 9; layer += 1)");
+    expect(background).toContain("layer < meshProfile.layers");
+    expect(background).toContain("drawCrossConnections(motionTime");
+    expect(background).toContain("drawTelemetrySpikes(motionTime");
   });
 
   it("builds crisp layered polygons for every clipped surface", () => {

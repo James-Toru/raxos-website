@@ -20,6 +20,36 @@ type Pulse = {
   born: number;
 };
 
+type MeshProfile = {
+  layers: number;
+  samples: number;
+  particleCap: number;
+  crossStep: number;
+  spikeStep: number;
+  frameRate: number;
+  opacityScale: number;
+};
+
+const DESKTOP_MESH_PROFILE: MeshProfile = {
+  layers: 13,
+  samples: 96,
+  particleCap: 168,
+  crossStep: 6,
+  spikeStep: 11,
+  frameRate: 30,
+  opacityScale: 1,
+};
+
+const MOBILE_MESH_PROFILE: MeshProfile = {
+  layers: 6,
+  samples: 56,
+  particleCap: 72,
+  crossStep: 10,
+  spikeStep: 18,
+  frameRate: 22,
+  opacityScale: 0.64,
+};
+
 export function InteractiveBackground() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -47,8 +77,16 @@ export function InteractiveBackground() {
     let lastFrame = 0;
     let backdrop: CanvasGradient | null = null;
     let beam: CanvasGradient | null = null;
-    const pointer = { x: 0, y: 0, tx: 0, ty: 0, active: false };
-    const frameInterval = 1000 / 30;
+    const pointer = {
+      x: 0,
+      y: 0,
+      tx: 0,
+      ty: 0,
+      strength: 0,
+      targetStrength: 0,
+    };
+    let meshProfile = DESKTOP_MESH_PROFILE;
+    let frameInterval = 1000 / meshProfile.frameRate;
 
     function reset() {
       dpr = Math.min(window.devicePixelRatio || 1, 1.25);
@@ -77,7 +115,11 @@ export function InteractiveBackground() {
       beam.addColorStop(0.5, "rgba(255, 40, 40, 0.18)");
       beam.addColorStop(1, "rgba(255, 0, 0, 0)");
 
-      const count = reduceMotion ? 38 : Math.min(132, Math.max(58, Math.floor(width / 12)));
+      meshProfile = width < 700 ? MOBILE_MESH_PROFILE : DESKTOP_MESH_PROFILE;
+      frameInterval = 1000 / meshProfile.frameRate;
+      const count = reduceMotion
+        ? Math.min(38, meshProfile.particleCap)
+        : Math.min(meshProfile.particleCap, Math.max(48, Math.floor(width / 9)));
       particles = Array.from({ length: count }, (_, index) => {
         const side = index % 2 === 0 ? -1 : 1;
         const progress = index / count;
@@ -99,42 +141,112 @@ export function InteractiveBackground() {
       });
     }
 
+    function sampleRibbonPoint(
+      time: number,
+      side: -1 | 1,
+      offset: number,
+      verticalOffset: number,
+      progress: number,
+    ) {
+      const x = width / 2 + side * progress * width * 0.68;
+      const pointerFalloff = Math.max(0, 1 - Math.abs(x - pointer.x) / 360);
+      const pointerLift =
+        (pointer.y - height * 0.64) * 0.045 * pointerFalloff * pointer.strength;
+      const wave =
+        Math.sin(progress * 9 + time * 0.0009 + offset) * 34 +
+        Math.sin(progress * 17 - time * 0.0007 + offset) * 12;
+
+      return {
+        x,
+        y: height * 0.64 + wave * (0.24 + progress * 0.72) + pointerLift + verticalOffset,
+      };
+    }
+
     function drawRibbon(time: number, side: -1 | 1, offset: number, verticalOffset = 0) {
       const context = activeContext;
       context.beginPath();
-      for (let i = 0; i <= 84; i += 1) {
-        const progress = i / 84;
-        const x = width / 2 + side * progress * width * 0.66;
-        const pull = pointer.active ? (pointer.y - height * 0.61) * 0.018 * (1 - progress) : 0;
-        const wave =
-          Math.sin(progress * 9 + time * 0.0009 + offset) * 34 +
-          Math.sin(progress * 17 - time * 0.0007 + offset) * 12;
-        const y = height * 0.61 + wave * (0.24 + progress * 0.72) + pull + verticalOffset;
+      for (let i = 0; i <= meshProfile.samples; i += 1) {
+        const progress = i / meshProfile.samples;
+        const point = sampleRibbonPoint(time, side, offset, verticalOffset, progress);
 
         if (i === 0) {
-          context.moveTo(x, y);
+          context.moveTo(point.x, point.y);
         } else {
-          context.lineTo(x, y);
+          context.lineTo(point.x, point.y);
         }
       }
       context.stroke();
     }
 
+    function drawCrossConnections(time: number, side: -1 | 1) {
+      const context = activeContext;
+      context.save();
+      context.strokeStyle = `rgba(255, 38, 44, ${0.09 * meshProfile.opacityScale})`;
+      context.lineWidth = 0.42;
+
+      for (
+        let sample = meshProfile.crossStep;
+        sample < meshProfile.samples;
+        sample += meshProfile.crossStep
+      ) {
+        const progress = sample / meshProfile.samples;
+        context.beginPath();
+        for (let layer = 0; layer < meshProfile.layers; layer += 1) {
+          const verticalOffset = (layer - (meshProfile.layers - 1) / 2) * 30;
+          const point = sampleRibbonPoint(
+            time + layer * 180,
+            side,
+            layer * 0.39,
+            verticalOffset,
+            progress,
+          );
+          if (layer === 0) context.moveTo(point.x, point.y);
+          else context.lineTo(point.x, point.y);
+        }
+        context.stroke();
+      }
+
+      context.restore();
+    }
+
+    function drawTelemetrySpikes(time: number) {
+      const context = activeContext;
+      context.save();
+      context.lineWidth = 0.7;
+
+      for (
+        let index = meshProfile.spikeStep;
+        index < meshProfile.samples;
+        index += meshProfile.spikeStep
+      ) {
+        const side: -1 | 1 = index % 2 === 0 ? -1 : 1;
+        const progress = index / meshProfile.samples;
+        const point = sampleRibbonPoint(time, side, index * 0.17, 0, progress);
+        const heightScale = 18 + ((index * 13) % 58);
+        context.strokeStyle = `rgba(255, 48, 52, ${0.12 * meshProfile.opacityScale})`;
+        context.beginPath();
+        context.moveTo(point.x, point.y + 8);
+        context.lineTo(point.x, point.y - heightScale);
+        context.stroke();
+        context.fillStyle = `rgba(255, 68, 72, ${0.32 * meshProfile.opacityScale})`;
+        context.fillRect(point.x - 1, point.y - heightScale - 2, 2, 2);
+      }
+
+      context.restore();
+    }
+
     function drawConnections() {
       const context = activeContext;
-      if (!pointer.active) {
-        return;
-      }
 
       for (let i = 0; i < particles.length; i += 2) {
         const particle = particles[i];
         const distance = Math.hypot(particle.x - pointer.x, particle.y - pointer.y);
 
-        if (distance < 210) {
+        if (distance < 210 && pointer.strength > 0) {
           context.beginPath();
           context.moveTo(pointer.x, pointer.y);
           context.lineTo(particle.x, particle.y);
-          context.strokeStyle = `rgba(255, 45, 52, ${0.18 * (1 - distance / 210)})`;
+          context.strokeStyle = `rgba(255, 45, 52, ${0.18 * (1 - distance / 210) * pointer.strength})`;
           context.lineWidth = 0.6;
           context.stroke();
         }
@@ -144,8 +256,14 @@ export function InteractiveBackground() {
     function drawGrid(time: number) {
       const context = activeContext;
       const spacing = width < 700 ? 88 : 116;
-      const driftX = pointer.active ? (pointer.x / width - 0.5) * 18 : Math.sin(time * 0.00035) * 8;
-      const driftY = pointer.active ? (pointer.y / height - 0.5) * 14 : Math.cos(time * 0.0003) * 7;
+      const idleDriftX = Math.sin(time * 0.00035) * 8;
+      const idleDriftY = Math.cos(time * 0.0003) * 7;
+      const driftX =
+        idleDriftX * (1 - pointer.strength) +
+        (pointer.x / width - 0.5) * 18 * pointer.strength;
+      const driftY =
+        idleDriftY * (1 - pointer.strength) +
+        (pointer.y / height - 0.5) * 14 * pointer.strength;
 
       context.save();
       context.strokeStyle = "rgba(255, 28, 34, 0.055)";
@@ -185,36 +303,40 @@ export function InteractiveBackground() {
       frame += 1;
       context.clearRect(0, 0, width, height);
 
+      pointer.x += (pointer.tx - pointer.x) * 0.12;
+      pointer.y += (pointer.ty - pointer.y) * 0.12;
+      pointer.strength += (pointer.targetStrength - pointer.strength) * 0.08;
+
       context.fillStyle = backdrop ?? "rgba(22,0,0,0.35)";
       context.fillRect(0, 0, width, height);
       drawGrid(motionTime);
 
       context.save();
       context.globalCompositeOperation = "lighter";
-      for (let layer = 0; layer < 9; layer += 1) {
-        const verticalOffset = (layer - 4) * 38;
-        context.lineWidth = layer % 3 === 0 ? 0.72 : 0.38;
-        context.strokeStyle = `rgba(255, ${28 + layer * 3}, ${34 + layer * 2}, ${0.055 + layer * 0.008})`;
-        drawRibbon(motionTime + layer * 240, -1, layer * 0.44, verticalOffset);
-        drawRibbon(motionTime + layer * 240, 1, Math.PI + layer * 0.44, verticalOffset);
+      for (let layer = 0; layer < meshProfile.layers; layer += 1) {
+        const verticalOffset = (layer - (meshProfile.layers - 1) / 2) * 30;
+        context.lineWidth = layer % 3 === 0 ? 0.82 : 0.44;
+        context.strokeStyle = `rgba(255, ${28 + layer * 2}, ${34 + layer * 2}, ${(0.07 + layer * 0.007) * meshProfile.opacityScale})`;
+        drawRibbon(motionTime + layer * 180, -1, layer * 0.39, verticalOffset);
+        drawRibbon(motionTime + layer * 180, 1, Math.PI + layer * 0.39, verticalOffset);
       }
       context.lineWidth = 1.15;
-      context.strokeStyle = "rgba(255, 25, 34, 0.3)";
+      context.strokeStyle = `rgba(255, 25, 34, ${0.3 * meshProfile.opacityScale})`;
       drawRibbon(motionTime, -1, 0);
       drawRibbon(motionTime, 1, Math.PI);
       context.lineWidth = 0.5;
-      context.strokeStyle = "rgba(255, 70, 74, 0.18)";
+      context.strokeStyle = `rgba(255, 70, 74, ${0.18 * meshProfile.opacityScale})`;
       drawRibbon(motionTime + 1800, -1, 1.2);
       drawRibbon(motionTime + 1800, 1, 2.4);
-
-      pointer.x += (pointer.tx - pointer.x) * 0.12;
-      pointer.y += (pointer.ty - pointer.y) * 0.12;
+      drawCrossConnections(motionTime, -1);
+      drawCrossConnections(motionTime, 1);
+      drawTelemetrySpikes(motionTime);
 
       particles.forEach((particle) => {
-        const distanceX = pointer.active ? particle.baseX - pointer.x : 0;
-        const distanceY = pointer.active ? particle.baseY - pointer.y : 0;
+        const distanceX = particle.baseX - pointer.x;
+        const distanceY = particle.baseY - pointer.y;
         const distance = Math.hypot(distanceX, distanceY);
-        const influence = pointer.active ? Math.max(0, 1 - distance / 310) : 0;
+        const influence = Math.max(0, 1 - distance / 310) * pointer.strength;
         const drift = Math.sin(motionTime * 0.001 * particle.depth + particle.phase);
 
         particle.x =
@@ -269,7 +391,7 @@ export function InteractiveBackground() {
     function handlePointerMove(event: PointerEvent) {
       pointer.tx = event.clientX;
       pointer.ty = event.clientY;
-      pointer.active = true;
+      pointer.targetStrength = 1;
       document.documentElement.style.setProperty("--pointer-x", `${event.clientX}px`);
       document.documentElement.style.setProperty("--pointer-y", `${event.clientY}px`);
     }
@@ -285,7 +407,7 @@ export function InteractiveBackground() {
     }
 
     function handlePointerLeave() {
-      pointer.active = false;
+      pointer.targetStrength = 0;
     }
 
     function handleResize() {
