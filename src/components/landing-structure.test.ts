@@ -330,6 +330,33 @@ describe("Raxos command interface", () => {
     expect(fidelity).toMatch(/\.interface-chrome > canvas\s*\{/);
   });
 
+  it("layers the supplied wallpaper below the interactive mesh", () => {
+    const shell = source("src/components/landing-shell.tsx");
+    const wallpaper = shell.indexOf('className="wallpaper-layer"');
+    const background = shell.indexOf("<InteractiveBackground />");
+    const scanlines = shell.indexOf('className="scanlines"');
+    const foreground = shell.indexOf('className="command-grid"');
+
+    expect(existsSync(join(process.cwd(), "public/raxos-wallpaper.jpeg"))).toBe(true);
+    expect(shell).toContain('<div className="wallpaper-layer" aria-hidden="true" />');
+    expect(wallpaper).toBeGreaterThan(-1);
+    expect(background).toBeGreaterThan(wallpaper);
+    expect(scanlines).toBeGreaterThan(background);
+    expect(foreground).toBeGreaterThan(scanlines);
+  });
+
+  it("defines responsive charcoal wallpaper blending", () => {
+    const css = source("src/app/globals.css");
+    const fidelity = source("src/app/fidelity.css");
+
+    expect(css).toMatch(/\.wallpaper-layer\s*\{[^}]*url\("\/raxos-wallpaper\.jpeg"\)/s);
+    expect(css).toMatch(/\.wallpaper-layer\s*\{[^}]*pointer-events:\s*none/s);
+    expect(css).toMatch(/\.wallpaper-layer\s*\{[^}]*z-index:\s*0/s);
+    expect(css).toContain(".wallpaper-layer::after");
+    expect(fidelity).toMatch(/@media \(min-width: 1101px\)[\s\S]*?\.wallpaper-layer\s*\{/);
+    expect(css).toMatch(/@media \(max-width: 900px\)[\s\S]*?\.wallpaper-layer\s*\{/);
+  });
+
   it("builds crisp layered polygons for every clipped surface", () => {
     const chrome = source("src/components/interface-chrome.tsx");
     const brand = source("src/components/brand-stage.tsx");

@@ -7,6 +7,11 @@
       linear-gradient(112deg, #010102 0%, #050405 48%, #010102 100%);
   }
 
+  .wallpaper-layer {
+    background-position: 62% center;
+    opacity: 0.56;
+  }
+
   .scanlines {
     opacity: 0.22;
   }
@@ -301,6 +306,12 @@
 }
 
 @media (max-width: 1100px) {
+  .wallpaper-layer {
+    background-position: 66% center;
+    filter: saturate(0.76) contrast(1.08) brightness(0.68);
+    opacity: 0.44;
+  }
+
   .desktop-copy-break {
     display: none;
   }
