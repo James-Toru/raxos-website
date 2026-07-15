@@ -25,8 +25,8 @@ yarn-error.log*
 # local experiment worktrees
 .worktrees/
 
-# superpowers execution ledger
-.superpowers/sdd/
+# local superpowers workflow artifacts
+/.superpowers/
 
 # typescript
 *.tsbuildinfo
