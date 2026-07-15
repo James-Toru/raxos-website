@@ -14,17 +14,17 @@ const emblemPaths = [
 ];
 
 const letterPaths = [
-  "M38 39H176L199 60V83L178 102H121L199 137H145L88 110H75V137H38V78H151L161 69L151 60H38Z",
-  "M230 137L296 39H343L413 137H368L350 109H287L269 137ZM304 83H334L319 60Z",
-  "M450 39H502L550 75L598 39H650L580 87L654 137H601L550 101L500 137H447L520 87Z",
-  "M692 39H831L860 66V110L831 137H692L664 110V66ZM724 65L708 79V98L724 111H800L816 98V79L800 65Z",
-  "M905 39H1064V65H950L938 76H1029L1064 100V115L1039 137H879V111H995L1007 101H914L879 77V59Z",
-  "M38 39H176L190 52H52Z",
-  "M296 39H343L352 52H287Z",
-  "M450 39H502L513 47H462Z",
-  "M598 39H650L638 47H586Z",
-  "M692 39H831L845 52H678Z",
-  "M905 39H1064V52H892Z",
+  "M12 20H150L184 48V72L158 95H105L184 130H132L74 104H50V130H12V65H142L154 55L142 44H12Z",
+  "M210 130L274 20H324L395 130H349L334 104H267L252 130ZM286 55L272 82H319L304 55Z",
+  "M415 20H466L518 58L570 20H621L550 74L625 130H572L518 91L465 130H412L486 74Z",
+  "M648 20H791L824 49V101L791 130H648L616 101V49ZM679 47L658 64V86L679 103H760L781 86V64L760 47Z",
+  "M852 20H1024V47H897L883 59H990L1024 83V106L997 130H826V103H955L968 92H858L826 68V45Z",
+  "M12 20H150L166 33H28Z",
+  "M274 20H324L333 34H266Z",
+  "M415 20H466L478 29H427Z",
+  "M570 20H621L609 29H558Z",
+  "M648 20H791L807 34H632Z",
+  "M852 20H1024V34H839Z",
 ];
 
 function expectUniqueIds(ids: string[]) {
@@ -76,10 +76,10 @@ describe("RaxosLogo", () => {
   });
 
   it("uses five independently drawn stencil letters", () => {
-    expect(source).toContain('viewBox="38 39 1026 98"');
-    expect(source).toContain('preserveAspectRatio="none"');
+    expect(source).toContain('viewBox="0 0 1040 150"');
+    expect(source).toContain('preserveAspectRatio="xMidYMid meet"');
     expect(source).toContain('width="470"');
-    expect(source).toContain('height="62"');
+    expect(source).toContain('height="68"');
     expect(source).toContain('data-letter="R"');
     expect(source).toContain('data-letter="A"');
     expect(source).toContain('data-letter="X"');
@@ -107,7 +107,16 @@ describe("RaxosLogo", () => {
   });
 
   it("gives every wordmark paint server a document-unique ID", () => {
-    expectUniqueIds(["raxos-face", "raxos-side", "raxos-highlight", "raxos-burn", "raxos-grain"]);
+    expectUniqueIds([
+      "raxos-face",
+      "raxos-side",
+      "raxos-highlight",
+      "raxos-burn",
+      "raxos-grain",
+      "raxos-word-hex",
+    ]);
+    expect(source).toContain('id="raxos-word-hex"');
+    expect(source).toContain('<Wordmark className="logo-texture" fill="url(#raxos-word-hex)" />');
   });
 
   it("keeps the wordmark face crisp instead of merging in a blurred duplicate", () => {

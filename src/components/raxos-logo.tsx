@@ -12,33 +12,33 @@ const transition = {
   ease: [0.22, 1, 0.36, 1] as const,
 };
 
-function Wordmark({ className = "" }: { className?: string }) {
+function Wordmark({ className = "", fill }: { className?: string; fill?: string }) {
   return (
-    <g className={className}>
+    <g className={className} fill={fill}>
       <motion.g data-letter="R" variants={intro} transition={{ ...transition, delay: 0.02 }}>
-        <path d="M38 39H176L199 60V83L178 102H121L199 137H145L88 110H75V137H38V78H151L161 69L151 60H38Z" />
+        <path d="M12 20H150L184 48V72L158 95H105L184 130H132L74 104H50V130H12V65H142L154 55L142 44H12Z" />
       </motion.g>
 
       <motion.g data-letter="A" variants={intro} transition={{ ...transition, delay: 0.09 }}>
         <path
-          d="M230 137L296 39H343L413 137H368L350 109H287L269 137ZM304 83H334L319 60Z"
+          d="M210 130L274 20H324L395 130H349L334 104H267L252 130ZM286 55L272 82H319L304 55Z"
           fillRule="evenodd"
         />
       </motion.g>
 
       <motion.g data-letter="X" variants={intro} transition={{ ...transition, delay: 0.16 }}>
-        <path d="M450 39H502L550 75L598 39H650L580 87L654 137H601L550 101L500 137H447L520 87Z" />
+        <path d="M415 20H466L518 58L570 20H621L550 74L625 130H572L518 91L465 130H412L486 74Z" />
       </motion.g>
 
       <motion.g data-letter="O" variants={intro} transition={{ ...transition, delay: 0.23 }}>
         <path
-          d="M692 39H831L860 66V110L831 137H692L664 110V66ZM724 65L708 79V98L724 111H800L816 98V79L800 65Z"
+          d="M648 20H791L824 49V101L791 130H648L616 101V49ZM679 47L658 64V86L679 103H760L781 86V64L760 47Z"
           fillRule="evenodd"
         />
       </motion.g>
 
       <motion.g data-letter="S" variants={intro} transition={{ ...transition, delay: 0.3 }}>
-        <path d="M905 39H1064V65H950L938 76H1029L1064 100V115L1039 137H879V111H995L1007 101H914L879 77V59Z" />
+        <path d="M852 20H1024V47H897L883 59H990L1024 83V106L997 130H826V103H955L968 92H858L826 68V45Z" />
       </motion.g>
     </g>
   );
@@ -48,20 +48,20 @@ function WordmarkFacets() {
   return (
     <g className="logo-facet" aria-hidden="true">
       <g data-letter="R">
-        <path d="M38 39H176L190 52H52Z" />
+        <path d="M12 20H150L166 33H28Z" />
       </g>
       <g data-letter="A">
-        <path d="M296 39H343L352 52H287Z" />
+        <path d="M274 20H324L333 34H266Z" />
       </g>
       <g data-letter="X">
-        <path d="M450 39H502L513 47H462Z" />
-        <path d="M598 39H650L638 47H586Z" />
+        <path d="M415 20H466L478 29H427Z" />
+        <path d="M570 20H621L609 29H558Z" />
       </g>
       <g data-letter="O">
-        <path d="M692 39H831L845 52H678Z" />
+        <path d="M648 20H791L807 34H632Z" />
       </g>
       <g data-letter="S">
-        <path d="M905 39H1064V52H892Z" />
+        <path d="M852 20H1024V34H839Z" />
       </g>
     </g>
   );
@@ -144,10 +144,10 @@ export function RaxosLogo() {
   return (
     <motion.svg
       className="raxos-logo"
-      viewBox="38 39 1026 98"
-      preserveAspectRatio="none"
+      viewBox="0 0 1040 150"
+      preserveAspectRatio="xMidYMid meet"
       width="470"
-      height="62"
+      height="68"
       role="img"
       aria-label="Raxos"
     >
@@ -168,6 +168,14 @@ export function RaxosLogo() {
           <stop offset="36%" stopColor="rgba(255,42,30,0.12)" />
           <stop offset="100%" stopColor="rgba(255,145,110,0.18)" />
         </linearGradient>
+        <pattern id="raxos-word-hex" width="20" height="17.3" patternUnits="userSpaceOnUse">
+          <path
+            d="M5 0.8H15L19.5 8.65L15 16.5H5L0.5 8.65Z"
+            fill="none"
+            stroke="rgba(66,0,5,0.68)"
+            strokeWidth="0.85"
+          />
+        </pattern>
         <filter id="raxos-burn" x="-12%" y="-70%" width="124%" height="240%">
           <feGaussianBlur stdDeviation="5.8" result="blur" />
           <feColorMatrix
@@ -197,7 +205,7 @@ export function RaxosLogo() {
         <Wordmark className="logo-depth" />
         <Wordmark className="logo-face" />
         <WordmarkFacets />
-        <Wordmark className="logo-texture" />
+        <Wordmark className="logo-texture" fill="url(#raxos-word-hex)" />
       </motion.g>
     </motion.svg>
   );
