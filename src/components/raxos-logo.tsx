@@ -71,8 +71,8 @@ export function RaxosMark() {
   return (
     <motion.svg
       className="raxos-mark"
-      viewBox="30 32 172 175"
-      preserveAspectRatio="none"
+      viewBox="0 0 220 184"
+      preserveAspectRatio="xMidYMid meet"
       role="img"
       aria-label="Raxos emblem"
     >
@@ -92,6 +92,14 @@ export function RaxosMark() {
           <stop offset="0%" stopColor="rgba(255,218,196,0.48)" />
           <stop offset="100%" stopColor="rgba(255,58,48,0.08)" />
         </linearGradient>
+        <pattern id="raxos-mark-hex" width="18" height="15.6" patternUnits="userSpaceOnUse">
+          <path
+            d="M4.5 0.8H13.5L17.5 7.8L13.5 14.8H4.5L0.5 7.8Z"
+            fill="none"
+            stroke="rgba(61,0,4,0.72)"
+            strokeWidth="0.9"
+          />
+        </pattern>
         <filter id="raxos-mark-burn" x="-12%" y="-70%" width="124%" height="240%">
           <feGaussianBlur stdDeviation="5.8" result="blur" />
           <feColorMatrix
@@ -107,20 +115,25 @@ export function RaxosMark() {
       </defs>
 
       <motion.g variants={intro} transition={transition} filter="url(#raxos-mark-burn)">
-        <g className="mark-depth" fill="url(#raxos-mark-side)" transform="translate(7 8)">
-          <path d="M30 32H157L202 72V111L169 141H107L78 112H156L176 94V82L155 63H67Z" />
-          <path d="M30 120H73L159 206H111Z" />
-          <path d="M116 141H169L202 171V207Z" />
+        <g className="mark-depth" fill="url(#raxos-mark-side)" transform="translate(4 5)">
+          <path d="M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43Z" />
+          <path d="M18 91H66L159 176H111Z" />
+          <path d="M116 111H170L202 139V176Z" />
         </g>
         <g className="mark-face" fill="url(#raxos-mark-face)">
-          <path d="M30 32H157L202 72V111L169 141H107L78 112H156L176 94V82L155 63H67Z" />
-          <path d="M30 120H73L159 206H111Z" />
-          <path d="M116 141H169L202 171V207Z" />
+          <path d="M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43Z" />
+          <path d="M18 91H66L159 176H111Z" />
+          <path d="M116 111H170L202 139V176Z" />
         </g>
         <g className="mark-facet" fill="url(#raxos-mark-highlight)" aria-hidden="true">
-          <path d="M30 32H157L176 49H49Z" />
-          <path d="M176 49L202 72V111L176 94Z" />
-          <path d="M30 120H73L91 138H48Z" />
+          <path d="M18 18H163L180 33H35Z" />
+          <path d="M180 33L202 53V82L180 72Z" />
+          <path d="M18 91H66L82 106H34Z" />
+        </g>
+        <g className="mark-texture" fill="url(#raxos-mark-hex)" aria-hidden="true">
+          <path d="M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43Z" />
+          <path d="M18 91H66L159 176H111Z" />
+          <path d="M116 111H170L202 139V176Z" />
         </g>
       </motion.g>
     </motion.svg>

@@ -5,12 +5,12 @@ import { describe, expect, it } from "vitest";
 const source = readFileSync(join(process.cwd(), "src/components/raxos-logo.tsx"), "utf8");
 
 const emblemPaths = [
-  "M30 32H157L202 72V111L169 141H107L78 112H156L176 94V82L155 63H67Z",
-  "M30 120H73L159 206H111Z",
-  "M116 141H169L202 171V207Z",
-  "M30 32H157L176 49H49Z",
-  "M176 49L202 72V111L176 94Z",
-  "M30 120H73L91 138H48Z",
+  "M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43Z",
+  "M18 91H66L159 176H111Z",
+  "M116 111H170L202 139V176Z",
+  "M18 18H163L180 33H35Z",
+  "M180 33L202 53V82L180 72Z",
+  "M18 91H66L82 106H34Z",
 ];
 
 const letterPaths = [
@@ -43,8 +43,8 @@ describe("RaxosLogo", () => {
   it("exports a separate angular emblem for the radar stage", () => {
     expect(source).toContain("export function RaxosMark");
     expect(source).toContain('aria-label="Raxos emblem"');
-    expect(source).toContain('viewBox="30 32 172 175"');
-    expect(source).toContain('preserveAspectRatio="none"');
+    expect(source).toContain('viewBox="0 0 220 184"');
+    expect(source).toContain('preserveAspectRatio="xMidYMid meet"');
   });
 
   it("gives the emblem document-unique paint-server IDs", () => {
@@ -53,6 +53,7 @@ describe("RaxosLogo", () => {
       "raxos-mark-side",
       "raxos-mark-highlight",
       "raxos-mark-burn",
+      "raxos-mark-hex",
     ]);
     expect(source).toContain('filter="url(#raxos-mark-burn)"');
     expect(source).toContain('fill="url(#raxos-mark-side)"');
@@ -60,11 +61,16 @@ describe("RaxosLogo", () => {
   });
 
   it("builds the reference emblem from two open angular ribbons", () => {
-    expect(source).toContain('viewBox="30 32 172 175"');
+    expect(source).toContain('viewBox="0 0 220 184"');
+    expect(source).toContain('preserveAspectRatio="xMidYMid meet"');
     expect(source).toContain('className="mark-depth"');
     expect(source).toContain('className="mark-face"');
     expect(source).toContain('className="mark-facet"');
+    expect(source).toContain('className="mark-texture"');
     expect(source).toContain('id="raxos-mark-highlight"');
+    expect(source).toContain('id="raxos-mark-hex"');
+    expect(source).toContain('fill="url(#raxos-mark-hex)"');
+    expect(source).toContain('aria-hidden="true"');
     for (const path of emblemPaths) expect(source).toContain(`d="${path}"`);
     expect(source).not.toContain("204 220V181");
   });
@@ -87,6 +93,7 @@ describe("RaxosLogo", () => {
       "mark-depth",
       "mark-face",
       "mark-facet",
+      "mark-texture",
       "logo-depth",
       "logo-face",
       "logo-facet",
