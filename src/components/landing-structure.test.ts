@@ -220,9 +220,12 @@ describe("Raxos command interface", () => {
     expect(global).toMatch(/\.raxos-mark\s*\{[^}]*drop-shadow\(0 0 7px rgba\(255, 0, 9, 0\.48\)\)/s);
     expect(global).toMatch(/\.raxos-logo\s*\{[^}]*drop-shadow\(0 5px 9px rgba\(75, 0, 5, 0\.24\)\)/s);
     expect(global).toMatch(/\.mark-texture,\s*\.raxos-logo \.logo-texture\s*\{[^}]*opacity:\s*0\.38/s);
-    expect(fidelity).toMatch(/@media \(max-width: 1100px\)[\s\S]*?\.mark-texture,[\s\S]*?opacity:\s*0\.2/s);
+    expect(global).not.toMatch(/fill:\s*url\(["']?#raxos-/);
     expect(fidelity).toMatch(
-      /@media \(max-width: 1100px\)[\s\S]*?\.mark-texture,[\s\S]*?opacity:\s*0\.2[\s\S]*?@media \(max-width: 900px\)[\s\S]*?\.mark-texture,[\s\S]*?opacity:\s*0\.1/s,
+      /@media \(max-width: 1100px\)[\s\S]*?\.mark-texture,[\s\S]*?\.mark-facet,[\s\S]*?\.logo-facet\s*\{[^}]*opacity:\s*0\.24/s,
+    );
+    expect(fidelity).toMatch(
+      /@media \(max-width: 1100px\)[\s\S]*?opacity:\s*0\.24[\s\S]*?@media \(max-width: 900px\)[\s\S]*?\.mark-texture,[\s\S]*?\.mark-facet,[\s\S]*?\.logo-facet\s*\{[^}]*opacity:\s*0\.12/s,
     );
     expect(global).not.toMatch(/@media \(max-width: 900px\)[\s\S]*?\.mark-texture,[\s\S]*?opacity:\s*0\.1/s);
   });

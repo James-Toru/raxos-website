@@ -1,6 +1,9 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { createElement, Fragment } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import { RaxosLogo, RaxosMark } from "./raxos-logo";
 
 const source = readFileSync(join(process.cwd(), "src/components/raxos-logo.tsx"), "utf8");
 
@@ -27,12 +30,6 @@ const letterPaths = [
   "M852 20H1024V34H839Z",
 ];
 
-function expectUniqueIds(ids: string[]) {
-  for (const id of ids) {
-    expect(source.match(new RegExp(`id=["']${id}["']`, "g")), id).toHaveLength(1);
-  }
-}
-
 describe("RaxosLogo", () => {
   it("renders as native vector artwork instead of a cropped bitmap", () => {
     expect(source).toContain("<motion.svg");
@@ -47,17 +44,26 @@ describe("RaxosLogo", () => {
     expect(source).toContain('preserveAspectRatio="xMidYMid meet"');
   });
 
-  it("gives the emblem document-unique paint-server IDs", () => {
-    expectUniqueIds([
-      "raxos-mark-face",
-      "raxos-mark-side",
-      "raxos-mark-highlight",
-      "raxos-mark-burn",
-      "raxos-mark-hex",
-    ]);
-    expect(source).toContain('filter="url(#raxos-mark-burn)"');
-    expect(source).toContain('fill="url(#raxos-mark-side)"');
-    expect(source).toContain('fill="url(#raxos-mark-face)"');
+  it("gives every rendered instance unique, resolvable paint-server IDs", () => {
+    const markup = renderToStaticMarkup(
+      createElement(
+        Fragment,
+        null,
+        createElement(RaxosMark),
+        createElement(RaxosMark),
+        createElement(RaxosLogo),
+        createElement(RaxosLogo),
+      ),
+    );
+    const ids = [...markup.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
+    const paintServerReferences = [...markup.matchAll(/url\(#([^)]+)\)/g)].map(
+      (match) => match[1],
+    );
+
+    expect(ids.length).toBeGreaterThan(0);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(paintServerReferences.length).toBeGreaterThan(0);
+    for (const reference of paintServerReferences) expect(ids).toContain(reference);
   });
 
   it("builds the reference emblem from two open angular ribbons", () => {
@@ -67,9 +73,6 @@ describe("RaxosLogo", () => {
     expect(source).toContain('className="mark-face"');
     expect(source).toContain('className="mark-facet"');
     expect(source).toContain('className="mark-texture"');
-    expect(source).toContain('id="raxos-mark-highlight"');
-    expect(source).toContain('id="raxos-mark-hex"');
-    expect(source).toContain('fill="url(#raxos-mark-hex)"');
     expect(source).toContain('aria-hidden="true"');
     for (const path of emblemPaths) expect(source).toContain(`d="${path}"`);
     expect(source).not.toContain("204 220V181");
@@ -104,19 +107,14 @@ describe("RaxosLogo", () => {
 
     expect(source.match(/aria-label="Raxos emblem"/g)).toHaveLength(1);
     expect(source.match(/aria-label="Raxos"/g)).toHaveLength(1);
+
+    const markup = renderToStaticMarkup(createElement(RaxosLogo));
+    expect(markup).toMatch(/<g class="logo-texture"[^>]*aria-hidden="true">/);
   });
 
-  it("gives every wordmark paint server a document-unique ID", () => {
-    expectUniqueIds([
-      "raxos-face",
-      "raxos-side",
-      "raxos-highlight",
-      "raxos-burn",
-      "raxos-grain",
-      "raxos-word-hex",
-    ]);
-    expect(source).toContain('id="raxos-word-hex"');
-    expect(source).toContain('<Wordmark className="logo-texture" fill="url(#raxos-word-hex)" />');
+  it("omits unused burn and grain filter definitions", () => {
+    expect(source).not.toContain("raxos-burn");
+    expect(source).not.toContain("raxos-grain");
   });
 
   it("keeps the wordmark face crisp instead of merging in a blurred duplicate", () => {

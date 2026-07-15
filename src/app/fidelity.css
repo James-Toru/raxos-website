@@ -352,8 +352,10 @@
   }
 
   .raxos-mark .mark-texture,
-  .raxos-logo .logo-texture {
-    opacity: 0.2;
+  .raxos-logo .logo-texture,
+  .raxos-mark .mark-facet,
+  .raxos-logo .logo-facet {
+    opacity: 0.24;
   }
 
   .positioning-line {
@@ -380,7 +382,9 @@
 
 @media (max-width: 900px) {
   .raxos-mark .mark-texture,
-  .raxos-logo .logo-texture {
-    opacity: 0.1;
+  .raxos-logo .logo-texture,
+  .raxos-mark .mark-facet,
+  .raxos-logo .logo-facet {
+    opacity: 0.12;
   }
 }

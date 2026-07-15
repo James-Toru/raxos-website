@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useId } from "react";
 
 const intro = {
   hidden: { opacity: 0, y: 10, filter: "blur(6px)" },
@@ -12,9 +13,17 @@ const transition = {
   ease: [0.22, 1, 0.36, 1] as const,
 };
 
-function Wordmark({ className = "", fill }: { className?: string; fill?: string }) {
+function Wordmark({
+  className = "",
+  fill,
+  "aria-hidden": ariaHidden,
+}: {
+  className?: string;
+  fill?: string;
+  "aria-hidden"?: "true";
+}) {
   return (
-    <g className={className} fill={fill}>
+    <g className={className} fill={fill} aria-hidden={ariaHidden}>
       <motion.g data-letter="R" variants={intro} transition={{ ...transition, delay: 0.02 }}>
         <path d="M12 20H150L184 48V72L158 95H105L184 130H132L74 104H50V130H12V65H142L154 55L142 44H12Z" />
       </motion.g>
@@ -44,9 +53,9 @@ function Wordmark({ className = "", fill }: { className?: string; fill?: string 
   );
 }
 
-function WordmarkFacets() {
+function WordmarkFacets({ fill }: { fill: string }) {
   return (
-    <g className="logo-facet" aria-hidden="true">
+    <g className="logo-facet" fill={fill} aria-hidden="true">
       <g data-letter="R">
         <path d="M12 20H150L166 33H28Z" />
       </g>
@@ -68,6 +77,13 @@ function WordmarkFacets() {
 }
 
 export function RaxosMark() {
+  const instanceId = useId().replace(/[^a-zA-Z0-9_-]/g, "");
+  const faceId = `raxos-mark-${instanceId}-face`;
+  const sideId = `raxos-mark-${instanceId}-side`;
+  const highlightId = `raxos-mark-${instanceId}-highlight`;
+  const burnId = `raxos-mark-${instanceId}-burn`;
+  const hexId = `raxos-mark-${instanceId}-hex`;
+
   return (
     <motion.svg
       className="raxos-mark"
@@ -77,22 +93,22 @@ export function RaxosMark() {
       aria-label="Raxos emblem"
     >
       <defs>
-        <linearGradient id="raxos-mark-face" x1="0" x2="0" y1="0" y2="1">
+        <linearGradient id={faceId} x1="0" x2="0" y1="0" y2="1">
           <stop offset="0%" stopColor="#ff3b30" />
           <stop offset="28%" stopColor="#ff171d" />
           <stop offset="72%" stopColor="#cf000b" />
           <stop offset="100%" stopColor="#8b0007" />
         </linearGradient>
-        <linearGradient id="raxos-mark-side" x1="0" x2="1" y1="0" y2="1">
+        <linearGradient id={sideId} x1="0" x2="1" y1="0" y2="1">
           <stop offset="0%" stopColor="#3a0003" />
           <stop offset="54%" stopColor="#0f0001" />
           <stop offset="100%" stopColor="#070000" />
         </linearGradient>
-        <linearGradient id="raxos-mark-highlight" x1="0" x2="1" y1="0" y2="1">
+        <linearGradient id={highlightId} x1="0" x2="1" y1="0" y2="1">
           <stop offset="0%" stopColor="rgba(255,218,196,0.48)" />
           <stop offset="100%" stopColor="rgba(255,58,48,0.08)" />
         </linearGradient>
-        <pattern id="raxos-mark-hex" width="18" height="15.6" patternUnits="userSpaceOnUse">
+        <pattern id={hexId} width="18" height="15.6" patternUnits="userSpaceOnUse">
           <path
             d="M4.5 0.8H13.5L17.5 7.8L13.5 14.8H4.5L0.5 7.8Z"
             fill="none"
@@ -100,7 +116,7 @@ export function RaxosMark() {
             strokeWidth="0.9"
           />
         </pattern>
-        <filter id="raxos-mark-burn" x="-12%" y="-70%" width="124%" height="240%">
+        <filter id={burnId} x="-12%" y="-70%" width="124%" height="240%">
           <feGaussianBlur stdDeviation="5.8" result="blur" />
           <feColorMatrix
             in="blur"
@@ -114,23 +130,23 @@ export function RaxosMark() {
         </filter>
       </defs>
 
-      <motion.g variants={intro} transition={transition} filter="url(#raxos-mark-burn)">
-        <g className="mark-depth" fill="url(#raxos-mark-side)" transform="translate(4 5)">
+      <motion.g variants={intro} transition={transition} filter={`url(#${burnId})`}>
+        <g className="mark-depth" fill={`url(#${sideId})`} transform="translate(4 5)">
           <path d="M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43Z" />
           <path d="M18 91H66L159 176H111Z" />
           <path d="M116 111H170L202 139V176Z" />
         </g>
-        <g className="mark-face" fill="url(#raxos-mark-face)">
+        <g className="mark-face" fill={`url(#${faceId})`}>
           <path d="M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43Z" />
           <path d="M18 91H66L159 176H111Z" />
           <path d="M116 111H170L202 139V176Z" />
         </g>
-        <g className="mark-facet" fill="url(#raxos-mark-highlight)" aria-hidden="true">
+        <g className="mark-facet" fill={`url(#${highlightId})`} aria-hidden="true">
           <path d="M18 18H163L180 33H35Z" />
           <path d="M180 33L202 53V82L180 72Z" />
           <path d="M18 91H66L82 106H34Z" />
         </g>
-        <g className="mark-texture" fill="url(#raxos-mark-hex)" aria-hidden="true">
+        <g className="mark-texture" fill={`url(#${hexId})`} aria-hidden="true">
           <path d="M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43Z" />
           <path d="M18 91H66L159 176H111Z" />
           <path d="M116 111H170L202 139V176Z" />
@@ -141,6 +157,12 @@ export function RaxosMark() {
 }
 
 export function RaxosLogo() {
+  const instanceId = useId().replace(/[^a-zA-Z0-9_-]/g, "");
+  const faceId = `raxos-logo-${instanceId}-face`;
+  const sideId = `raxos-logo-${instanceId}-side`;
+  const highlightId = `raxos-logo-${instanceId}-highlight`;
+  const hexId = `raxos-logo-${instanceId}-hex`;
+
   return (
     <motion.svg
       className="raxos-logo"
@@ -152,23 +174,23 @@ export function RaxosLogo() {
       aria-label="Raxos"
     >
       <defs>
-        <linearGradient id="raxos-face" x1="0" x2="0" y1="0" y2="1">
+        <linearGradient id={faceId} x1="0" x2="0" y1="0" y2="1">
           <stop offset="0%" stopColor="#ff3b30" />
           <stop offset="28%" stopColor="#ff171d" />
           <stop offset="72%" stopColor="#cf000b" />
           <stop offset="100%" stopColor="#8b0007" />
         </linearGradient>
-        <linearGradient id="raxos-side" x1="0" x2="1" y1="0" y2="1">
+        <linearGradient id={sideId} x1="0" x2="1" y1="0" y2="1">
           <stop offset="0%" stopColor="#3a0003" />
           <stop offset="54%" stopColor="#0f0001" />
           <stop offset="100%" stopColor="#070000" />
         </linearGradient>
-        <linearGradient id="raxos-highlight" x1="0" x2="1" y1="0" y2="0">
+        <linearGradient id={highlightId} x1="0" x2="1" y1="0" y2="0">
           <stop offset="0%" stopColor="rgba(255,210,180,0.28)" />
           <stop offset="36%" stopColor="rgba(255,42,30,0.12)" />
           <stop offset="100%" stopColor="rgba(255,145,110,0.18)" />
         </linearGradient>
-        <pattern id="raxos-word-hex" width="20" height="17.3" patternUnits="userSpaceOnUse">
+        <pattern id={hexId} width="20" height="17.3" patternUnits="userSpaceOnUse">
           <path
             d="M5 0.8H15L19.5 8.65L15 16.5H5L0.5 8.65Z"
             fill="none"
@@ -176,36 +198,16 @@ export function RaxosLogo() {
             strokeWidth="0.85"
           />
         </pattern>
-        <filter id="raxos-burn" x="-12%" y="-70%" width="124%" height="240%">
-          <feGaussianBlur stdDeviation="5.8" result="blur" />
-          <feColorMatrix
-            in="blur"
-            result="red"
-            values="1 0 0 0 0.85 0 0 0 0 0.01 0 0 0 0 0.01 0 0 0 0.86 0"
-          />
-          <feMerge>
-            <feMergeNode in="red" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-        <filter id="raxos-grain" x="-2%" y="-8%" width="104%" height="116%">
-          <feTurbulence baseFrequency="0.9" numOctaves="2" seed="14" type="fractalNoise" />
-          <feColorMatrix type="saturate" values="0" />
-          <feComponentTransfer>
-            <feFuncA type="table" tableValues="0 0.13" />
-          </feComponentTransfer>
-          <feBlend in="SourceGraphic" mode="multiply" />
-        </filter>
       </defs>
 
       <motion.g
         className="raxos-logo__word"
         transition={{ staggerChildren: 0.04 }}
       >
-        <Wordmark className="logo-depth" />
-        <Wordmark className="logo-face" />
-        <WordmarkFacets />
-        <Wordmark className="logo-texture" fill="url(#raxos-word-hex)" />
+        <Wordmark className="logo-depth" fill={`url(#${sideId})`} />
+        <Wordmark className="logo-face" fill={`url(#${faceId})`} />
+        <WordmarkFacets fill={`url(#${highlightId})`} />
+        <Wordmark className="logo-texture" fill={`url(#${hexId})`} aria-hidden="true" />
       </motion.g>
     </motion.svg>
   );

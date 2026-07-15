@@ -340,30 +340,6 @@ textarea {
   transform: rotateX(1deg) translateZ(0);
 }
 
-.raxos-mark .mark-depth {
-  fill: url("#raxos-mark-side");
-}
-
-.raxos-mark .mark-face {
-  fill: url("#raxos-mark-face");
-}
-
-.raxos-mark .mark-facet {
-  fill: url("#raxos-mark-highlight");
-}
-
-.raxos-logo .logo-depth {
-  fill: url("#raxos-side");
-}
-
-.raxos-logo .logo-face {
-  fill: url("#raxos-face");
-}
-
-.raxos-logo .logo-facet {
-  fill: url("#raxos-highlight");
-}
-
 .raxos-mark .mark-depth,
 .raxos-logo .logo-depth {
   opacity: 0.58;
