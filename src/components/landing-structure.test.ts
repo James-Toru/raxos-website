@@ -359,7 +359,13 @@ describe("Raxos command interface", () => {
       /@media \(min-width: 1101px\)[\s\S]*?\.wallpaper-layer\s*\{[^}]*background-position:\s*calc\(50% - 260px\) center/s,
     );
     expect(fidelity).toMatch(
-      /@media \(min-width: 1101px\)[\s\S]*?\.wallpaper-layer\s*\{[^}]*opacity:\s*0\.7/s,
+      /@media \(min-width: 1101px\)[\s\S]*?\.wallpaper-layer\s*\{[^}]*rgba\(1, 1, 2, 0\.94\)[^}]*rgba\(1, 1, 2, 0\.08\)[^}]*rgba\(1, 1, 2, 0\.9\)/s,
+    );
+    expect(fidelity).toMatch(
+      /@media \(min-width: 1101px\)[\s\S]*?\.wallpaper-layer\s*\{[^}]*filter:\s*saturate\(0\.95\) contrast\(1\.18\) brightness\(0\.92\)[^}]*opacity:\s*0\.9/s,
+    );
+    expect(fidelity).toMatch(
+      /@media \(min-width: 1101px\)[\s\S]*?\.wallpaper-layer::after\s*\{[^}]*transparent 45% 64%/s,
     );
     expect(css).toMatch(/@media \(max-width: 900px\)[\s\S]*?\.wallpaper-layer\s*\{/);
   });
