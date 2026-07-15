@@ -976,11 +976,6 @@ textarea {
     width: min(88vw, 500px);
   }
 
-  .raxos-mark .mark-texture,
-  .raxos-logo .logo-texture {
-    opacity: 0.1;
-  }
-
   .company-brief {
     width: min(100%, 500px);
   }

@@ -175,8 +175,11 @@ describe("Raxos command interface", () => {
   it("loads the reference-fidelity override layer after global styles", () => {
     const layout = source("src/app/layout.tsx");
     const fidelityPath = join(process.cwd(), "src/app/fidelity.css");
+    const globalsImport = layout.indexOf('import "./globals.css"');
+    const fidelityImport = layout.indexOf('import "./fidelity.css"');
 
-    expect(layout).toContain('import "./fidelity.css"');
+    expect(globalsImport).toBeGreaterThanOrEqual(0);
+    expect(fidelityImport).toBeGreaterThan(globalsImport);
     expect(existsSync(fidelityPath)).toBe(true);
   });
 
@@ -218,7 +221,10 @@ describe("Raxos command interface", () => {
     expect(global).toMatch(/\.raxos-logo\s*\{[^}]*drop-shadow\(0 5px 9px rgba\(75, 0, 5, 0\.24\)\)/s);
     expect(global).toMatch(/\.mark-texture,\s*\.raxos-logo \.logo-texture\s*\{[^}]*opacity:\s*0\.38/s);
     expect(fidelity).toMatch(/@media \(max-width: 1100px\)[\s\S]*?\.mark-texture,[\s\S]*?opacity:\s*0\.2/s);
-    expect(global).toMatch(/@media \(max-width: 900px\)[\s\S]*?\.mark-texture,[\s\S]*?opacity:\s*0\.1/s);
+    expect(fidelity).toMatch(
+      /@media \(max-width: 1100px\)[\s\S]*?\.mark-texture,[\s\S]*?opacity:\s*0\.2[\s\S]*?@media \(max-width: 900px\)[\s\S]*?\.mark-texture,[\s\S]*?opacity:\s*0\.1/s,
+    );
+    expect(global).not.toMatch(/@media \(max-width: 900px\)[\s\S]*?\.mark-texture,[\s\S]*?opacity:\s*0\.1/s);
   });
 
   it("keeps the sharp wordmark free of a bright outer glow fringe", () => {

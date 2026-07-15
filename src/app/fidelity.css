@@ -377,3 +377,10 @@
     bottom: 16px;
   }
 }
+
+@media (max-width: 900px) {
+  .raxos-mark .mark-texture,
+  .raxos-logo .logo-texture {
+    opacity: 0.1;
+  }
+}
