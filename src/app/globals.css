@@ -326,7 +326,7 @@ textarea {
   width: 43%;
   height: auto;
   overflow: visible;
-  filter: drop-shadow(0 0 10px rgba(255, 0, 9, 0.7));
+  filter: drop-shadow(0 0 7px rgba(255, 0, 9, 0.48));
 }
 
 .raxos-logo {
@@ -336,13 +336,12 @@ textarea {
   width: min(100%, 470px);
   height: auto;
   overflow: visible;
-  filter: drop-shadow(0 7px 12px rgba(75, 0, 5, 0.32));
+  filter: drop-shadow(0 5px 9px rgba(75, 0, 5, 0.24));
   transform: rotateX(1deg) translateZ(0);
 }
 
 .raxos-mark .mark-depth {
   fill: url("#raxos-mark-side");
-  opacity: 0.78;
 }
 
 .raxos-mark .mark-face {
@@ -351,12 +350,10 @@ textarea {
 
 .raxos-mark .mark-facet {
   fill: url("#raxos-mark-highlight");
-  opacity: 0.46;
 }
 
 .raxos-logo .logo-depth {
   fill: url("#raxos-side");
-  opacity: 0.78;
 }
 
 .raxos-logo .logo-face {
@@ -365,14 +362,22 @@ textarea {
 
 .raxos-logo .logo-facet {
   fill: url("#raxos-highlight");
-  opacity: 0.46;
 }
 
+.raxos-mark .mark-depth,
+.raxos-logo .logo-depth {
+  opacity: 0.58;
+}
+
+.raxos-mark .mark-facet,
+.raxos-logo .logo-facet {
+  opacity: 0.38;
+}
+
+.raxos-mark .mark-texture,
 .raxos-logo .logo-texture {
-  fill: rgba(7, 0, 0, 0.22);
-  filter: url("#raxos-grain");
   mix-blend-mode: multiply;
-  opacity: 0.28;
+  opacity: 0.38;
 }
 
 .desktop-copy-break {
@@ -969,6 +974,11 @@ textarea {
 
   .raxos-logo {
     width: min(88vw, 500px);
+  }
+
+  .raxos-mark .mark-texture,
+  .raxos-logo .logo-texture {
+    opacity: 0.1;
   }
 
   .company-brief {

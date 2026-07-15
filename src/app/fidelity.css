@@ -351,6 +351,11 @@
     width: min(88vw, 500px);
   }
 
+  .raxos-mark .mark-texture,
+  .raxos-logo .logo-texture {
+    opacity: 0.2;
+  }
+
   .positioning-line {
     margin-bottom: 22px;
   }

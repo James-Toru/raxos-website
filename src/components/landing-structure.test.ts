@@ -214,6 +214,11 @@ describe("Raxos command interface", () => {
     expect(fidelity).toContain("height: 62px");
     expect(fidelity).toContain("margin-bottom: 11px");
     expect(fidelity).toContain("translateX(9px)");
+    expect(global).toMatch(/\.raxos-mark\s*\{[^}]*drop-shadow\(0 0 7px rgba\(255, 0, 9, 0\.48\)\)/s);
+    expect(global).toMatch(/\.raxos-logo\s*\{[^}]*drop-shadow\(0 5px 9px rgba\(75, 0, 5, 0\.24\)\)/s);
+    expect(global).toMatch(/\.mark-texture,\s*\.raxos-logo \.logo-texture\s*\{[^}]*opacity:\s*0\.38/s);
+    expect(fidelity).toMatch(/@media \(max-width: 1100px\)[\s\S]*?\.mark-texture,[\s\S]*?opacity:\s*0\.2/s);
+    expect(global).toMatch(/@media \(max-width: 900px\)[\s\S]*?\.mark-texture,[\s\S]*?opacity:\s*0\.1/s);
   });
 
   it("keeps the sharp wordmark free of a bright outer glow fringe", () => {
