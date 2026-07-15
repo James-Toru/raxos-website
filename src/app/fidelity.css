@@ -8,8 +8,8 @@
   }
 
   .wallpaper-layer {
-    background-position: 62% center;
-    opacity: 0.56;
+    background-position: calc(50% - 260px) center;
+    opacity: 0.7;
   }
 
   .scanlines {
