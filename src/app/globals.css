@@ -62,6 +62,7 @@ textarea {
     linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, transparent 28%, rgba(0, 0, 0, 0.18) 62%, rgba(0, 0, 0, 0.78) 100%),
     url("/raxos-wallpaper.jpeg");
   background-position: 62% center;
+  background-repeat: no-repeat;
   background-size: cover;
   filter: saturate(0.82) contrast(1.08) brightness(0.78);
   opacity: 0.54;

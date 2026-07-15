@@ -352,6 +352,7 @@ describe("Raxos command interface", () => {
     expect(css).toMatch(/\.wallpaper-layer\s*\{[^}]*url\("\/raxos-wallpaper\.jpeg"\)/s);
     expect(css).toMatch(/\.wallpaper-layer\s*\{[^}]*pointer-events:\s*none/s);
     expect(css).toMatch(/\.wallpaper-layer\s*\{[^}]*z-index:\s*0/s);
+    expect(css).toMatch(/\.wallpaper-layer\s*\{[^}]*background-repeat:\s*no-repeat/s);
     expect(css).toContain(".wallpaper-layer::after");
     expect(fidelity).toMatch(/@media \(min-width: 1101px\)[\s\S]*?\.wallpaper-layer\s*\{/);
     expect(css).toMatch(/@media \(max-width: 900px\)[\s\S]*?\.wallpaper-layer\s*\{/);
