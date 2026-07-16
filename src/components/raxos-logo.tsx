@@ -13,6 +13,8 @@ const transition = {
   ease: [0.22, 1, 0.36, 1] as const,
 };
 
+const emblemPath = "M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43Z M18 91H60L132 176H90Z M88 91H130L202 176H160Z";
+
 function Wordmark({
   className = "",
   fill,
@@ -130,24 +132,18 @@ export function RaxosMark() {
 
       <motion.g variants={intro} transition={transition} filter={`url(#${burnId})`}>
         <g className="mark-depth" fill={`url(#${sideId})`} transform="translate(4 5)">
-          <path d="M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43Z" />
-          <path d="M18 91H66L159 176H111Z" />
-          <path d="M116 111H170L202 139V176Z" />
+          <path d={emblemPath} />
         </g>
         <g className="mark-face" fill={`url(#${faceId})`}>
-          <path d="M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43Z" />
-          <path d="M18 91H66L159 176H111Z" />
-          <path d="M116 111H170L202 139V176Z" />
+          <path d={emblemPath} />
         </g>
         <g className="mark-facet" fill={`url(#${highlightId})`} aria-hidden="true">
           <path d="M18 18H163L180 33H35Z" />
           <path d="M180 33L202 53V82L180 72Z" />
-          <path d="M18 91H66L82 106H34Z" />
+          <path d="M18 91H60L73 106H31Z" />
         </g>
         <g className="mark-texture" fill={`url(#${hexId})`} aria-hidden="true">
-          <path d="M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43Z" />
-          <path d="M18 91H66L159 176H111Z" />
-          <path d="M116 111H170L202 139V176Z" />
+          <path d={emblemPath} />
         </g>
       </motion.g>
     </motion.svg>

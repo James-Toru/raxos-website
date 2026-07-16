@@ -8,12 +8,10 @@ import { RaxosLogo, RaxosMark } from "./raxos-logo";
 const source = readFileSync(join(process.cwd(), "src/components/raxos-logo.tsx"), "utf8");
 
 const emblemPaths = [
-  "M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43Z",
-  "M18 91H66L159 176H111Z",
-  "M116 111H170L202 139V176Z",
+  "M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43Z M18 91H60L132 176H90Z M88 91H130L202 176H160Z",
   "M18 18H163L180 33H35Z",
   "M180 33L202 53V82L180 72Z",
-  "M18 91H66L82 106H34Z",
+  "M18 91H60L73 106H31Z",
 ];
 
 const letterPaths = [
@@ -81,7 +79,10 @@ describe("RaxosLogo", () => {
     expect(source).toContain('className="mark-facet"');
     expect(source).toContain('className="mark-texture"');
     expect(source).toContain('aria-hidden="true"');
-    for (const path of emblemPaths) expect(source).toContain(`d="${path}"`);
+    expect(source).toContain(`const emblemPath = "${emblemPaths[0]}"`);
+    for (const path of emblemPaths.slice(1)) expect(source).toContain(`d="${path}"`);
+    expect(source.match(/<path d=\{emblemPath\} \/>/g)).toHaveLength(3);
+    expect(source).not.toContain('d="M116 111H170L202 139V176H154Z"');
     expect(source).not.toContain("204 220V181");
   });
 
