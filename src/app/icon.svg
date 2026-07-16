@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Raxos">
+  <defs>
+    <linearGradient id="background" x1="20" y1="8" x2="202" y2="214" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0b0d10"/>
+      <stop offset="1" stop-color="#020304"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="110" y1="30" x2="110" y2="189" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff3b30"/>
+      <stop offset="0.32" stop-color="#ff171d"/>
+      <stop offset="0.74" stop-color="#d6000d"/>
+      <stop offset="1" stop-color="#8b0007"/>
+    </linearGradient>
+    <filter id="glow" x="-28%" y="-28%" width="156%" height="156%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-color="#ff0715" flood-opacity="0.65" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="halo"/>
+      <feMerge>
+        <feMergeNode in="halo"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="220" height="220" rx="36" fill="url(#background)"/>
+  <path d="M15 52V32L32 15H52M168 15H188L205 32V52M205 168V188L188 205H168M52 205H32L15 188V168" fill="none" stroke="#7a0810" stroke-width="4"/>
+  <path d="M20 110H8M212 110H200M110 8V20M110 200V212" stroke="#ff1722" stroke-width="3"/>
+
+  <g transform="translate(0 13)" filter="url(#glow)">
+    <path fill="url(#mark)" d="M18 18H163L202 53V82L170 111H117L93 89H160L180 72V62L158 42H43ZM18 91H60L132 176H90ZM88 91H130L202 176H160Z"/>
+    <path fill="#ffb2a7" fill-opacity="0.2" d="M18 18H163L180 33H35ZM180 33L202 53V82L180 72ZM18 91H60L73 106H31Z"/>
+  </g>
+</svg>
