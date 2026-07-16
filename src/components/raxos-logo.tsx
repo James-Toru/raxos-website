@@ -29,10 +29,8 @@ function Wordmark({
       </motion.g>
 
       <motion.g data-letter="A" variants={intro} transition={{ ...transition, delay: 0.09 }}>
-        <path
-          d="M210 130L274 20H324L395 130H349L334 104H267L252 130ZM286 55L272 82H319L304 55Z"
-          fillRule="evenodd"
-        />
+        <path d="M213 130L279 20H327L397 130H352L301 51L255 130Z" />
+        <path d="M298 82H324L337 104H284Z" />
       </motion.g>
 
       <motion.g data-letter="X" variants={intro} transition={{ ...transition, delay: 0.16 }}>
@@ -41,13 +39,13 @@ function Wordmark({
 
       <motion.g data-letter="O" variants={intro} transition={{ ...transition, delay: 0.23 }}>
         <path
-          d="M648 20H791L824 49V101L791 130H648L616 101V49ZM679 47L658 64V86L679 103H760L781 86V64L760 47Z"
+          d="M678 20H790L818 48V102L790 130H678L650 102V48ZM696 47L678 63V87L696 103H772L790 87V63L772 47Z"
           fillRule="evenodd"
         />
       </motion.g>
 
       <motion.g data-letter="S" variants={intro} transition={{ ...transition, delay: 0.3 }}>
-        <path d="M852 20H1024V47H897L883 59H990L1024 83V106L997 130H826V103H955L968 92H858L826 68V45Z" />
+        <path d="M856 20H1001L1024 43H895L881 55V63H990L1024 83V106L999 130H861L838 107H958L971 95H866L838 70V43Z" />
       </motion.g>
     </g>
   );
@@ -60,17 +58,17 @@ function WordmarkFacets({ fill }: { fill: string }) {
         <path d="M12 20H150L166 33H28Z" />
       </g>
       <g data-letter="A">
-        <path d="M274 20H324L333 34H266Z" />
+        <path d="M279 20H327L336 34H270Z" />
       </g>
       <g data-letter="X">
         <path d="M415 20H466L478 29H427Z" />
         <path d="M570 20H621L609 29H558Z" />
       </g>
       <g data-letter="O">
-        <path d="M648 20H791L807 34H632Z" />
+        <path d="M678 20H790L804 34H664Z" />
       </g>
       <g data-letter="S">
-        <path d="M852 20H1024V34H839Z" />
+        <path d="M856 20H1001L1015 34H846Z" />
       </g>
     </g>
   );
