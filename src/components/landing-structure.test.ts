@@ -22,7 +22,11 @@ describe("Raxos scrollable command poster", () => {
     const css = source("src/app/globals.css");
 
     expect(existsSync(join(process.cwd(), "public/raxos-tower.png"))).toBe(true);
-    expect(css).toMatch(/\.tower-art\s*\{[^}]*url\("\/raxos-tower\.png"\)/s);
+    expect(existsSync(join(process.cwd(), "public/raxos-tower.avif"))).toBe(true);
+    expect(existsSync(join(process.cwd(), "public/raxos-tower.webp"))).toBe(true);
+    expect(css).toMatch(/\.tower-art\s*\{[^}]*url\("\/raxos-tower\.avif"\)/s);
+    expect(css).toContain('url("/raxos-tower.webp") type("image/webp")');
+    expect(css).toContain('url("/raxos-tower.png") type("image/png")');
     expect(css).toContain("background-position: 74% 24px");
     expect(css).toContain("background-size: min(72%, 760px) auto");
   });
@@ -185,9 +189,13 @@ describe("Raxos scrollable command poster", () => {
     const boot = source("src/components/site-boot-sequence.tsx");
     const css = source("src/app/globals.css");
 
-    expect(layout).toContain('rel="preload" href="/raxos-tower.png"');
+    expect(layout).toContain('href="/raxos-tower.avif"');
+    expect(layout).toContain('type="image/avif"');
     expect(shell).toContain("<SiteBootSequence />");
-    expect(boot).toContain('image.src = "/raxos-tower.png"');
+    expect(boot).toContain('"/raxos-tower.avif"');
+    expect(boot).toContain('"/raxos-tower.webp"');
+    expect(boot).toContain('"/raxos-tower.png"');
+    expect(boot).toContain("image.onerror");
     expect(boot).toContain("image.decode()");
     expect(boot).toContain("document.fonts?.ready");
     expect(boot).toContain('role="progressbar"');

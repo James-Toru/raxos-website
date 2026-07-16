@@ -16,7 +16,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="preload" href="/raxos-tower.png" as="image" fetchPriority="high" />
+        <link
+          rel="preload"
+          href="/raxos-tower.avif"
+          as="image"
+          type="image/avif"
+          fetchPriority="high"
+        />
       </head>
       <body>{children}</body>
     </html>

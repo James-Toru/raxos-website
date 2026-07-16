@@ -474,7 +474,12 @@ button, input, textarea { font: inherit; }
 .tower-art {
   position: absolute;
   inset: 0;
-  background-image: url("/raxos-tower.png");
+  background-image: url("/raxos-tower.webp");
+  background-image: image-set(
+    url("/raxos-tower.avif") type("image/avif"),
+    url("/raxos-tower.webp") type("image/webp"),
+    url("/raxos-tower.png") type("image/png")
+  );
   background-repeat: no-repeat;
   background-position: 74% 24px;
   background-size: min(72%, 760px) auto;

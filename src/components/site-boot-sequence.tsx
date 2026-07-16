@@ -21,6 +21,13 @@ export function SiteBootSequence() {
 
     const image = new Image();
     const imageReady = new Promise<void>((resolve) => {
+      const towerSources = [
+        "/raxos-tower.avif",
+        "/raxos-tower.webp",
+        "/raxos-tower.png",
+      ];
+      let sourceIndex = 0;
+
       function decoded() {
         if (typeof image.decode === "function") {
           image.decode().catch(() => undefined).finally(resolve);
@@ -30,9 +37,16 @@ export function SiteBootSequence() {
       }
 
       image.onload = decoded;
-      image.onerror = () => resolve();
-      image.src = "/raxos-tower.png";
-      if (image.complete) decoded();
+      image.onerror = () => {
+        sourceIndex += 1;
+        if (sourceIndex < towerSources.length) {
+          image.src = towerSources[sourceIndex];
+        } else {
+          resolve();
+        }
+      };
+      image.src = towerSources[sourceIndex];
+      if (image.complete && image.naturalWidth > 0) decoded();
     });
 
     const minimumDisplay = new Promise<void>((resolve) => {
