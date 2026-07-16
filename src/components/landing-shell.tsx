@@ -13,13 +13,15 @@ export function LandingShell() {
       <main className="command-interface">
         <CustomCursor />
         <InterfaceChrome>
-          <div className="wallpaper-layer" aria-hidden="true" />
           <InteractiveBackground />
           <div className="scanlines" aria-hidden="true" />
-          <section className="command-grid" aria-label="Raxos company introduction">
+          <div className="poster-layout">
             <BrandStage />
-            <EnquiryForm />
-          </section>
+            <section className="contact-deck" aria-label="Contact Raxos">
+              <span className="deck-frame" aria-hidden="true" />
+              <EnquiryForm />
+            </section>
+          </div>
         </InterfaceChrome>
       </main>
     </MotionConfig>

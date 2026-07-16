@@ -1,40 +1,52 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { RaxosLogo, RaxosMark } from "@/components/raxos-logo";
 
 export function BrandStage() {
+  const stageRef = useRef<HTMLElement | null>(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: stageRef,
+    offset: ["start start", "end start"],
+  });
+  const towerDrift = useTransform(scrollYProgress, [0, 1], [0, 92]);
+  const lockupDrift = useTransform(scrollYProgress, [0, 1], [0, -72]);
+
   return (
-    <motion.section className="brand-stage" aria-labelledby="raxos-positioning">
-      <div className="radar-stage">
-        <div className="radar-rings" aria-hidden="true" />
-        <RaxosMark />
-      </div>
-      <RaxosLogo />
-      <p id="raxos-positioning" className="positioning-line">
-        STRUCTURE. CONTEXT. EXECUTION.
-      </p>
-      <article className="company-brief">
-        <span className="polygon-fill brief-fill" aria-hidden="true" />
-        <div className="brief-circuit" aria-hidden="true" />
-        <div>
-          <h1>
-            <span>WE TURN COMPANY SIGNALS</span>
-            <br />
-            INTO REVIEWED, APPROVED,
-            <br />
-            ACTIONABLE WORK.
-          </h1>
-          <p>
-            Raxos is a company OS. A project-centered
-            <br className="desktop-copy-break" /> operating layer for teams who demand
-            <br className="desktop-copy-break" /> clarity, speed, and control.
-          </p>
-          <p className="operator-note">
-            BUILT FOR OPERATORS <span aria-hidden="true">→</span>
-          </p>
+    <motion.section ref={stageRef} className="brand-stage" aria-labelledby="raxos-positioning">
+      <motion.div
+        className="tower-art"
+        aria-hidden="true"
+        style={{ y: reduceMotion ? 0 : towerDrift }}
+      />
+      <div className="hero-vignette" aria-hidden="true" />
+      <motion.div
+        className="brand-lockup"
+        style={{ y: reduceMotion ? 0 : lockupDrift }}
+      >
+        <div className="radar-stage">
+          <div className="radar-rings" aria-hidden="true" />
+          <RaxosMark />
         </div>
-      </article>
+        <RaxosLogo />
+        <p className="brand-japanese"><span>ラクソス・コーポレーション</span></p>
+        <p id="raxos-positioning" className="positioning-line">
+          STRUCTURE.<br />CONTEXT.<br />EXECUTION.
+        </p>
+        <h1
+          className="hero-statement glitch-statement"
+          data-text="RAXOS BUILDS SYSTEMS TO OPERATE COMPANIES AS AUTONOMOUSLY AS POSSIBLE."
+        >
+          RAXOS BUILDS SYSTEMS TO<br />
+          OPERATE COMPANIES AS<br />
+          AUTONOMOUSLY AS POSSIBLE.
+        </h1>
+      </motion.div>
+      <div className="scroll-readout" aria-hidden="true">
+        <span>SCROLL TO EXPLORE</span><i />
+      </div>
     </motion.section>
   );
 }

@@ -1,4 +1,6 @@
 import type { PropsWithChildren } from "react";
+import { LockKeyhole } from "lucide-react";
+import { RaxosMark } from "@/components/raxos-logo";
 
 export function InterfaceChrome({ children }: PropsWithChildren) {
   return (
@@ -6,29 +8,32 @@ export function InterfaceChrome({ children }: PropsWithChildren) {
       <span className="polygon-fill frame-fill" aria-hidden="true" />
       <header className="interface-header" aria-hidden="true">
         <div className="system-identity">
+          <span className="header-emblem"><RaxosMark /></span>
           <div className="identity-copy">
-            <span>RAXOS CORP.</span>
-            <span>SYSTEM INTERFACE v2.4.7</span>
+            <span>RAXOS CORP // SYSTEMS <b>ONLINE</b></span>
           </div>
         </div>
         <div className="system-status">
-          <span>SYSTEM STATUS</span>
-          <span>ONLINE</span>
+          <span>SECURE CHANNEL</span>
+          <LockKeyhole size={11} />
         </div>
       </header>
 
-      <aside className="interface-telemetry" aria-hidden="true">
-        <span>STRUCTURE</span>
-        <span>CONTEXT</span>
-        <span>EXECUTION</span>
+      <aside className="cyber-glyph-rail" aria-hidden="true">
+        <span>◈</span>
+        <span>⌁</span>
+        <span>╳</span>
+        <span>▱</span>
+        <i>SYS//09</i>
+        <span>⟟</span>
       </aside>
 
       {children}
 
       <footer className="interface-footer" aria-hidden="true">
-        <span className="interface-copyright">RAXOS CORP. ALL RIGHTS RESERVED.<br />MMXXIV</span>
-        <span className="interface-secure">SECURE CHANNEL ESTABLISHED</span>
-        <span>RX-OS-7F3C2A</span>
+        <span className="footer-brand"><RaxosMark /> <span>RAXOS CORP<br />MMXXIV</span></span>
+        <span className="interface-secure"><i /> SYSTEM STATUS<br /><b>ONLINE</b></span>
+        <span className="coordinates">▥▥▥▥ 35.6895° N, 139.6917° E</span>
       </footer>
     </div>
   );

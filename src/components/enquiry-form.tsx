@@ -2,14 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  Building2,
-  LockKeyhole,
-  Mail,
-  MessageSquare,
-  UserRound,
-} from "lucide-react";
+import { ArrowRight, LockKeyhole } from "lucide-react";
 import { validateEnquiryFields } from "@/lib/enquiry";
 
 type FormState = {
@@ -95,22 +88,29 @@ export function EnquiryForm() {
       onSubmit={handleSubmit}
       noValidate
       aria-labelledby="enquiry-form-title"
-      animate={{ opacity: 1, y: 0, rotateX: 0 }}
-      transition={{ delay: 0.2, duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
+      initial={{ opacity: 0.25, y: 42, rotateX: 2 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      viewport={{ once: true, amount: 0.18 }}
+      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -4 }}
     >
       <span className="polygon-fill panel-fill" aria-hidden="true" />
       <div className="panel-glow" aria-hidden="true" />
-      <p className="form-eyebrow">{"// INITIATE CONTACT"}</p>
-      <h2 id="enquiry-form-title">
-        INTERESTED IN
-        <br />
-        <span>RAXOS?</span>
-      </h2>
-      <p className="form-intro">
-        Leave your details and our team will reach out to you.
-      </p>
-      <div className="title-mark" aria-hidden="true" />
+      <div className="contact-copy">
+        <p className="form-eyebrow">{"// INITIATE CONTACT"}</p>
+        <h2 id="enquiry-form-title">
+          INTERESTED<br />
+          IN <span>RAXOS?</span>
+        </h2>
+        <p className="form-intro">
+          LEAVE YOUR DETAILS AND OUR TEAM<br />WILL REACH OUT TO YOU.
+        </p>
+        <article className="global-card">
+          <div className="world-grid" aria-hidden="true"><i /></div>
+          <p><strong>GLOBAL BY DESIGN.</strong><br />BUILT FOR TEAMS.<br />ENGINEERED FOR IMPACT.</p>
+          <small>▥▥▥▥▥ RAXOS CORP // 001</small>
+        </article>
+      </div>
       <label className="honeypot" aria-hidden="true">
         <span>Website</span>
         <input
@@ -121,86 +121,85 @@ export function EnquiryForm() {
         />
       </label>
 
-      <label>
-        <span>NAME</span>
-        <div className="input-wrap">
-          <input
-            name="name"
-            required
-            autoComplete="name"
-            placeholder="Your Name"
-            value={form.name}
-            onChange={(event) => updateField("name", event.target.value)}
-          />
-          <UserRound aria-hidden="true" size={19} />
-        </div>
-      </label>
+      <div className="form-fields">
+        <span className="form-frame" aria-hidden="true" />
+        <label>
+          <span>{"// NAME"}</span>
+          <div className="input-wrap">
+            <input
+              name="name"
+              required
+              autoComplete="name"
+              placeholder="Your Name"
+              value={form.name}
+              onChange={(event) => updateField("name", event.target.value)}
+            />
+          </div>
+        </label>
 
-      <label>
-        <span>EMAIL</span>
-        <div className="input-wrap">
-          <input
-            name="email"
-            required
-            type="email"
-            autoComplete="email"
-            placeholder="you@company.com"
-            value={form.email}
-            onChange={(event) => updateField("email", event.target.value)}
-          />
-          <Mail aria-hidden="true" size={19} />
-        </div>
-      </label>
+        <label>
+          <span>{"// EMAIL"}</span>
+          <div className="input-wrap">
+            <input
+              name="email"
+              required
+              type="email"
+              autoComplete="email"
+              placeholder="you@company.com"
+              value={form.email}
+              onChange={(event) => updateField("email", event.target.value)}
+            />
+          </div>
+        </label>
 
-      <label>
-        <span>COMPANY</span>
-        <div className="input-wrap">
-          <input
-            name="company"
-            autoComplete="organization"
-            placeholder="Your Company"
-            value={form.company}
-            onChange={(event) => updateField("company", event.target.value)}
-          />
-          <Building2 aria-hidden="true" size={19} />
-        </div>
-      </label>
+        <label>
+          <span>{"// COMPANY"}</span>
+          <div className="input-wrap">
+            <input
+              name="company"
+              autoComplete="organization"
+              placeholder="Your Company"
+              value={form.company}
+              onChange={(event) => updateField("company", event.target.value)}
+            />
+          </div>
+        </label>
 
-      <label>
-        <span>MESSAGE</span>
-        <div className="input-wrap textarea-wrap">
-          <textarea
-            name="message"
-            required
-            rows={4}
-            placeholder="Tell us about your needs..."
-            value={form.message}
-            onChange={(event) => updateField("message", event.target.value)}
-          />
-          <MessageSquare aria-hidden="true" size={19} />
-        </div>
-      </label>
+        <label>
+          <span>{"// MESSAGE"}</span>
+          <div className="input-wrap textarea-wrap">
+            <textarea
+              name="message"
+              required
+              rows={4}
+              placeholder="Tell us about your needs..."
+              value={form.message}
+              onChange={(event) => updateField("message", event.target.value)}
+            />
+          </div>
+        </label>
 
-      <motion.button
-        type="submit"
-        disabled={status === "sending"}
-        whileHover={{ scale: 1.015 }}
-        whileTap={{ scale: 0.985 }}
-      >
-        <span className="polygon-fill button-fill" aria-hidden="true" />
-        <span>{status === "sending" ? "SENDING MESSAGE" : "SEND MESSAGE"}</span>
-        <ArrowRight aria-hidden="true" size={18} />
-      </motion.button>
+        <motion.button
+          type="submit"
+          disabled={status === "sending"}
+          whileHover={{ scale: 1.015 }}
+          whileTap={{ scale: 0.985 }}
+        >
+          <span className="polygon-fill button-fill" aria-hidden="true" />
+          <span>{status === "sending" ? "SENDING MESSAGE" : "SEND MESSAGE"}</span>
+          <ArrowRight aria-hidden="true" size={18} />
+        </motion.button>
 
-      <p className="security-note">
-        <LockKeyhole aria-hidden="true" size={14} /> ALL COMMUNICATIONS ARE ENCRYPTED
-      </p>
-
-      {status !== "idle" ? (
-        <p className={`form-note form-note-${status}`} role="status">
-          {statusMessage}
+        <p className="security-note">
+          <LockKeyhole aria-hidden="true" size={14} /> ALL COMMUNICATIONS ARE ENCRYPTED
         </p>
-      ) : null}
+
+        {status !== "idle" ? (
+          <p className={`form-note form-note-${status}`} role="status">
+            {statusMessage}
+          </p>
+        ) : null}
+      </div>
     </motion.form>
   );
 }

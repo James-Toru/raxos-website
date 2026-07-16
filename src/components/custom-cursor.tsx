@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement | null>(null);
+  const readoutRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!window.matchMedia("(pointer: fine)").matches) {
@@ -26,13 +27,21 @@ export function CustomCursor() {
     function render() {
       currentX += (targetX - currentX) * 0.22;
       currentY += (targetY - currentY) * 0.22;
-      activeCursor.style.transform = `translate3d(${currentX - 18}px, ${currentY - 18}px, 0)`;
+      activeCursor.style.transform = `translate3d(${currentX - 22}px, ${currentY - 22}px, 0)`;
       animationId = window.requestAnimationFrame(render);
     }
 
     function handleMove(event: PointerEvent) {
       targetX = event.clientX;
       targetY = event.clientY;
+      const target = event.target instanceof Element
+        ? event.target.closest("a, button, input, textarea, label")
+        : null;
+      activeCursor.dataset.target = target ? "true" : "false";
+
+      if (readoutRef.current) {
+        readoutRef.current.textContent = `${String(event.clientX).padStart(4, "0")}:${String(event.clientY).padStart(4, "0")}`;
+      }
 
       if (!active) {
         active = true;
@@ -75,8 +84,12 @@ export function CustomCursor() {
       aria-hidden="true"
       data-active="false"
       data-pressed="false"
+      data-target="false"
     >
-      <span />
+      <span className="cursor-core" />
+      <i className="cursor-orbit" />
+      <b className="cursor-brackets" />
+      <em ref={readoutRef} className="cursor-readout">SYS//TRK</em>
     </div>
   );
 }
