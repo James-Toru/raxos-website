@@ -21,7 +21,7 @@ const initialState: FormState = {
   website: "",
 };
 
-export function EnquiryForm() {
+export function EnquiryForm({ variant = "embedded" }: { variant?: "embedded" | "modal" }) {
   const [form, setForm] = useState<FormState>(initialState);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
@@ -84,10 +84,10 @@ export function EnquiryForm() {
 
   return (
     <motion.form
-      className="enquiry-panel"
+      className={`enquiry-panel enquiry-panel-${variant}`}
       onSubmit={handleSubmit}
       noValidate
-      aria-labelledby="enquiry-form-title"
+      aria-labelledby={variant === "modal" ? "enquiry-modal-form-title" : "enquiry-form-title"}
       initial={{ opacity: 0.25, y: 42, rotateX: 2 }}
       whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
       viewport={{ once: true, amount: 0.18 }}
@@ -98,7 +98,7 @@ export function EnquiryForm() {
       <div className="panel-glow" aria-hidden="true" />
       <div className="contact-copy">
         <p className="form-eyebrow">{"// INITIATE CONTACT"}</p>
-        <h2 id="enquiry-form-title">
+        <h2 id={variant === "modal" ? "enquiry-modal-form-title" : "enquiry-form-title"}>
           INTERESTED<br />
           IN <span>RAXOS?</span>
         </h2>

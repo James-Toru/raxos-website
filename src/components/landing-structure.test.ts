@@ -71,7 +71,8 @@ describe("Raxos scrollable command poster", () => {
     const fetchCall = form.indexOf('fetch("/api/enquiry"');
 
     expect(form).toContain("noValidate");
-    expect(form).toContain('aria-labelledby="enquiry-form-title"');
+    expect(form).toContain('"enquiry-form-title"');
+    expect(form).toContain('"enquiry-modal-form-title"');
     expect(form).toContain("invalidField.focus()");
     expect(validationCall).toBeGreaterThan(-1);
     expect(fetchCall).toBeGreaterThan(validationCall);
@@ -143,5 +144,85 @@ describe("Raxos scrollable command poster", () => {
     expect(cursor).toContain("cursor-readout");
     expect(cursor).toContain('data-target="false"');
     expect(css).toContain("@keyframes cursor-orbit");
+  });
+
+  it("adds an isolated cinematic contact sequence", () => {
+    const shell = source("src/components/landing-shell.tsx");
+    const cinematic = source("src/components/cinematic-contact.tsx");
+    const css = source("src/app/globals.css");
+
+    expect(shell).toContain("<CinematicContact />");
+    expect(cinematic).toContain('"entering"');
+    expect(cinematic).toContain('"aiming"');
+    expect(cinematic).toContain('"firing"');
+    expect(cinematic).toContain('"cracked"');
+    expect(cinematic).toContain('"blackout"');
+    expect(cinematic).toContain('"matrix"');
+    expect(cinematic).toContain('"modal"');
+    expect(cinematic).toContain('<EnquiryForm variant="modal" />');
+    expect(cinematic).toContain("<PlaceholderOperative phase={phase} />");
+    expect(cinematic).toContain('<CrackImage visible={showCracks} target={target} />');
+    expect(cinematic).toContain('className="cinematic-crack-image"');
+    expect(cinematic).toContain("<GlassMorphImpact visible={showCracks} target={target} />");
+    expect(cinematic).toContain("<RedCodeRain");
+    expect(cinematic).toContain("codeRainGlyphs");
+    expect(cinematic).toContain('matrix: [5000, "modal"]');
+    expect(cinematic).toContain('phase === "cracked" || phase === "blackout"');
+    expect(cinematic).toContain("SYSTEM RECONSTRUCTION // RAXOS");
+    expect(cinematic).toContain("OCULAR LOCK // YOU");
+    expect(cinematic).toContain("trackViewer");
+    expect(css).toContain(".cinematic-blackout");
+    expect(css).toContain(".red-code-rain");
+    expect(css).toContain("height: 100dvh");
+    expect(css).toContain("overscroll-behavior: contain");
+    expect(css).toContain("--trigger-shape: polygon(");
+    expect(css).toContain(".cinematic-trigger::after");
+  });
+
+  it("preloads the tower behind a functional cyberpunk boot sequence", () => {
+    const layout = source("src/app/layout.tsx");
+    const shell = source("src/components/landing-shell.tsx");
+    const boot = source("src/components/site-boot-sequence.tsx");
+    const css = source("src/app/globals.css");
+
+    expect(layout).toContain('rel="preload" href="/raxos-tower.png"');
+    expect(shell).toContain("<SiteBootSequence />");
+    expect(boot).toContain('image.src = "/raxos-tower.png"');
+    expect(boot).toContain("image.decode()");
+    expect(boot).toContain("document.fonts?.ready");
+    expect(boot).toContain('role="progressbar"');
+    expect(css).toContain(".site-boot");
+    expect(css).toContain("@keyframes site-boot-scan");
+  });
+
+  it("uses the supplied 3D operative, animation clips, and optimized rifle", () => {
+    const cinematic = source("src/components/cinematic-contact.tsx");
+    const operative = source("src/components/three-operative.tsx");
+
+    expect(cinematic).toContain("<ThreeOperative phase={phase}");
+    expect(cinematic).toContain("preloadOperativeAssets");
+    expect(operative).toContain('new FBXLoader().loadAsync("/models/operative/firing-rifle.fbx")');
+    expect(operative).toContain('fetch("/models/operative/run.json")');
+    expect(operative).not.toContain('fetch("/models/operative/stop.json")');
+    expect(operative).toContain('loadAsync("/models/operative/laser-rifle-optimized.glb")');
+    expect(operative).toContain("new AnimationMixer(character)");
+    expect(operative).toContain('getObjectByName("mixamorigRightHand")');
+    expect(operative).toContain("setMeshoptDecoder(MeshoptDecoder)");
+  });
+
+  it("keeps the cinematic contact flow accessible and skippable", () => {
+    const cinematic = source("src/components/cinematic-contact.tsx");
+    const css = source("src/app/globals.css");
+
+    expect(cinematic).toContain('aria-haspopup="dialog"');
+    expect(cinematic).toContain('aria-modal="true"');
+    expect(cinematic).toContain("SKIP SEQUENCE");
+    expect(cinematic).toContain('event.key === "Escape"');
+    expect(cinematic).toContain("useReducedMotion");
+    expect(css).toContain('.cinematic-operative, .targeting-reticle { display: none; }');
+    expect(css).toContain("--cinematic-modal-shape: polygon(");
+    expect(css).toContain("--modal-corner-tr: 24px");
+    expect(css).toContain("var(--modal-corner-tr) var(--modal-corner-tr)");
+    expect(css).toContain("backdrop-filter: blur(2.1px)");
   });
 });

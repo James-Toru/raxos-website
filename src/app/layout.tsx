@@ -15,6 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preload" href="/raxos-tower.png" as="image" fetchPriority="high" />
+      </head>
       <body>{children}</body>
     </html>
   );
