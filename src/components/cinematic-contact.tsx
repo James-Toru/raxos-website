@@ -5,6 +5,10 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Crosshair, FastForward, Radio, X } from "lucide-react";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { preloadOperativeAssets, ThreeOperative } from "@/components/three-operative";
+import {
+  getOperativeEntryDuration,
+  OPERATIVE_ENTRY_MIN_SECONDS,
+} from "@/lib/cinematic-motion";
 
 type CinematicPhase = "idle" | "entering" | "aiming" | "firing" | "cracked" | "blackout" | "matrix" | "modal";
 type CharacterPhase = Extract<CinematicPhase, "entering" | "aiming" | "firing" | "cracked">;
@@ -21,7 +25,15 @@ const phaseCopy: Record<CinematicPhase, string> = {
   modal: "CONTACT CHANNEL OPEN",
 };
 
-function PlaceholderOperative({ phase }: { phase: CharacterPhase }) {
+function PlaceholderOperative({
+  entryDuration,
+  onArrival,
+  phase,
+}: {
+  entryDuration: number;
+  onArrival: () => void;
+  phase: CharacterPhase;
+}) {
   const [modelReady, setModelReady] = useState(false);
 
   return (
@@ -36,9 +48,12 @@ function PlaceholderOperative({ phase }: { phase: CharacterPhase }) {
       }}
       exit={{ x: "35%", opacity: 0, filter: "blur(10px)" }}
       transition={{
-        x: { duration: phase === "entering" ? 2.35 : 0.45, ease: [0.25, 0.46, 0.45, 0.94] },
+        x: { duration: phase === "entering" ? entryDuration : 0.45, ease: "linear" },
         opacity: { duration: 0.32 },
         filter: { duration: 0.32 },
+      }}
+      onAnimationComplete={() => {
+        if (phase === "entering") onArrival();
       }}
       aria-hidden="true"
     >
@@ -331,6 +346,7 @@ function RedCodeRain({ active, dimmed }: { active: boolean; dimmed: boolean }) {
 export function CinematicContact() {
   const [phase, setPhase] = useState<CinematicPhase>("idle");
   const [target, setTarget] = useState<ImpactTarget>({ x: .5, y: .42 });
+  const [entryDuration, setEntryDuration] = useState(OPERATIVE_ENTRY_MIN_SECONDS);
   const reduceMotion = useReducedMotion();
   const launcherRef = useRef<HTMLButtonElement | null>(null);
   const modalRef = useRef<HTMLElement | null>(null);
@@ -350,7 +366,6 @@ export function CinematicContact() {
 
   useEffect(() => {
     const delays: Partial<Record<CinematicPhase, [number, CinematicPhase]>> = {
-      entering: [2500, "aiming"],
       aiming: [1100, "firing"],
       firing: [180, "cracked"],
       cracked: [850, "blackout"],
@@ -410,7 +425,12 @@ export function CinematicContact() {
 
   function startSequence() {
     setTarget({ x: .5, y: .42 });
+    setEntryDuration(getOperativeEntryDuration(window.innerWidth));
     setPhase(reduceMotion ? "modal" : "entering");
+  }
+
+  function completeEntry() {
+    setPhase((current) => current === "entering" ? "aiming" : current);
   }
 
   function closeSequence() {
@@ -490,7 +510,13 @@ export function CinematicContact() {
 
             <AnimatePresence>
               {phase === "entering" || phase === "aiming" || phase === "firing" || phase === "cracked"
-                ? <PlaceholderOperative phase={phase} />
+                ? (
+                    <PlaceholderOperative
+                      entryDuration={entryDuration}
+                      onArrival={completeEntry}
+                      phase={phase}
+                    />
+                  )
                 : null}
             </AnimatePresence>
 

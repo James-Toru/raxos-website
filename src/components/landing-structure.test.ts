@@ -164,7 +164,7 @@ describe("Raxos scrollable command poster", () => {
     expect(cinematic).toContain('"matrix"');
     expect(cinematic).toContain('"modal"');
     expect(cinematic).toContain('<EnquiryForm variant="modal" />');
-    expect(cinematic).toContain("<PlaceholderOperative phase={phase} />");
+    expect(cinematic).toContain("<PlaceholderOperative");
     expect(cinematic).toContain('<CrackImage visible={showCracks} target={target} />');
     expect(cinematic).toContain('className="cinematic-crack-image"');
     expect(cinematic).toContain("<GlassMorphImpact visible={showCracks} target={target} />");
@@ -175,6 +175,11 @@ describe("Raxos scrollable command poster", () => {
     expect(cinematic).toContain("SYSTEM RECONSTRUCTION // RAXOS");
     expect(cinematic).toContain("OCULAR LOCK // YOU");
     expect(cinematic).toContain("trackViewer");
+    expect(cinematic).toContain("getOperativeEntryDuration(window.innerWidth)");
+    expect(cinematic).toContain("onAnimationComplete");
+    expect(cinematic).toContain("onArrival={completeEntry}");
+    expect(cinematic).toContain('ease: "linear"');
+    expect(cinematic).not.toContain('entering: [2500, "aiming"]');
     expect(css).toContain(".cinematic-blackout");
     expect(css).toContain(".red-code-rain");
     expect(css).toContain("height: 100dvh");
