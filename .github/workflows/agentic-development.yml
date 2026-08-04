@@ -20,6 +20,6 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
-    uses: James-Toru/github-agent-workflow/.github/workflows/reusable-agentic-development.yml@f3dcaea5196e996f26cb062416dbb67b0aca3c9d
+    uses: James-Toru/github-agent-workflow/.github/workflows/reusable-agentic-development.yml@36f4e9db8a7972dfc1cfa6f7bacb5643f2040fe5
     secrets:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
