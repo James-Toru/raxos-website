@@ -1,0 +1,25 @@
+# agentic-workflow-installer-schema: 1
+name: Supervised agentic development
+
+on:
+  issues:
+    types: [labeled]
+  issue_comment:
+    types: [created]
+
+concurrency:
+  group: agentic-development-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    if: >-
+      (github.event_name == 'issues' && github.event.label.name == 'agent-ready') ||
+      (github.event_name == 'issue_comment' && !github.event.issue.pull_request && startsWith(github.event.comment.body, '/agent '))
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    uses: James-Toru/github-agent-workflow/.github/workflows/reusable-agentic-development.yml@f3dcaea5196e996f26cb062416dbb67b0aca3c9d
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
